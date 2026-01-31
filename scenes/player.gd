@@ -10,9 +10,14 @@ signal mask_changed(new_mask: int)
 @export var DASH_SPEED := 400.0
 @export var DASH_DURATION := 0.15
 @export var DASH_COOLDOWN := 0.5
+@export var COYOTE_TIME_DURATION := 0.15
+@export var COYOTE_X_TOLERANCE := 32.0
 
 var jump_count := 0
 var max_jump_count := 2
+var coyote_time_timer := 0.0
+var coyote_x_position := 0.0
+var was_on_floor := false
 
 var is_dashing := false
 var dash_timer := 0.0
@@ -42,6 +47,7 @@ var _is_dead: bool = false
 func _ready():
 	add_to_group("player")
 	SceneManager.scene_loaded.connect(_on_scene_loaded)
+	was_on_floor = is_on_floor()
 
 
 func _on_scene_loaded(level_id: String) -> void:
@@ -113,18 +119,34 @@ func apply_gravity(delta: float) -> void:
 	if is_dashing:
 		velocity += get_gravity() * delta * 0.1
 		return
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-	else:
+	
+	if is_on_floor():
 		jump_count = 0
+		coyote_time_timer = 0.0
+		was_on_floor = true
+	else:
+		if was_on_floor:
+			coyote_x_position = position.x
+			coyote_time_timer = COYOTE_TIME_DURATION
+		was_on_floor = false
+		if coyote_time_timer > 0.0:
+			handle_coyote_time(delta)
+		velocity += get_gravity() * delta
 
+
+func handle_coyote_time(delta: float) -> void:
+	var horizontal_distance = abs(position.x - coyote_x_position)
+	if horizontal_distance <= COYOTE_X_TOLERANCE:
+		coyote_time_timer -= delta
+	else:
+		coyote_time_timer = 0.0
 
 func handle_jump_input() -> void:
 	if _entry_mode:
 		return
 
 	if Input.is_action_just_pressed("character_jump"):
-		if is_on_floor():
+		if is_on_floor() or coyote_time_timer > 0.0:
 			perform_jump()
 		elif jump_count < max_jump_count and equipped_mask == Mask.DOUBLE_JUMP:
 			perform_jump()
@@ -133,6 +155,7 @@ func handle_jump_input() -> void:
 func perform_jump() -> void:
 	velocity.y = BASE_JUMP_VELOCITY
 	jump_count += 1
+	coyote_time_timer = 0.0
 
 
 func update_dash_timers(delta: float) -> void:
