@@ -312,8 +312,7 @@ func _create_timer_ui() -> void:
 	_timer_label = Label.new()
 	_timer_label.text = "00:00.00"
 	_timer_label.add_theme_font_size_override("font_size", 32)
-	_timer_label.add_theme_color_override("font_color", Color(1, 1, 1))
-	_timer_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	_timer_label.add_theme_color_override("font_color", Color(0, 0, 0))
 	_timer_label.add_theme_constant_override("shadow_offset_x", 2)
 	_timer_label.add_theme_constant_override("shadow_offset_y", 2)
 	_timer_label.position = Vector2(20, 20)
