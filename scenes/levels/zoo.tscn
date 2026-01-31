@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://doaeehc0ioeve"]
+[gd_scene load_steps=23 format=4 uid="uid://doaeehc0ioeve"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_1ov0v"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_okm03"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/small_platform.tscn" id="7_ujib0"]
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="8_gnkm6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="9_5vtol"]
+[ext_resource type="PackedScene" uid="uid://x6e2ae3f8hma" path="res://scenes/objects/ability_pickup.tscn" id="10_5c2i4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_meqg6"]
 texture = ExtResource("3_1k4lq")
@@ -297,10 +298,11 @@ _data = {
 }
 
 [node name="zoo" type="Node2D"]
+position = Vector2(-9, 1)
 
 [node name="player" parent="." instance=ExtResource("1_okm03")]
 z_index = 5
-position = Vector2(-106, 471)
+position = Vector2(-133, 475)
 
 [node name="Camera2D" type="Camera2D" parent="player"]
 zoom = Vector2(5, 5)
@@ -390,3 +392,14 @@ visible = false
 
 [node name="PauseModal" parent="." instance=ExtResource("9_5vtol")]
 visible = false
+
+[node name="djump" parent="." instance=ExtResource("10_5c2i4")]
+position = Vector2(-70, 475)
+
+[node name="ledge" parent="." instance=ExtResource("10_5c2i4")]
+position = Vector2(-93, 447)
+ability_id = "ledge-grab"
+
+[node name="dash" parent="." instance=ExtResource("10_5c2i4")]
+position = Vector2(-56, 442)
+ability_id = "dash"
