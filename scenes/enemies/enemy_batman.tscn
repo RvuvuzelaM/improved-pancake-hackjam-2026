@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://3ofh8hpvq613"]
+
+[ext_resource type="Texture2D" uid="uid://pe8lw0ky531u" path="res://assets/tilemap/forest/tilemap-characters_packed.png" id="1_7vur5"]
+[ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="2_xa2p3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmjdn"]
+atlas = ExtResource("1_7vur5")
+region = Rect2(144, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01hqy"]
+atlas = ExtResource("1_7vur5")
+region = Rect2(168, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p5vd7"]
+atlas = ExtResource("1_7vur5")
+region = Rect2(192, 48, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2ohu8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmjdn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01hqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p5vd7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
+
+[node name="enemy_batman" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_2ohu8")
+autoplay = "default"
+frame_progress = 0.26654434
+
+[node name="DeathZone" parent="AnimatedSprite2D" instance=ExtResource("2_xa2p3")]
+position = Vector2(0, 1)
+scale = Vector2(0.16950406, 0.60090303)
