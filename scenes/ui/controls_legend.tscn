@@ -11,7 +11,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 30.0
-offset_top = -420.0
+offset_top = -460.0
 offset_right = 380.0
 offset_bottom = -30.0
 grow_vertical = 0
@@ -126,6 +126,21 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 28
 text = "Pauza"
+
+[node name="Row7" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key7" type="Label" parent="Panel/MarginContainer/VBox/Row7"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "E"
+
+[node name="Desc7" type="Label" parent="Panel/MarginContainer/VBox/Row7"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 28
+text = "Ledge grab"
 
 [node name="HideHint" type="Label" parent="Panel/MarginContainer/VBox"]
 layout_mode = 2
