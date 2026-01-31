@@ -39,6 +39,8 @@ var _is_dead: bool = false
 # Timer tracking (in player for reliability)
 var elapsed_time: float = 0.0
 var _timer_running: bool = false
+var _timer_ui: CanvasLayer = null
+var _timer_label: Label = null
 
 @export_category("Wall jump variable")
 @onready var left_ray: RayCast2D = $Raycasts/LeftRay
@@ -82,6 +84,7 @@ func _physics_process(delta: float) -> void:
 	# Update timer
 	if _timer_running:
 		elapsed_time += delta
+		_update_timer_ui()
 
 	update_dash_timers(delta)
 	apply_gravity(delta)
@@ -246,10 +249,41 @@ func handle_horizontal_movement() -> void:
 
 func _start_timer() -> void:
 	_timer_running = true
+	_create_timer_ui()
 
 
 func stop_timer() -> void:
 	_timer_running = false
+	_hide_timer_ui()
+
+
+func _create_timer_ui() -> void:
+	if _timer_ui != null:
+		return
+
+	_timer_ui = CanvasLayer.new()
+	_timer_ui.layer = 50
+	add_child(_timer_ui)
+
+	_timer_label = Label.new()
+	_timer_label.text = "00:00.00"
+	_timer_label.add_theme_font_size_override("font_size", 32)
+	_timer_label.add_theme_color_override("font_color", Color(1, 1, 1))
+	_timer_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	_timer_label.add_theme_constant_override("shadow_offset_x", 2)
+	_timer_label.add_theme_constant_override("shadow_offset_y", 2)
+	_timer_label.position = Vector2(20, 20)
+	_timer_ui.add_child(_timer_label)
+
+
+func _hide_timer_ui() -> void:
+	if _timer_ui != null:
+		_timer_ui.visible = false
+
+
+func _update_timer_ui() -> void:
+	if _timer_label != null:
+		_timer_label.text = _format_time(elapsed_time)
 
 
 func get_elapsed_time() -> float:
@@ -297,10 +331,14 @@ func _show_death_overlay(elapsed_time: float = 0.0) -> void:
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(overlay)
 
+	# Center container using CenterContainer
+	var center = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(center)
+
 	var container = VBoxContainer.new()
-	container.set_anchors_preset(Control.PRESET_CENTER)
 	container.alignment = BoxContainer.ALIGNMENT_CENTER
-	canvas.add_child(container)
+	center.add_child(container)
 
 	var title = Label.new()
 	title.text = "PORAZKA"
