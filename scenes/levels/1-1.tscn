@@ -31,5 +31,5 @@ position = Vector2(104, 813)
 [node name="RestartOverlay" parent="." instance=ExtResource("5_restart")]
 
 [node name="LevelTrigger" parent="." instance=ExtResource("6_trigger")]
-position = Vector2(1884, 804)
+position = Vector2(196, 802)
 target_level = "1-2"
