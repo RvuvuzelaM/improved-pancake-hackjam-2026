@@ -181,6 +181,31 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 ---
 
+### Ability Pickup (Zbieralna Zdolność)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/objects/ability_pickup.tscn` |
+| **Skrypt** | `scenes/objects/ability_pickup.gd` |
+| **Typ węzła** | `Area2D` |
+| **Warstwa kolizji** | 0 (tylko detekcja) |
+| **Maska kolizji** | 2 (wykrywa gracza) |
+
+**Parametry eksportowane:**
+```gdscript
+@export var ability_id: String = "d-jump"  # "d-jump", "dash", "ledge-grab"
+```
+
+**Zachowanie:**
+1. Sprawdza czy gracz ma już zdolność (`GameData.has_ability()`)
+2. Jeśli nie → pickup jest widoczny
+3. Gracz dotyka → `GameData.unlock_ability(ability_id)`
+4. Pickup znika (ukryty + collision disabled)
+
+**Użycie:** Umieść w poziomie jako nagrodę lub element progressji.
+
+---
+
 ## Zagrożenia
 
 ### Death Zone (Strefa Śmierci)
@@ -277,6 +302,31 @@ const CIRCLE_WIDTH = 6.0     # Grubość linii
 | **Pozycja** | Lewy dolny róg |
 | **Toggle** | Klawisz `H` |
 
+**Wyświetlane klawisze:**
+- `< >` - Ruch
+- `SPACE` - Skok
+- `W` - Podwójny skok
+- `Q + D` - Dash
+- `E` - Ledge grab
+- `R` - Restart (hold)
+- `ESC` - Pauza
+
+---
+
+### Ability Widget (Tracker Zdolności)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/ui/ability_widget.tscn` |
+| **Skrypt** | `scenes/ui/ability_widget.gd` |
+| **Typ węzła** | `CanvasLayer` |
+| **Funkcja** | Pokazuje aktywną zdolność gracza |
+
+**Mechanizm:**
+- Nasłuchuje sygnału `player.mask_changed`
+- Aktywna zdolność: opacity 1.0, brightness 1.0
+- Nieaktywne: opacity 0.3, brightness 0.5
+
 ---
 
 ## Warstwy Kolizji
@@ -296,6 +346,7 @@ const CIRCLE_WIDTH = 6.0     # Grubość linii
 | Platformy | 1 | 0 |
 | Level Trigger | 0 | 2 |
 | Death Zone | 0 | 2 |
+| Ability Pickup | 0 | 2 |
 | Podłoga | 1 | 0 |
 
 ---
@@ -317,6 +368,7 @@ const MEDIUM_TREE_2 = preload("res://scenes/forest/trees/medium_tree_2.tscn")
 
 # Interaktywne
 const LEVEL_TRIGGER = preload("res://scenes/objects/level_trigger.tscn")
+const ABILITY_PICKUP = preload("res://scenes/objects/ability_pickup.tscn")
 
 # Zagrożenia
 const DEATH_ZONE = preload("res://scenes/objects/death_zone.tscn")
@@ -337,8 +389,9 @@ enum PlatformSize {
 ## Notatki dla Rozwoju
 
 1. **Brak systemu obrażeń** - gracz nie ma HP, jedynie restart
-2. **Brak collectibles** - maski aktywowane klawiszami, nie zbierane
+2. **Collectibles (Ability Pickup)** - zdolności można zbierać w poziomach, zapisywane w GameData
 3. **Prosty model kolizji** - prostokąty, brak skomplikowanych kształtów
 4. **One-way platforms** - gracz może przeskakiwać od dołu
 5. **Modułowa architektura** - łatwe do instancjonowania prefaby
 6. **System śmierci** - `_is_dead` blokuje physics, `die()` dodaje animację (obrót 90°) i czerwony overlay
+7. **Ledge Grab** - maska zdefiniowana, mechanika do implementacji

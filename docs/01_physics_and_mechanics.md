@@ -25,9 +25,10 @@ Gracz może wyposażyć różne maski, które modyfikują jego zdolności:
 
 | Maska | Enum | Efekt | Aktywacja |
 |-------|------|-------|-----------|
-| Brak | `Mask.NONE` | Tylko pojedynczy skok | Domyślne |
+| Brak | `Mask.NONE` | Tylko pojedynczy skok | Klawisz `0` |
 | Podwójny Skok | `Mask.DOUBLE_JUMP` | Pozwala na 2 skoki w powietrzu | Klawisz `W` |
 | Dash | `Mask.DASH` | Szybki ruch poziomy (400 px/s) | Klawisze `Q + D` |
+| Ledge Grab | `Mask.LEDGE_GRAB` | Chwytanie krawędzi (do implementacji) | Klawisz `E` |
 
 ---
 
