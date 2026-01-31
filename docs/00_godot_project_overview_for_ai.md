@@ -45,7 +45,8 @@ Główne sceny i ich rola
 | `scenes/ui/level_select.tscn` | Control | Wybór poziomu (grid z przyciskami) |
 | `scenes/ui/pause_modal.tscn` | CanvasLayer | Modal pauzy (Escape) |
 | `scenes/ui/restart_overlay.tscn` | CanvasLayer | Hold-to-restart z wizualnym kołem |
-| `scenes/levels/1-1.tscn` | Node2D | Pierwszy poziom gry |
+| `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 |
+| `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 |
 | `scenes/player.tscn` | CharacterBody2D | Scena gracza z AnimatedSprite2D i CollisionShape2D |
 | `scenes/floor.tscn` | StaticBody2D | Nieskończone podłoże (WorldBoundaryShape2D) |
 
@@ -310,6 +311,8 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `a96e6f4` | 1-2 lvl |
+| `559535a` | Update documentation with restart overlay details |
 | `23cda59` | Add restart overlay functionality |
 | `78a139e` | Update documentation with detailed project overview |
 | `bbf0b9a` | Smooth movement and double jump |
