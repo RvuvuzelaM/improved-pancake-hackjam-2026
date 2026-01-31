@@ -168,7 +168,10 @@ func start_dash() -> void:
 
 func update_animation() -> void:
 	# 2) Pick animation from movement state
-	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor():
+	if is_dashing:
+		animated_sprite.flip_h = (dash_direction < 0.0)
+		animated_sprite.play("dash")
+	elif equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor():
 		animated_sprite.flip_h = right_ray.is_colliding()
 		animated_sprite.play("wall")
 	elif not is_on_floor():
