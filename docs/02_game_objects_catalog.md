@@ -21,7 +21,7 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 | Właściwość | Wartość |
 |------------|---------|
-| **Plik** | `scenes/forest/small_platform.tscn` |
+| **Plik** | `scenes/forest/platforms/small_platform.tscn` |
 | **Typ węzła** | `Node2D` + `StaticBody2D` |
 | **Rozmiar kolizji** | 50 x 15 px |
 | **One-way collision** | Tak |
@@ -36,7 +36,7 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 | Właściwość | Wartość |
 |------------|---------|
-| **Plik** | `scenes/forest/medium_platform.tscn` |
+| **Plik** | `scenes/forest/platforms/medium_platform.tscn` |
 | **Typ węzła** | `Node2D` + `StaticBody2D` |
 | **Rozmiar kolizji** | 104 x 15 px |
 | **One-way collision** | Tak |
@@ -51,7 +51,7 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 | Właściwość | Wartość |
 |------------|---------|
-| **Plik** | `scenes/forest/large_platform.tscn` |
+| **Plik** | `scenes/forest/platforms/large_platform.tscn` |
 | **Typ węzła** | `Node2D` + `StaticBody2D` |
 | **Rozmiar kolizji** | 212 x 15 px |
 | **One-way collision** | Tak |
@@ -59,6 +59,34 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 | **Tekstura** | TileMapLayer (18x18 kafelki) |
 
 **Użycie:** Obszary startowe, główne platformy, punkty orientacyjne.
+
+---
+
+### Fading Platform (Zanikająca Platforma)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/forest/platforms/fading_platform_small.tscn` |
+| **Skrypt** | `scenes/forest/platforms/fading_platform.gd` |
+| **Typ węzła** | `Node2D` (class_name: FadingPlatform) |
+| **Dziedziczenie** | StaticBody2D + CollisionShape2D |
+
+**Parametry eksportowane:**
+```gdscript
+@export var respawn_time: float = 3.0       # Czas do respawnu (0 = brak)
+@export var fade_out_duration: float = 0.5  # Czas zanikania
+@export var fade_in_duration: float = 0.3   # Czas pojawiania się
+@export var fade_delay: float = 0.5         # Opóźnienie przed zanikaniem
+```
+
+**Zachowanie:**
+1. Gracz wchodzi na platformę → `trigger_fade()`
+2. Po `fade_delay` sekund zaczyna zanikać
+3. Kolizja wyłączona podczas fade-out
+4. Po `respawn_time` platforma się odradza (fade-in)
+5. Kolizja włączona po zakończeniu fade-in
+
+**Użycie:** Dynamiczne poziomy wymagające szybkiego poruszania się.
 
 ---
 
@@ -205,6 +233,41 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 4. Pickup znika (ukryty + collision disabled)
 
 **Użycie:** Umieść w poziomie jako nagrodę lub element progressji.
+
+---
+
+### Destructable Wall (Niszczalna Ściana)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/forest/destructable_wall.tscn` |
+| **Skrypt** | `scenes/forest/destructable_wall.gd` |
+| **Typ węzła** | `AnimatedSprite2D` (class_name: DestructableWall) |
+| **Dziedziczenie** | StaticBody2D + CollisionShape2D |
+
+**Parametry eksportowane:**
+```gdscript
+@export_flags("Dash", "Touch", "Jump Through") var break_abilities: int = 0
+@export var respawn_time: float = 0.0           # Czas do respawnu (0 = brak)
+@export var break_animation_duration: float = 0.3
+@export var fade_duration: float = 0.2
+@export var break_delay: float = 0.0            # Opóźnienie przed zniszczeniem
+```
+
+**Typy zdolności niszczących:**
+| Flaga | Opis |
+|-------|------|
+| `DASH` | Niszczona podczas dashu |
+| `TOUCH` | Niszczona przy dotknięciu |
+| `JUMP_THROUGH` | Niszczona przy przeskoku od dołu |
+
+**Zachowanie:**
+1. Gracz dotyka ściany z odpowiednią zdolnością
+2. Po `break_delay` sekund zaczyna się animacja zniszczenia
+3. Kolizja wyłączona, animacja "default" + fade-out
+4. Po `respawn_time` ściana się odradza (jeśli > 0)
+
+**Użycie:** Ukryte sekrety, alternatywne drogi, wymaganie konkretnych zdolności.
 
 ---
 
@@ -393,9 +456,10 @@ const CIRCLE_WIDTH = 6.0     # Grubość linii
 
 ```gdscript
 # Platformy
-const SMALL_PLATFORM = preload("res://scenes/forest/small_platform.tscn")
-const MEDIUM_PLATFORM = preload("res://scenes/forest/medium_platform.tscn")
-const LARGE_PLATFORM = preload("res://scenes/forest/large_platform.tscn")
+const SMALL_PLATFORM = preload("res://scenes/forest/platforms/small_platform.tscn")
+const MEDIUM_PLATFORM = preload("res://scenes/forest/platforms/medium_platform.tscn")
+const LARGE_PLATFORM = preload("res://scenes/forest/platforms/large_platform.tscn")
+const FADING_PLATFORM = preload("res://scenes/forest/platforms/fading_platform_small.tscn")
 
 # Dekoracje
 const SMALL_TREE = preload("res://scenes/forest/trees/small_tree.tscn")
@@ -405,9 +469,15 @@ const MEDIUM_TREE_2 = preload("res://scenes/forest/trees/medium_tree_2.tscn")
 # Interaktywne
 const LEVEL_TRIGGER = preload("res://scenes/objects/level_trigger.tscn")
 const ABILITY_PICKUP = preload("res://scenes/objects/ability_pickup.tscn")
+const DESTRUCTABLE_WALL = preload("res://scenes/forest/destructable_wall.tscn")
 
 # Zagrożenia
 const DEATH_ZONE = preload("res://scenes/objects/death_zone.tscn")
+
+# Wrogowie
+const ENEMY_BATMAN = preload("res://scenes/enemies/enemy_batman.tscn")
+const ENEMY_FISH = preload("res://scenes/enemies/enemy_fish.tscn")
+const ENEMY_BEETLE = preload("res://scenes/enemies/enemy_beetle.tscn")
 ```
 
 ### Rozmiary Platform (szybki dostęp)
@@ -435,3 +505,7 @@ enum PlatformSize {
 9. **Level Timer** - czas mierzony od lądowania do śmierci/ukończenia, wyświetlany real-time w lewym górnym rogu (czarny tekst)
 10. **Centered overlays** - komunikaty śmierci/sukcesu używają CenterContainer dla prawidłowego centrowania
 11. **Szybkie przejścia** - tranzycja scen 0.25s, overlay ukończenia 1s
+12. **Destructable Walls** - ściany niszczone przez dash/touch/jump-through, opcjonalny respawn
+13. **Fading Platforms** - platformy zanikające po wejściu gracza, opcjonalny respawn
+14. **Wall Hold Timer** - gracz może trzymać się ściany przez max 1.5s przed spadnięciem (maska LEDGE_GRAB)
+15. **Level Intro** - fade-in 0.4s, natychmiast fade-out 1.5s, ID poziomu czarny tekst (LabelSettings)

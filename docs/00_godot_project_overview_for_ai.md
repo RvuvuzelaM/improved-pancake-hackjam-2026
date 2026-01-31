@@ -242,6 +242,10 @@ Parametry ruchu gracza
 | `DASH_COOLDOWN` | 0.5s | Cooldown między dashami |
 | `COYOTE_TIME_DURATION` | 0.15s | Czas na skok po opuszczeniu platformy |
 | `COYOTE_X_TOLERANCE` | 32.0px | Tolerancja pozioma dla coyote time |
+| `wall_slide_speed` | 20.0 | Prędkość ślizgania po ścianie |
+| `wall_x_force` | 320.0 | Siła pozioma wall jump |
+| `wall_y_force` | -400.0 | Siła pionowa wall jump |
+| `WALL_HOLD_DURATION` | 1.5s | Czas trzymania się ściany przed spadnięciem |
 
 ### System masek (umiejętności)
 Gracz może przełączać maski, które dają różne zdolności:
@@ -360,7 +364,7 @@ SceneManager.change_scene() → scene_loaded signal
         ↓                           │
    player_landed signal ────────────┘
         ↓                           ↓
-   Restore opacity             LevelIntro: fade out (lub po 2.5s)
+   Restore opacity             LevelIntro: fade out (natychmiast po fade-in)
 ```
 
 ### Struktura level_intro.tscn
@@ -370,9 +374,17 @@ LevelIntro (CanvasLayer) [layer = 15]
     ├── Background (ColorRect) [alpha 0.3]
     └── ContentBox (VBoxContainer) [bottom-center]
         ├── AccentBar (ColorRect) [6px, level color]
-        ├── LevelName (Label) [font_size=144]
-        └── LevelID (Label) [font_size=72, gray]
+        ├── LevelName (Label) [font_size=144, level color]
+        └── LevelID (Label) [font_size=72, black (LabelSettings)]
 ```
+
+### Timing animacji Level Intro
+| Parametr | Wartość | Opis |
+|----------|---------|------|
+| `FADE_IN_DURATION` | 0.4s | Czas pojawiania się |
+| `FADE_OUT_DURATION` | 1.5s | Czas zanikania (gradualnie) |
+| `AUTO_HIDE_DELAY` | 0.0s | Fade-out zaczyna się od razu po fade-in |
+| `BACKGROUND_ALPHA` | 0.3 | Przezroczystość tła |
 
 ### Parametry entry mode (player.gd)
 - `ENTRY_OPACITY`: 0.6 - przezroczystość gracza podczas spadania
@@ -627,6 +639,16 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `498bea2` | Clean up unnecessary TileSet data in 1-1.tscn |
+| `52765ed` | Fix missing Animation_10r0f in 1-1.tscn |
+| `cd2450d` | Fix level intro: black ID text, smooth fade timing |
+| `2b5205f` | Update documentation and reduce scene transition time |
+| `743affa` | Fix TileSet errors: remove out-of-bounds tile definitions |
+| `65013e9` | Improve UI readability: black text for timer and level name |
+| `1a7da80` | Fix dash bug, and wall holding |
+| `b1d3b48` | Levels |
+| `a9cc1a1` | Add base final boss scene |
+| `354c49e` | Active ability tracker |
 | `167522c` | Fix TileSet errors: remove out-of-bounds tile definitions |
 | `96f663e` | Improve UI readability: black text for timer and level name |
 | `3a9b861` | Fix LevelTrigger positioning - let designer set position in editor |
