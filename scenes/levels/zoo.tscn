@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://doaeehc0ioeve"]
+[gd_scene load_steps=25 format=4 uid="uid://u2exjd130qrr"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_1ov0v"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_okm03"]
@@ -9,9 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/small_platform.tscn" id="7_ujib0"]
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="8_gnkm6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="9_5vtol"]
-[ext_resource type="PackedScene" uid="uid://x6e2ae3f8hma" path="res://scenes/objects/ability_pickup.tscn" id="10_5c2i4"]
+[ext_resource type="PackedScene" path="res://scenes/objects/ability_pickup.tscn" id="10_5c2i4"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_legend.tscn" id="11_0m280"]
-[ext_resource type="PackedScene" path="res://scenes/ui/ability_widget.tscn" id="12_muqte"]
+[ext_resource type="PackedScene" uid="uid://dj6ggoot3xvyn" path="res://scenes/ui/ability_widget.tscn" id="12_muqte"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_meqg6"]
 texture = ExtResource("3_1k4lq")
@@ -305,9 +305,6 @@ position = Vector2(-9, 1)
 [node name="player" parent="." instance=ExtResource("1_okm03")]
 z_index = 5
 position = Vector2(-133, 475)
-
-[node name="Camera2D" type="Camera2D" parent="player"]
-zoom = Vector2(5, 5)
 
 [node name="forest_background" parent="." instance=ExtResource("1_1ov0v")]
 visible = false

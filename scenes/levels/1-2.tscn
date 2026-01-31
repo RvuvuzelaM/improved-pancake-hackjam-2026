@@ -1,6 +1,6 @@
 [gd_scene load_steps=56 format=4 uid="uid://csw7wfyolqo4g"]
 
-[ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="2_220im"]
 [ext_resource type="Texture2D" uid="uid://jp0o6s3rev84" path="res://assets/tilemap/forest/tilemap_bg-white.png" id="3_xl2p1"]
 [ext_resource type="Texture2D" uid="uid://i23gfa1urp1s" path="res://assets/tilemap/forest/tilemap_packed.png" id="4_td00t"]
