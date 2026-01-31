@@ -204,9 +204,9 @@ Input
 | `character_right` | → | Ruch w prawo |
 | `character_jump` | Space | Skok |
 | `switch_mask_none` | 0 | Przełącz na maskę NONE |
-| `switch_mask_double_jump` | 1 | Przełącz na maskę DOUBLE_JUMP |
-| `switch_mask_dash` | 2 | Przełącz na maskę DASH |
-| `dash` | Shift | Wykonaj dash |
+| `switch_mask_double_jump` | W | Przełącz na maskę DOUBLE_JUMP |
+| `switch_mask_dash` | Q | Przełącz na maskę DASH |
+| `dash` | D | Wykonaj dash |
 | `restart_level` | R (hold) | Szybki restart poziomu |
 | `ui_cancel` | Escape | Pauza |
 
@@ -235,8 +235,8 @@ Gracz może przełączać maski, które dają różne zdolności:
 | Maska | Klawisz | Zdolność |
 |-------|---------|----------|
 | `NONE` | 0 | Brak specjalnej zdolności |
-| `DOUBLE_JUMP` | 1 | Podwójny skok (max 2 skoki) |
-| `DASH` | 2 | Dash w kierunku ruchu (Space lub dedykowany klawisz) |
+| `DOUBLE_JUMP` | W | Podwójny skok (max 2 skoki) |
+| `DASH` | Q | Dash w kierunku ruchu (D) |
 
 ### System dasza
 - Aktywny tylko z maską `DASH`
@@ -479,6 +479,10 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `32efd1a` | Merge remote-tracking branch 'origin/main' |
+| `16e89b9` | Improved collisions for trees |
+| `8a0528e` | Add dash in flight handling |
+| `2a26235` | Update documentation with 1-1 level and recent commits |
 | `4b4b650` | Update documentation with folder structure and timing changes |
 | `8c77661` | Move commands to .claude/ and restore 1-2 BaseLevel inheritance |
 | `69f5373` | fix |
