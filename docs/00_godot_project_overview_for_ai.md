@@ -25,7 +25,7 @@ improved-pancake-hackjam-2026/
 ├── scenes/
 │   ├── autoload/           # Singletony (SceneManager, GameData)
 │   ├── levels/             # Sceny poziomów (1-1.tscn, ...)
-│   ├── ui/                 # UI (main_menu, level_select, pause_modal)
+│   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay)
 │   ├── player.tscn         # Scena gracza
 │   ├── player.gd           # Skrypt ruchu gracza
 │   └── floor.tscn          # Podłoże (WorldBoundaryShape2D)
@@ -44,6 +44,7 @@ Główne sceny i ich rola
 | `scenes/ui/main_menu.tscn` | Control | Główne menu (PLAY, LEVELS, QUIT) |
 | `scenes/ui/level_select.tscn` | Control | Wybór poziomu (grid z przyciskami) |
 | `scenes/ui/pause_modal.tscn` | CanvasLayer | Modal pauzy (Escape) |
+| `scenes/ui/restart_overlay.tscn` | CanvasLayer | Hold-to-restart z wizualnym kołem |
 | `scenes/levels/1-1.tscn` | Node2D | Pierwszy poziom gry |
 | `scenes/player.tscn` | CharacterBody2D | Scena gracza z AnimatedSprite2D i CollisionShape2D |
 | `scenes/floor.tscn` | StaticBody2D | Nieskończone podłoże (WorldBoundaryShape2D) |
@@ -62,7 +63,8 @@ player (CharacterBody2D)
 │   └── Camera2D       # Kamera podążająca za graczem
 ├── background         # Tło (Sprite2D)
 ├── floor              # Instancja floor.tscn
-└── PauseModal         # Instancja pause_modal.tscn
+├── PauseModal         # Instancja pause_modal.tscn
+└── RestartOverlay     # Instancja restart_overlay.tscn
 ```
 
 ### Struktura main_menu.tscn
@@ -87,6 +89,13 @@ PauseModal (CanvasLayer) [layer = 10]
             ├── ResumeButton   # "RESUME"
             ├── RestartButton  # "RESTART"
             └── MenuButton     # "MENU"
+```
+
+### Struktura restart_overlay.tscn
+```
+RestartOverlay (CanvasLayer) [layer = 5]
+└── CircleContainer (Control) [centered]
+    └── [_draw() rysuje koło postępu]
 ```
 
 ⸻
@@ -126,10 +135,11 @@ Main Menu
     └── [QUIT] → Zamknij grę
 
 W grze (Level):
-    └── [Escape] → Pause Modal
-            ├── [RESUME] → Zamknij modal, wznów grę
-            ├── [RESTART] → Przeładuj poziom
-            └── [MENU] → Wróć do Main Menu
+    ├── [Escape] → Pause Modal
+    │       ├── [RESUME] → Zamknij modal, wznów grę
+    │       ├── [RESTART] → Przeładuj poziom
+    │       └── [MENU] → Wróć do Main Menu
+    └── [Hold R] → Szybki restart (koło postępu na środku)
 ```
 
 ⸻
@@ -143,6 +153,7 @@ Input
 | `character_right` | → | Ruch w prawo |
 | `character_jump` | Space | Skok |
 | `switch_mask_1` | 1 | Przełącz maskę (do implementacji) |
+| `restart_level` | R (hold) | Szybki restart poziomu |
 | `ui_cancel` | Escape | Pauza |
 
 ### Domyślne akcje Godot
@@ -210,10 +221,21 @@ System pauzy
 
 ⸻
 
-System restartu poziomu
+System restartu poziomu (Hold-to-Restart)
 
-- Przy śmierci gracza → `SceneManager.change_scene(GameData.get_current_level_path())`
-- Z menu pauzy → przycisk RESTART
+- **Trigger:** Trzymanie `restart_level` (R) przez 0.8s
+- **Logika:** `scenes/ui/restart_overlay.gd` + `scenes/ui/restart_circle.gd`
+- **Wizualizacja:** Koło na środku ekranu wypełniające się podczas trzymania R
+- **Parametry:**
+  - `HOLD_TIME`: 0.8s
+  - `CIRCLE_RADIUS`: 40px
+  - `CIRCLE_WIDTH`: 14px
+  - Kolor tła: szary (0.2, 0.2, 0.2, 0.8)
+  - Kolor wypełnienia: czerwony (1.0, 0.3, 0.3, 1.0)
+- **Działanie:**
+  - Trzymaj R → koło się wypełnia
+  - Puść wcześniej → resetuje się
+  - Wypełni się → restart poziomu
 
 ⸻
 
@@ -237,7 +259,7 @@ Dodawanie nowych poziomów
    - Przeszkody i wrogów
 4. Dodaj poziom do `GameData.levels` array
 5. Dodaj przycisk w `level_select.tscn`
-6. Upewnij się że `PauseModal` jest w scenie
+6. Upewnij się że `PauseModal` i `RestartOverlay` są w scenie
 
 ⸻
 
@@ -278,6 +300,7 @@ Uznajemy, że "core Godot project runtime" jest gotowy, gdy:
 - [x] System przejść między scenami (fade).
 - [x] Wybór poziomu (level select).
 - [x] Modal pauzy (Escape).
+- [x] Szybki restart (Hold R).
 - [ ] Dotknięcie przeszkody powoduje śmierć i restart poziomu.
 - [ ] Zapis/odczyt postępu gracza do pliku.
 
@@ -287,7 +310,11 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
-| (local) | Pause modal (Escape → RESUME/RESTART/MENU) |
+| `23cda59` | Add restart overlay functionality |
+| `78a139e` | Update documentation with detailed project overview |
+| `bbf0b9a` | Smooth movement and double jump |
+| `9f948a0` | Update project configuration to use compatibility profile 4.5 |
+| `ebbf1ca` | Add pause menu functionality |
 | `e3915fb` | Add initial game flow logic and UI (menu, level select, scene manager) |
 | `621f4c9` | Add jump input to the project |
 | `8b2b715` | Tiles + Full HD (1920x1080) |
