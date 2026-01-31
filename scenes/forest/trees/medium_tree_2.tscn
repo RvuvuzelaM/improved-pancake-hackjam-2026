@@ -248,6 +248,7 @@ tile_set = SubResource("TileSet_5fopf")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="branch1"]
 position = Vector2(35.5, -49.5)
 shape = SubResource("RectangleShape2D_6uqvr")
+one_way_collision = true
 
 [node name="branch2" type="StaticBody2D" parent="."]
 position = Vector2(19, -33)
@@ -255,6 +256,7 @@ position = Vector2(19, -33)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="branch2"]
 position = Vector2(-36, 38)
 shape = SubResource("RectangleShape2D_3v0v7")
+one_way_collision = true
 
 [node name="branch3" type="StaticBody2D" parent="."]
 position = Vector2(38, -66)
@@ -262,3 +264,4 @@ position = Vector2(38, -66)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="branch3"]
 position = Vector2(-11, 142.5)
 shape = SubResource("RectangleShape2D_fjhdb")
+one_way_collision = true
