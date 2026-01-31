@@ -32,7 +32,7 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-2.tscn, zoo.tscn)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn)
 │   ├── objects/            # Obiekty gry (level_trigger.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro)
 │   ├── player.tscn         # Scena gracza
@@ -56,6 +56,7 @@ Główne sceny i ich rola
 | `scenes/ui/restart_overlay.tscn` | CanvasLayer | Hold-to-restart z wizualnym kołem |
 | `scenes/ui/level_intro.tscn` | CanvasLayer | Intro poziomu (nazwa + ID + kolor) |
 | `scenes/levels/base_level.tscn` | Node2D | Bazowa scena poziomu (dziedziczenie) |
+| `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" (extends base_level) |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
@@ -478,6 +479,13 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `4b4b650` | Update documentation with folder structure and timing changes |
+| `8c77661` | Move commands to .claude/ and restore 1-2 BaseLevel inheritance |
+| `69f5373` | fix |
+| `e42fdfe` | Merge remote-tracking branch 'origin/detached' |
+| `7431b09` | Revert "1-2 lvl" |
+| `cdbfb33` | Merge branch 'main' |
+| `a958d3b` | 1-2 lvl |
 | `ed3281e` | Update documentation with BaseLevel inheritance and font system |
 | `73ac923` | Add Kenney Pixel font and increase UI text sizes |
 | `0bd4613` | Refactor levels to use BaseLevel inheritance |
