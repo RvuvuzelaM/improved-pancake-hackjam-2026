@@ -5,10 +5,11 @@ Cel dokumentu
 Ten dokument opisuje ogólne działanie projektu w Godot: strukturę runtime, minimalne zasady architektury oraz bazowy przepływ gry. Jest przeznaczony dla agenta AI, który ma rozwijać projekt iteracyjnie.
 
 Założenia techniczne
-	•	Silnik: Godot 4.6 (GDScript).
+	•	Silnik: Godot 4.5 (GDScript).
 	•	Render: 2D (Forward Plus).
 	•	Rozdzielczość: 1920x1080 (Full HD).
 	•	Filtrowanie tekstur: Nearest (pixel art).
+	•	Grawitacja: 1500.0 (custom).
 	•	Priorytet: modularność (sceny), czytelność, szybki restart poziomu.
 
 ⸻
@@ -24,7 +25,7 @@ improved-pancake-hackjam-2026/
 ├── scenes/
 │   ├── autoload/           # Singletony (SceneManager, GameData)
 │   ├── levels/             # Sceny poziomów (1-1.tscn, ...)
-│   ├── ui/                 # UI (main_menu.tscn, level_select.tscn)
+│   ├── ui/                 # UI (main_menu, level_select, pause_modal)
 │   ├── player.tscn         # Scena gracza
 │   ├── player.gd           # Skrypt ruchu gracza
 │   └── floor.tscn          # Podłoże (WorldBoundaryShape2D)
@@ -42,6 +43,7 @@ Główne sceny i ich rola
 |-------|-----|------|
 | `scenes/ui/main_menu.tscn` | Control | Główne menu (PLAY, LEVELS, QUIT) |
 | `scenes/ui/level_select.tscn` | Control | Wybór poziomu (grid z przyciskami) |
+| `scenes/ui/pause_modal.tscn` | CanvasLayer | Modal pauzy (Escape) |
 | `scenes/levels/1-1.tscn` | Node2D | Pierwszy poziom gry |
 | `scenes/player.tscn` | CharacterBody2D | Scena gracza z AnimatedSprite2D i CollisionShape2D |
 | `scenes/floor.tscn` | StaticBody2D | Nieskończone podłoże (WorldBoundaryShape2D) |
@@ -59,7 +61,8 @@ player (CharacterBody2D)
 ├── player             # Instancja player.tscn (skala 4.28x)
 │   └── Camera2D       # Kamera podążająca za graczem
 ├── background         # Tło (Sprite2D)
-└── floor              # Instancja floor.tscn
+├── floor              # Instancja floor.tscn
+└── PauseModal         # Instancja pause_modal.tscn
 ```
 
 ### Struktura main_menu.tscn
@@ -71,6 +74,19 @@ MainMenu (Control)
     ├── PlayButton     # "PLAY (1-1)" - aktualny poziom
     ├── LevelSelectButton  # "LEVELS"
     └── QuitButton     # "QUIT"
+```
+
+### Struktura pause_modal.tscn
+```
+PauseModal (CanvasLayer) [layer = 10]
+└── Control [process_mode = ALWAYS]
+    ├── Background     # ColorRect (półprzezroczyste)
+    └── Panel
+        └── VBoxContainer
+            ├── Title          # "PAUSED"
+            ├── ResumeButton   # "RESUME"
+            ├── RestartButton  # "RESTART"
+            └── MenuButton     # "MENU"
 ```
 
 ⸻
@@ -108,26 +124,33 @@ Main Menu
     │       ├── [1-2] → Level 1-2 (zablokowany)
     │       └── [BACK] → Main Menu
     └── [QUIT] → Zamknij grę
+
+W grze (Level):
+    └── [Escape] → Pause Modal
+            ├── [RESUME] → Zamknij modal, wznów grę
+            ├── [RESTART] → Przeładuj poziom
+            └── [MENU] → Wróć do Main Menu
 ```
 
 ⸻
 
 Input
 
-### Input Map
+### Input Map (custom actions)
 | Akcja | Klawisze | Użycie |
 |-------|----------|--------|
-| `ui_left` | ← / A | Ruch w lewo |
-| `ui_right` | → / D | Ruch w prawo |
-| `ui_accept` | Space / Enter | Skok |
-| `character_jump` | Space | Skok (custom) |
+| `character_left` | ← | Ruch w lewo |
+| `character_right` | → | Ruch w prawo |
+| `character_jump` | Space | Skok |
+| `switch_mask_1` | 1 | Przełącz maskę (do implementacji) |
+| `ui_cancel` | Escape | Pauza |
 
-### Obsługa w kodzie (`player.gd`)
-```gdscript
-var direction := Input.get_axis("ui_left", "ui_right")
-if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-    # skok
-```
+### Domyślne akcje Godot
+| Akcja | Klawisze | Użycie |
+|-------|----------|--------|
+| `ui_left` | ← / A | Ruch w lewo (fallback) |
+| `ui_right` | → / D | Ruch w prawo (fallback) |
+| `ui_accept` | Space / Enter | Skok (fallback) |
 
 ⸻
 
@@ -141,6 +164,14 @@ Parametry ruchu gracza
 | `MAX_JUMP_HOLD_TIME` | 0.6s | Max czas przytrzymania skoku |
 
 System skoku: Variable jump height - im dłużej trzymasz przycisk, tym wyżej skaczesz (do limitu 0.6s).
+
+⸻
+
+Fizyka
+
+| Parametr | Wartość |
+|----------|---------|
+| Grawitacja 2D | 1500.0 |
 
 ⸻
 
@@ -167,11 +198,22 @@ Minimalne zasady, których trzymamy się od początku:
 
 ⸻
 
+System pauzy
+
+- **Trigger:** `ui_cancel` (Escape)
+- **Logika:** `scenes/ui/pause_modal.gd`
+- **Process mode:** `PROCESS_MODE_ALWAYS` - modal reaguje na input gdy gra jest zapauzowana
+- **Akcje:**
+  - Resume: `get_tree().paused = false`
+  - Restart: `SceneManager.change_scene(GameData.get_current_level_path())`
+  - Menu: `SceneManager.change_scene("res://scenes/ui/main_menu.tscn")`
+
+⸻
+
 System restartu poziomu
 
-Do implementacji:
 - Przy śmierci gracza → `SceneManager.change_scene(GameData.get_current_level_path())`
-- Alternatywnie: reset pozycji gracza i stanu obiektów bez przeładowania sceny
+- Z menu pauzy → przycisk RESTART
 
 ⸻
 
@@ -195,6 +237,7 @@ Dodawanie nowych poziomów
    - Przeszkody i wrogów
 4. Dodaj poziom do `GameData.levels` array
 5. Dodaj przycisk w `level_select.tscn`
+6. Upewnij się że `PauseModal` jest w scenie
 
 ⸻
 
@@ -234,6 +277,7 @@ Uznajemy, że "core Godot project runtime" jest gotowy, gdy:
 - [x] Główne menu z przyciskami PLAY/LEVELS/QUIT.
 - [x] System przejść między scenami (fade).
 - [x] Wybór poziomu (level select).
+- [x] Modal pauzy (Escape).
 - [ ] Dotknięcie przeszkody powoduje śmierć i restart poziomu.
 - [ ] Zapis/odczyt postępu gracza do pliku.
 
@@ -243,6 +287,7 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| (local) | Pause modal (Escape → RESUME/RESTART/MENU) |
 | `e3915fb` | Add initial game flow logic and UI (menu, level select, scene manager) |
 | `621f4c9` | Add jump input to the project |
 | `8b2b715` | Tiles + Full HD (1920x1080) |
