@@ -258,6 +258,40 @@ Dla przyszłego rozwoju generatora poziomów, można dodać:
 
 ## Elementy UI
 
+### Main Menu (Menu Główne)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/ui/main_menu.tscn` |
+| **Skrypt** | `scenes/ui/main_menu.gd` |
+| **Typ węzła** | `Control` |
+
+**Przyciski (ze skrótami klawiszowymi):**
+- `[P]` PLAY (1-1) - rozpocznij grę od aktualnego poziomu
+- `[L]` LEVELS - przejdź do wyboru poziomu
+- `[Q]` QUIT - zamknij grę
+
+---
+
+### Level Select (Wybór Poziomu)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/ui/level_select.tscn` |
+| **Skrypt** | `scenes/ui/level_select.gd` |
+| **Typ węzła** | `Control` |
+
+**Przyciski (ze skrótami klawiszowymi):**
+- `[1]` 1-1 - pierwszy poziom
+- `[2]` 1-2 - drugi poziom (zablokowany domyślnie)
+- `[3]` 1-3 - trzeci poziom (zablokowany)
+- `[4]` 1-4 - czwarty poziom (zablokowany)
+- `[B]` BACK - powrót do menu głównego
+
+**Uwaga:** Skróty klawiszowe dla zablokowanych poziomów nie działają.
+
+---
+
 ### Pause Modal (Menu Pauzy)
 
 | Właściwość | Wartość |
@@ -267,10 +301,10 @@ Dla przyszłego rozwoju generatora poziomów, można dodać:
 | **Typ węzła** | `CanvasLayer` (warstwa 10) |
 | **Aktywacja** | Klawisz `ESC` |
 
-**Przyciski:**
-- RESUME - kontynuuj grę
-- RESTART - zrestartuj poziom
-- MENU - wróć do menu głównego
+**Przyciski (ze skrótami klawiszowymi):**
+- `[C]` RESUME - kontynuuj grę (lub ESC)
+- `[R]` RESTART - zrestartuj poziom
+- `[M]` MENU - wróć do menu głównego
 
 ---
 
@@ -394,4 +428,6 @@ enum PlatformSize {
 4. **One-way platforms** - gracz może przeskakiwać od dołu
 5. **Modułowa architektura** - łatwe do instancjonowania prefaby
 6. **System śmierci** - `_is_dead` blokuje physics, `die()` dodaje animację (obrót 90°) i czerwony overlay
-7. **Ledge Grab** - maska zdefiniowana, mechanika do implementacji
+7. **Ledge Grab** - maska zdefiniowana, wall slide + wall jump zaimplementowane
+8. **Keyboard shortcuts** - wszystkie menu mają skróty klawiszowe w formacie `[X]`
+9. **Level Timer** - czas mierzony od lądowania do śmierci/ukończenia, wyświetlany na ekranach końcowych

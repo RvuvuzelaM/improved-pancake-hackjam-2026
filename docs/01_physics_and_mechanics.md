@@ -14,6 +14,9 @@ Ten dokument opisuje wszystkie parametry fizyczne i mechaniki ruchu gracza. Stan
 | `DASH_DURATION` | 0.15 | sekundy | Czas trwania dashu |
 | `DASH_COOLDOWN` | 0.5 | sekundy | Czas odnowienia dashu |
 | `max_jump_count` | 2 | ilość | Maksymalna liczba skoków w powietrzu |
+| `wall_slide_speed` | 20.0 | px/s | Prędkość ślizgania się po ścianie |
+| `wall_x_force` | 320.0 | jednostki | Siła odbicia od ściany (pozioma) |
+| `wall_y_force` | -400.0 | jednostki | Siła odbicia od ściany (pionowa) |
 
 **Plik źródłowy:** `scenes/player.gd`
 
@@ -28,7 +31,29 @@ Gracz może wyposażyć różne maski, które modyfikują jego zdolności:
 | Brak | `Mask.NONE` | Tylko pojedynczy skok | Klawisz `0` |
 | Podwójny Skok | `Mask.DOUBLE_JUMP` | Pozwala na 2 skoki w powietrzu | Klawisz `W` |
 | Dash | `Mask.DASH` | Szybki ruch poziomy (400 px/s) | Klawisze `Q + D` |
-| Ledge Grab | `Mask.LEDGE_GRAB` | Chwytanie krawędzi (do implementacji) | Klawisz `E` |
+| Ledge Grab | `Mask.LEDGE_GRAB` | Chwytanie ścian + wall jump | Klawisz `E` |
+
+---
+
+## Mechanika Wall Jump (Ledge Grab)
+
+Gdy gracz ma aktywną maskę `LEDGE_GRAB`:
+
+1. **Ślizganie się po ścianie** - gdy gracz dotyka ściany i spada:
+   - Prędkość spadania ograniczona do `wall_slide_speed` (20 px/s)
+   - Wykrywane przez `RayCast2D` (LeftRay, RightRay)
+
+2. **Wall Jump** - skok od ściany:
+   - Naciśnięcie Space przy ścianie
+   - Odrzuca gracza w przeciwną stronę
+   - Siła: `Vector2(±wall_x_force, wall_y_force)` = `(±320, -400)`
+   - Krótki okres `is_wall_jumping` (0.1s) blokuje kontrolę ruchu
+
+### Warunki aktywacji
+```gdscript
+if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0:
+    # Wall slide aktywny
+```
 
 ---
 
@@ -147,6 +172,47 @@ const MAX_JUMP_HEIGHT = 70  # px
 
 # Maksymalna wysokość z podwójnym skokiem
 const MAX_DOUBLE_JUMP_HEIGHT = 140  # px
+```
+
+---
+
+## System Timera Poziomu
+
+Timer mierzy czas od lądowania gracza do śmierci lub ukończenia poziomu.
+
+### Implementacja (player.gd)
+```gdscript
+var elapsed_time: float = 0.0
+var _timer_running: bool = false
+
+func _physics_process(delta: float) -> void:
+    if _timer_running:
+        elapsed_time += delta
+
+func _start_timer() -> void:
+    _timer_running = true
+
+func stop_timer() -> void:
+    _timer_running = false
+
+func get_elapsed_time() -> float:
+    return elapsed_time
+```
+
+### Przepływ
+1. Gracz spada (entry mode) → timer nie działa
+2. Gracz ląduje (`_complete_entry()`) → `_start_timer()`
+3. Gracz umiera (`die()`) lub kończy poziom → `stop_timer()`
+4. Czas wyświetlany na ekranie końcowym
+
+### Format wyświetlania
+```gdscript
+func _format_time(time: float) -> String:
+    var minutes := int(time) / 60
+    var seconds := int(time) % 60
+    var milliseconds := int((time - int(time)) * 100)
+    return "%02d:%02d.%02d" % [minutes, seconds, milliseconds]
+# Przykład: "00:12.45" = 12.45 sekund
 ```
 
 ---

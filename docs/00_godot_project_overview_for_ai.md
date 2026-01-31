@@ -109,9 +109,11 @@ MainMenu (Control)
 ├── Background         # ColorRect (ciemne tło)
 └── VBoxContainer      # Wyśrodkowany kontener
     ├── Title          # Label "GAME TITLE"
-    ├── PlayButton     # "PLAY (1-1)" - aktualny poziom
-    ├── LevelSelectButton  # "LEVELS"
-    └── QuitButton     # "QUIT"
+    ├── PlayButton     # "[P] PLAY (1-1)" - aktualny poziom
+    ├── LevelSelectButton  # "[L] LEVELS"
+    └── QuitButton     # "[Q] QUIT"
+
+Skróty klawiszowe: P (Play), L (Levels), Q (Quit)
 ```
 
 ### Struktura pause_modal.tscn
@@ -122,9 +124,11 @@ PauseModal (CanvasLayer) [layer = 10]
     └── Panel
         └── VBoxContainer
             ├── Title          # "PAUSED"
-            ├── ResumeButton   # "RESUME"
-            ├── RestartButton  # "RESTART"
-            └── MenuButton     # "MENU"
+            ├── ResumeButton   # "[C] RESUME"
+            ├── RestartButton  # "[R] RESTART"
+            └── MenuButton     # "[M] MENU"
+
+Skróty klawiszowe: C (Resume/Continue), R (Restart), M (Menu), ESC (Resume)
 ```
 
 ### Struktura restart_overlay.tscn
@@ -211,6 +215,7 @@ Input
 | `switch_mask_none` | 0 | Przełącz na maskę NONE |
 | `switch_mask_double_jump` | W | Przełącz na maskę DOUBLE_JUMP |
 | `switch_mask_dash` | Q | Przełącz na maskę DASH |
+| `switch_mask_ledge_grab` | E | Przełącz na maskę LEDGE_GRAB |
 | `dash` | D | Wykonaj dash |
 | `restart_level` | R (hold) | Szybki restart poziomu |
 | `ui_cancel` | Escape | Pauza |
@@ -242,6 +247,7 @@ Gracz może przełączać maski, które dają różne zdolności:
 | `NONE` | 0 | Brak specjalnej zdolności |
 | `DOUBLE_JUMP` | W | Podwójny skok (max 2 skoki) |
 | `DASH` | Q | Dash w kierunku ruchu (D) |
+| `LEDGE_GRAB` | E | Chwytanie ścian + wall jump |
 
 ### System dasza
 - Aktywny tylko z maską `DASH`
@@ -426,7 +432,46 @@ func die() -> void:
 ### Ekran śmierci
 - Czerwone przezroczyste tło (30% opacity)
 - Napis "PORAZKA" (128px, czerwony)
+- Czas ukończenia (64px, biały) - format MM:SS.ms
 - Instrukcje "[R] Restart    [ESC] Menu" (32px, biały)
+
+⸻
+
+Level Timer System
+
+System licznika czasu dla każdego poziomu.
+
+### Mechanizm
+- Timer startuje gdy gracz ląduje (koniec entry mode)
+- Timer zatrzymuje się przy śmierci lub ukończeniu poziomu
+- Czas wyświetlany w formacie `MM:SS.ms` (np. `00:12.45`)
+
+### Lokalizacja kodu
+Timer zaimplementowany w `player.gd` dla niezawodności:
+```gdscript
+var elapsed_time: float = 0.0
+var _timer_running: bool = false
+
+func _start_timer() -> void:
+    _timer_running = true
+
+func stop_timer() -> void:
+    _timer_running = false
+
+func get_elapsed_time() -> float:
+    return elapsed_time
+```
+
+### Wyświetlanie czasu
+1. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA"
+2. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy
+
+### Ekran ukończenia poziomu
+- Zielone przezroczyste tło (30% opacity)
+- Napis "UKONCZONO" (96px, zielony)
+- Nazwa poziomu "1-1 - First Steps" (48px, biały)
+- Czas ukończenia (64px, biały)
+- Automatyczne przejście do następnego poziomu po 2s
 
 ⸻
 
@@ -573,6 +618,14 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `c2cf4e4` | Add keyboard shortcuts to all menu buttons |
+| `bccccf1` | Fix timer tracking by moving it to player |
+| `ef154fc` | Add level timer with completion and death overlays |
+| `0147ab0` | 1-2 |
+| `a31a886` | Add dashing animations |
+| `81ef8d5` | Add wall jump |
+| `f05e903` | Added dash animation |
+| `31b5ff7` | Added sprite animation |
 | `1307d44` | Add ledge grab to controls legend |
 | `0941bb9` | Update documentation with death screen details |
 | `5288aed` | Add death screen with PORAZKA title and restart hints |
