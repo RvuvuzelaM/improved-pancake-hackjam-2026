@@ -31,6 +31,13 @@ const ENTRY_DROP_HEIGHT: float = 200.0
 # Death state
 var _is_dead: bool = false
 
+@export_category("Wall jump variable")
+@onready var left_ray: RayCast2D = $Raycasts/LeftRay
+@onready var right_ray: RayCast2D = $Raycasts/RightRay
+@export var wall_slide_speed = 20.0
+@export var wall_x_force = 320.0
+@export var wall_y_force = -400.0
+@export var is_wall_jumping = false
 
 func _ready():
 	add_to_group("player")
@@ -63,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	update_dash_timers(delta)
 	apply_gravity(delta)
 	handle_jump_input()
+	wall_logic()
 	handle_horizontal_movement()
 
 	update_animation()
@@ -159,21 +167,24 @@ func start_dash() -> void:
 	dash_timer = DASH_DURATION
 
 func update_animation() -> void:
-	# 1) Face left/right (flip the sprite)
-	if velocity.x != 0.0:
-		animated_sprite.flip_h = (velocity.x < 0.0) # left => flipped, right => normal [web:4]
-
 	# 2) Pick animation from movement state
-	if not is_on_floor():
+	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor():
+		animated_sprite.flip_h = right_ray.is_colliding()
+		animated_sprite.play("wall")
+	elif not is_on_floor():
+		if velocity.x != 0.0:
+			animated_sprite.flip_h = (velocity.x < 0.0)
 		if velocity.y < 0.0:
-			animated_sprite.play("jump") # plays animation by name [web:7]
+			animated_sprite.play("jump")
 		else:
-			animated_sprite.play("fall") # plays animation by name [web:7]
+			animated_sprite.play("fall")
 	else:
+		if velocity.x != 0.0:
+			animated_sprite.flip_h = (velocity.x < 0.0)
 		if abs(velocity.x) > 1.0:
-			animated_sprite.play("run") # plays animation by name [web:7]
+			animated_sprite.play("run")
 		else:
-			animated_sprite.play("idle") # plays animation by name [web:7]
+			animated_sprite.play("idle")
 
 
 func handle_horizontal_movement() -> void:
@@ -184,7 +195,7 @@ func handle_horizontal_movement() -> void:
 
 	if is_dashing:
 		velocity.x = dash_direction * DASH_SPEED
-	else:
+	elif is_wall_jumping == false:
 		var direction := Input.get_axis("character_left", "character_right")
 		if direction != 0.0:
 			last_facing_direction = direction
@@ -193,6 +204,24 @@ func handle_horizontal_movement() -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+
+func wall_logic():
+	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0:
+		velocity.y = wall_slide_speed
+		if Input.is_action_just_pressed("character_jump"):
+			if left_ray.is_colliding():
+				velocity = Vector2(wall_x_force, wall_y_force)
+			elif right_ray.is_colliding():
+				velocity = Vector2(-wall_x_force, wall_y_force)
+			wall_jumping()
+
+
+func wall_jumping():
+	is_wall_jumping = true
+	await get_tree().create_timer(0.1).timeout
+	is_wall_jumping = false
+
 
 
 func die() -> void:

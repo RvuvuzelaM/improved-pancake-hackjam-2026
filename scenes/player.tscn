@@ -452,3 +452,12 @@ frame_progress = 0.5252185
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_ur7pv")
+
+[node name="Raycasts" type="Node2D" parent="."]
+scale = Vector2(0.8333333, 0.8333333)
+
+[node name="LeftRay" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(-18, 0)
+
+[node name="RightRay" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(18, 0)
