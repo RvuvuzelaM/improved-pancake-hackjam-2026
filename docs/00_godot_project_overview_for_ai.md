@@ -83,7 +83,9 @@ BaseLevel (Node2D) [script: base_level.gd]
 │   └── Camera2D       # Kamera (zoom 3x)
 ├── LevelTrigger       # Instancja level_trigger.tscn (pozycja ustawiana w edytorze)
 ├── PauseModal         # Instancja pause_modal.tscn
-└── RestartOverlay     # Instancja restart_overlay.tscn
+├── RestartOverlay     # Instancja restart_overlay.tscn
+├── ControlsLegend     # Instancja controls_legend.tscn
+└── AbilityWidget      # Instancja ability_widget.tscn
 
 @export var spawn_position: Vector2    # Pozycja spawn gracza
 @export var next_level: String         # ID następnego poziomu
@@ -150,6 +152,7 @@ Autoload (Singletons)
 ### SceneManager
 ```gdscript
 SceneManager.change_scene("res://scenes/levels/1-1.tscn")  # Fade out → zmiana → fade in
+# Domyślny czas tranzycji: 0.25s (fade in + fade out = 0.5s)
 
 # Sygnały
 signal transition_finished    # Emitowany po zakończeniu przejścia
@@ -239,6 +242,10 @@ Parametry ruchu gracza
 | `DASH_COOLDOWN` | 0.5s | Cooldown między dashami |
 | `COYOTE_TIME_DURATION` | 0.15s | Czas na skok po opuszczeniu platformy |
 | `COYOTE_X_TOLERANCE` | 32.0px | Tolerancja pozioma dla coyote time |
+| `wall_slide_speed` | 20.0 | Prędkość ślizgania po ścianie |
+| `wall_x_force` | 320.0 | Siła pozioma wall jump |
+| `wall_y_force` | -400.0 | Siła pionowa wall jump |
+| `WALL_HOLD_DURATION` | 1.5s | Czas trzymania się ściany przed spadnięciem |
 
 ### System masek (umiejętności)
 Gracz może przełączać maski, które dają różne zdolności:
@@ -357,7 +364,7 @@ SceneManager.change_scene() → scene_loaded signal
         ↓                           │
    player_landed signal ────────────┘
         ↓                           ↓
-   Restore opacity             LevelIntro: fade out (lub po 2.5s)
+   Restore opacity             LevelIntro: fade out (natychmiast po fade-in)
 ```
 
 ### Struktura level_intro.tscn
@@ -367,9 +374,17 @@ LevelIntro (CanvasLayer) [layer = 15]
     ├── Background (ColorRect) [alpha 0.3]
     └── ContentBox (VBoxContainer) [bottom-center]
         ├── AccentBar (ColorRect) [6px, level color]
-        ├── LevelName (Label) [font_size=144]
-        └── LevelID (Label) [font_size=72, gray]
+        ├── LevelName (Label) [font_size=144, level color]
+        └── LevelID (Label) [font_size=72, black (LabelSettings)]
 ```
+
+### Timing animacji Level Intro
+| Parametr | Wartość | Opis |
+|----------|---------|------|
+| `FADE_IN_DURATION` | 0.4s | Czas pojawiania się |
+| `FADE_OUT_DURATION` | 1.5s | Czas zanikania (gradualnie) |
+| `AUTO_HIDE_DELAY` | 0.0s | Fade-out zaczyna się od razu po fade-in |
+| `BACKGROUND_ALPHA` | 0.3 | Przezroczystość tła |
 
 ### Parametry entry mode (player.gd)
 - `ENTRY_OPACITY`: 0.6 - przezroczystość gracza podczas spadania
@@ -468,16 +483,16 @@ func get_elapsed_time() -> float:
 ```
 
 ### Wyświetlanie czasu
-1. **Real-time UI** - timer w lewym górnym rogu (32px, biały z cieniem), aktualizowany co klatkę
+1. **Real-time UI** - timer w lewym górnym rogu (32px, czarny), aktualizowany co klatkę
 2. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA" (wycentrowany)
-3. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy (wycentrowany)
+3. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 1 sekundę (wycentrowany)
 
 ### Ekran ukończenia poziomu
 - Zielone przezroczyste tło (30% opacity)
 - Napis "UKONCZONO" (96px, zielony)
-- Nazwa poziomu "1-1 - First Steps" (48px, biały)
+- Nazwa poziomu "1-1 - First Steps" (48px, czarny)
 - Czas ukończenia (64px, biały)
-- Automatyczne przejście do następnego poziomu po 2s
+- Automatyczne przejście do następnego poziomu po 1s
 
 ⸻
 
@@ -624,6 +639,18 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `498bea2` | Clean up unnecessary TileSet data in 1-1.tscn |
+| `52765ed` | Fix missing Animation_10r0f in 1-1.tscn |
+| `cd2450d` | Fix level intro: black ID text, smooth fade timing |
+| `2b5205f` | Update documentation and reduce scene transition time |
+| `743affa` | Fix TileSet errors: remove out-of-bounds tile definitions |
+| `65013e9` | Improve UI readability: black text for timer and level name |
+| `1a7da80` | Fix dash bug, and wall holding |
+| `b1d3b48` | Levels |
+| `a9cc1a1` | Add base final boss scene |
+| `354c49e` | Active ability tracker |
+| `167522c` | Fix TileSet errors: remove out-of-bounds tile definitions |
+| `96f663e` | Improve UI readability: black text for timer and level name |
 | `3a9b861` | Fix LevelTrigger positioning - let designer set position in editor |
 | `7bfd46a` | Update documentation with real-time timer UI details |
 | `46ee746` | Add real-time timer UI and center overlay messages |

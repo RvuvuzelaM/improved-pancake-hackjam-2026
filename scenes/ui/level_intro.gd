@@ -8,9 +8,9 @@ extends CanvasLayer
 @onready var level_id_label: Label = $Container/ContentBox/LevelID
 
 const FADE_IN_DURATION: float = 0.4
-const FADE_OUT_DURATION: float = 0.5
+const FADE_OUT_DURATION: float = 1.5
 const BACKGROUND_ALPHA: float = 0.3
-const AUTO_HIDE_DELAY: float = 2.5
+const AUTO_HIDE_DELAY: float = 0.0
 
 var _player_ref: CharacterBody2D = null
 var _is_fading_out: bool = false
@@ -43,6 +43,13 @@ func _setup_display(level_id: String) -> void:
 	accent_bar.color = level_color
 	level_name_label.add_theme_color_override("font_color", level_color)
 
+	# Force black color using LabelSettings for more direct control
+	var label_settings = LabelSettings.new()
+	label_settings.font = load("res://assets/fonts/Kenney Pixel.ttf")
+	label_settings.font_color = Color.BLACK
+	label_settings.font_size = 72
+	level_id_label.label_settings = label_settings
+
 
 func _connect_to_player() -> void:
 	await get_tree().process_frame
@@ -71,8 +78,11 @@ func _animate_in() -> void:
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(background, "modulate:a", BACKGROUND_ALPHA, FADE_IN_DURATION)
 
-	# Auto-hide after delay
-	await get_tree().create_timer(AUTO_HIDE_DELAY).timeout
+	# Poczekaj aż fade-in się skończy
+	await tween.finished
+	# Dodatkowy delay (jeśli ustawiony)
+	if AUTO_HIDE_DELAY > 0:
+		await get_tree().create_timer(AUTO_HIDE_DELAY).timeout
 	_animate_out()
 
 

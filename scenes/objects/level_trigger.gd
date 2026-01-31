@@ -60,7 +60,7 @@ func _show_completion_overlay(player: Node) -> void:
 	var level_label = Label.new()
 	level_label.text = "%s - %s" % [current_level_id, level_name]
 	level_label.add_theme_font_size_override("font_size", 48)
-	level_label.add_theme_color_override("font_color", Color(1, 1, 1))
+	level_label.add_theme_color_override("font_color", Color(0, 0, 0))
 	level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	container.add_child(level_label)
 
@@ -71,8 +71,8 @@ func _show_completion_overlay(player: Node) -> void:
 	time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	container.add_child(time_label)
 
-	# Wait 2 seconds then transition
-	await get_tree().create_timer(2.0).timeout
+	# Wait 1 second then transition
+	await get_tree().create_timer(1.0).timeout
 
 	GameData.set_current_level(target_level)
 	GameData.unlock_level(target_level)

@@ -5,6 +5,15 @@ signal mask_changed(new_mask: int)
 
 @onready var animated_sprite = $AnimatedSprite2D2
 
+# Audio players
+var _sfx_jump: AudioStreamPlayer
+var _sfx_double_jump: AudioStreamPlayer
+var _sfx_dash: AudioStreamPlayer
+var _sfx_landing: AudioStreamPlayer
+var _sfx_wall_jump: AudioStreamPlayer
+var _sfx_wall_slide: AudioStreamPlayer
+var _sfx_death: AudioStreamPlayer
+
 @export var SPEED := 120.0
 @export var BASE_JUMP_VELOCITY := -370.0
 @export var DASH_SPEED := 400.0
@@ -49,11 +58,32 @@ var _timer_label: Label = null
 @export var wall_x_force = 320.0
 @export var wall_y_force = -400.0
 @export var is_wall_jumping = false
+@export var WALL_HOLD_DURATION := 1.5
+var wall_hold_timer := 0.0
+var _was_wall_sliding := false
 
 func _ready():
 	add_to_group("player")
 	SceneManager.scene_loaded.connect(_on_scene_loaded)
 	was_on_floor = is_on_floor()
+	_setup_audio()
+
+
+func _setup_audio() -> void:
+	_sfx_jump = _create_audio_player("res://assets/audio/jump.mp3")
+	_sfx_double_jump = _create_audio_player("res://assets/audio/double_jump.mp3")
+	_sfx_dash = _create_audio_player("res://assets/audio/dash.mp3")
+	_sfx_landing = _create_audio_player("res://assets/audio/landing.mp3")
+	_sfx_wall_jump = _create_audio_player("res://assets/audio/wall_jump.mp3")
+	_sfx_wall_slide = _create_audio_player("res://assets/audio/wall_slide.mp3")
+	_sfx_death = _create_audio_player("res://assets/audio/death.mp3")
+
+
+func _create_audio_player(path: String) -> AudioStreamPlayer:
+	var player = AudioStreamPlayer.new()
+	player.stream = load(path)
+	add_child(player)
+	return player
 
 
 func _on_scene_loaded(level_id: String) -> void:
@@ -89,7 +119,7 @@ func _physics_process(delta: float) -> void:
 	update_dash_timers(delta)
 	apply_gravity(delta)
 	handle_jump_input()
-	wall_logic()
+	wall_logic(delta)
 	handle_horizontal_movement()
 
 	update_animation()
@@ -127,7 +157,7 @@ func _set_mask(new_mask: Mask) -> void:
 
 
 func handle_dash_input() -> void:
-	if equipped_mask == Mask.DASH and dash_cooldown_timer <= 0.0:
+	if equipped_mask == Mask.DASH and dash_cooldown_timer <= 0.0 and not is_dashing:
 		start_dash()
 
 
@@ -137,6 +167,8 @@ func apply_gravity(delta: float) -> void:
 		return
 	
 	if is_on_floor():
+		if not was_on_floor and not _entry_mode:
+			_sfx_landing.play()
 		jump_count = 0
 		coyote_time_timer = 0.0
 		was_on_floor = true
@@ -172,6 +204,11 @@ func perform_jump() -> void:
 	velocity.y = BASE_JUMP_VELOCITY
 	jump_count += 1
 	coyote_time_timer = 0.0
+	# Play jump or double jump sound
+	if jump_count > 1:
+		_sfx_double_jump.play()
+	else:
+		_sfx_jump.play()
 
 
 func update_dash_timers(delta: float) -> void:
@@ -204,6 +241,7 @@ func start_dash() -> void:
 	velocity.y = 0.0
 	is_dashing = true
 	dash_timer = DASH_DURATION
+	_sfx_dash.play()
 
 func update_animation() -> void:
 	# 2) Pick animation from movement state
@@ -310,8 +348,7 @@ func _create_timer_ui() -> void:
 	_timer_label = Label.new()
 	_timer_label.text = "00:00.00"
 	_timer_label.add_theme_font_size_override("font_size", 32)
-	_timer_label.add_theme_color_override("font_color", Color(1, 1, 1))
-	_timer_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	_timer_label.add_theme_color_override("font_color", Color(0, 0, 0))
 	_timer_label.add_theme_constant_override("shadow_offset_x", 2)
 	_timer_label.add_theme_constant_override("shadow_offset_y", 2)
 	_timer_label.position = Vector2(20, 20)
@@ -331,19 +368,37 @@ func _update_timer_ui() -> void:
 func get_elapsed_time() -> float:
 	return elapsed_time
 
-func wall_logic():
-	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0:
-		velocity.y = wall_slide_speed
-		if Input.is_action_just_pressed("character_jump"):
-			if left_ray.is_colliding():
-				velocity = Vector2(wall_x_force, wall_y_force)
-			elif right_ray.is_colliding():
-				velocity = Vector2(-wall_x_force, wall_y_force)
-			wall_jumping()
+func wall_logic(delta: float):
+	var can_hold_wall = equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0
+	var is_wall_sliding = can_hold_wall and wall_hold_timer < WALL_HOLD_DURATION
+
+	# Handle wall slide sound
+	if is_wall_sliding and not _was_wall_sliding:
+		_sfx_wall_slide.play()
+	elif not is_wall_sliding and _was_wall_sliding:
+		_sfx_wall_slide.stop()
+	_was_wall_sliding = is_wall_sliding
+
+	if can_hold_wall:
+		if wall_hold_timer < WALL_HOLD_DURATION:
+			wall_hold_timer += delta
+			velocity.y = wall_slide_speed
+			if Input.is_action_just_pressed("character_jump"):
+				if left_ray.is_colliding():
+					velocity = Vector2(wall_x_force, wall_y_force)
+				elif right_ray.is_colliding():
+					velocity = Vector2(-wall_x_force, wall_y_force)
+				_sfx_wall_slide.stop()
+				wall_jumping()
+		else:
+			wall_hold_timer = WALL_HOLD_DURATION
+	else:
+		wall_hold_timer = 0.0
 
 
 func wall_jumping():
 	is_wall_jumping = true
+	_sfx_wall_jump.play()
 	await get_tree().create_timer(0.1).timeout
 	is_wall_jumping = false
 
@@ -355,6 +410,7 @@ func die() -> void:
 	_is_dead = true
 	velocity = Vector2.ZERO
 	rotation_degrees = 90
+	_sfx_death.play()
 
 	# Stop timer and get elapsed time
 	stop_timer()
