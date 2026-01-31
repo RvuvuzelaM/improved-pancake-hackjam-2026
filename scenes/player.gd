@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var SPEED := 300.0
-@export var BASE_JUMP_VELOCITY := -500.0
+@export var SPEED := 120.0
+@export var BASE_JUMP_VELOCITY := -350.0
 
 var jump_count := 0
 var max_jump_count := 2
