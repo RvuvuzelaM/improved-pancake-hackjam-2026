@@ -14,6 +14,14 @@ var levels: Dictionary = {
 # Kolejność poziomów (do level select)
 var level_order: Array[String] = ["1-1", "1-2", "1-3", "1-4"]
 
+# Metadane poziomów: ID -> {name, color}
+var level_metadata: Dictionary = {
+	"1-1": {"name": "First Steps", "color": "#4CAF50"},
+	"1-2": {"name": "Rising Tide", "color": "#2196F3"},
+	"1-3": {"name": "Shadow Dance", "color": "#9C27B0"},
+	"1-4": {"name": "Final Leap", "color": "#FF5722"},
+}
+
 # Odblokowane poziomy
 var unlocked_levels: Array[String] = ["1-1"]
 
@@ -50,3 +58,16 @@ func is_level_unlocked(level_id: String) -> bool:
 func set_current_level(level_id: String):
 	if level_exists(level_id):
 		current_level = level_id
+
+
+func get_level_metadata(level_id: String) -> Dictionary:
+	return level_metadata.get(level_id, {"name": "Unknown", "color": "#FFFFFF"})
+
+
+func get_level_name(level_id: String) -> String:
+	return get_level_metadata(level_id).get("name", "Unknown")
+
+
+func get_level_color(level_id: String) -> Color:
+	var hex = get_level_metadata(level_id).get("color", "#FFFFFF")
+	return Color.html(hex)

@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 
 SceneManager="*res://scenes/autoload/scene_manager.gd"
 GameData="*res://scenes/autoload/game_data.gd"
+LevelIntro="*res://scenes/ui/level_intro.tscn"
 
 [display]
 
