@@ -49,6 +49,8 @@ var _timer_label: Label = null
 @export var wall_x_force = 320.0
 @export var wall_y_force = -400.0
 @export var is_wall_jumping = false
+@export var WALL_HOLD_DURATION := 1.5
+var wall_hold_timer := 0.0
 
 func _ready():
 	add_to_group("player")
@@ -89,7 +91,7 @@ func _physics_process(delta: float) -> void:
 	update_dash_timers(delta)
 	apply_gravity(delta)
 	handle_jump_input()
-	wall_logic()
+	wall_logic(delta)
 	handle_horizontal_movement()
 
 	update_animation()
@@ -127,7 +129,7 @@ func _set_mask(new_mask: Mask) -> void:
 
 
 func handle_dash_input() -> void:
-	if equipped_mask == Mask.DASH and dash_cooldown_timer <= 0.0:
+	if equipped_mask == Mask.DASH and dash_cooldown_timer <= 0.0 and not is_dashing:
 		start_dash()
 
 
@@ -331,15 +333,23 @@ func _update_timer_ui() -> void:
 func get_elapsed_time() -> float:
 	return elapsed_time
 
-func wall_logic():
-	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0:
-		velocity.y = wall_slide_speed
-		if Input.is_action_just_pressed("character_jump"):
-			if left_ray.is_colliding():
-				velocity = Vector2(wall_x_force, wall_y_force)
-			elif right_ray.is_colliding():
-				velocity = Vector2(-wall_x_force, wall_y_force)
-			wall_jumping()
+func wall_logic(delta: float):
+	var can_hold_wall = equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0
+	
+	if can_hold_wall:
+		if wall_hold_timer < WALL_HOLD_DURATION:
+			wall_hold_timer += delta
+			velocity.y = wall_slide_speed
+			if Input.is_action_just_pressed("character_jump"):
+				if left_ray.is_colliding():
+					velocity = Vector2(wall_x_force, wall_y_force)
+				elif right_ray.is_colliding():
+					velocity = Vector2(-wall_x_force, wall_y_force)
+				wall_jumping()
+		else:
+			wall_hold_timer = WALL_HOLD_DURATION
+	else:
+		wall_hold_timer = 0.0
 
 
 func wall_jumping():
