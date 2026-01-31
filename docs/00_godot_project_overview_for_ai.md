@@ -109,11 +109,16 @@ Autoload (Singletons)
 | Singleton | Plik | Opis |
 |-----------|------|------|
 | `SceneManager` | `scenes/autoload/scene_manager.gd` | Przejścia między scenami z fade in/out |
-| `GameData` | `scenes/autoload/game_data.gd` | Postęp gracza, odblokowane poziomy |
+| `GameData` | `scenes/autoload/game_data.gd` | Postęp gracza, odblokowane poziomy, metadane poziomów |
+| `LevelIntro` | `scenes/ui/level_intro.tscn` | UI intro poziomów (nazwa + ID + kolor) |
 
 ### SceneManager
 ```gdscript
 SceneManager.change_scene("res://scenes/levels/1-1.tscn")  # Fade out → zmiana → fade in
+
+# Sygnały
+signal transition_finished    # Emitowany po zakończeniu przejścia
+signal scene_loaded(level_id) # Emitowany po załadowaniu sceny z ID poziomu (lub "" dla non-level)
 ```
 
 ### GameData
@@ -123,8 +128,9 @@ GameData.current_level          # "1-1" - aktualny poziom
 GameData.levels                 # Dictionary {"1-1": "res://scenes/levels/1-1.tscn", ...}
 GameData.level_order            # ["1-1", "1-2", "1-3", "1-4"]
 GameData.unlocked_levels        # ["1-1"] - odblokowane poziomy
+GameData.level_metadata         # Dictionary {"1-1": {"name": "First Steps", "color": "#4CAF50"}, ...}
 
-# Metody
+# Metody - poziomy
 GameData.get_current_level_path()  # "res://scenes/levels/1-1.tscn"
 GameData.get_level_path("1-2")     # "res://scenes/levels/1-2.tscn"
 GameData.level_exists("1-2")       # true
@@ -132,6 +138,11 @@ GameData.is_level_unlocked("1-2")  # false
 GameData.unlock_level("1-2")       # Odblokowuje konkretny poziom
 GameData.unlock_next_level()       # Odblokowuje następny w kolejności
 GameData.set_current_level("1-2")  # Ustawia aktualny poziom
+
+# Metody - metadane poziomów
+GameData.get_level_metadata("1-1") # {"name": "First Steps", "color": "#4CAF50"}
+GameData.get_level_name("1-1")     # "First Steps"
+GameData.get_level_color("1-1")    # Color(0.298, 0.686, 0.314, 1) - z hex #4CAF50
 ```
 
 ⸻
@@ -165,7 +176,10 @@ Input
 | `character_left` | ← | Ruch w lewo |
 | `character_right` | → | Ruch w prawo |
 | `character_jump` | Space | Skok |
-| `switch_mask_1` | 1 | Przełącz maskę (do implementacji) |
+| `switch_mask_none` | 0 | Przełącz na maskę NONE |
+| `switch_mask_double_jump` | 1 | Przełącz na maskę DOUBLE_JUMP |
+| `switch_mask_dash` | 2 | Przełącz na maskę DASH |
+| `dash` | (do skonfigurowania) | Wykonaj dash |
 | `restart_level` | R (hold) | Szybki restart poziomu |
 | `ui_cancel` | Escape | Pauza |
 
@@ -182,12 +196,26 @@ Parametry ruchu gracza
 
 | Parametr | Wartość | Opis |
 |----------|---------|------|
-| `SPEED` | 400.0 | Prędkość pozioma |
-| `BASE_JUMP_VELOCITY` | -550.0 | Początkowa prędkość skoku |
-| `EXTRA_JUMP_FORCE` | -700.0 | Dodatkowa siła przy przytrzymaniu |
-| `MAX_JUMP_HOLD_TIME` | 0.6s | Max czas przytrzymania skoku |
+| `SPEED` | 120.0 | Prędkość pozioma |
+| `BASE_JUMP_VELOCITY` | -370.0 | Początkowa prędkość skoku |
+| `DASH_SPEED` | 400.0 | Prędkość dasza |
+| `DASH_DURATION` | 0.15s | Czas trwania dasza |
+| `DASH_COOLDOWN` | 0.5s | Cooldown między dashami |
 
-System skoku: Variable jump height - im dłużej trzymasz przycisk, tym wyżej skaczesz (do limitu 0.6s).
+### System masek (umiejętności)
+Gracz może przełączać maski, które dają różne zdolności:
+
+| Maska | Klawisz | Zdolność |
+|-------|---------|----------|
+| `NONE` | 0 | Brak specjalnej zdolności |
+| `DOUBLE_JUMP` | 1 | Podwójny skok (max 2 skoki) |
+| `DASH` | 2 | Dash w kierunku ruchu (Space lub dedykowany klawisz) |
+
+### System dasza
+- Aktywny tylko z maską `DASH`
+- Dash w kierunku aktualnego ruchu (lub ostatniego kierunku velocity)
+- Podczas dasza grawitacja zredukowana do 10%
+- Cooldown zapobiega spamowaniu
 
 ⸻
 
@@ -253,6 +281,55 @@ System restartu poziomu (Hold-to-Restart)
   - Trzymaj R → koło się wypełnia
   - Puść wcześniej → resetuje się
   - Wypełni się → restart poziomu
+
+⸻
+
+Level Intro System
+
+System prezentacji intro przy wejściu na poziom.
+
+### Komponenty
+1. **LevelIntro** (autoload) - UI overlay z nazwą i ID poziomu
+2. **Player entry mode** - gracz spada z góry, nie może się ruszać horyzontalnie
+
+### Przepływ
+```
+SceneManager.change_scene() → scene_loaded signal
+        ↓                           ↓
+   Player: entry_mode          LevelIntro: show
+   (opacity 0.6, brak ruchu)   (nazwa + ID + kolor)
+        ↓                           ↓
+   Player ląduje (is_on_floor)      │
+        ↓                           │
+   player_landed signal ────────────┘
+        ↓                           ↓
+   Restore opacity             LevelIntro: fade out (lub po 5s)
+```
+
+### Struktura level_intro.tscn
+```
+LevelIntro (CanvasLayer) [layer = 15]
+└── Container (Control) [full rect]
+    ├── Background (ColorRect) [alpha 0.3]
+    └── ContentBox (VBoxContainer) [bottom-center]
+        ├── AccentBar (ColorRect) [6px, level color]
+        ├── LevelName (Label) [font_size=48]
+        └── LevelID (Label) [font_size=24, gray]
+```
+
+### Parametry entry mode (player.gd)
+- `ENTRY_OPACITY`: 0.6 - przezroczystość gracza podczas spadania
+- `ENTRY_DROP_HEIGHT`: 200.0 - wysokość z jakiej gracz spada
+
+### Metadane poziomów (w GameData)
+```gdscript
+level_metadata = {
+    "1-1": {"name": "First Steps", "color": "#4CAF50"},
+    "1-2": {"name": "Rising Tide", "color": "#2196F3"},
+    "1-3": {"name": "Shadow Dance", "color": "#9C27B0"},
+    "1-4": {"name": "Final Leap", "color": "#FF5722"},
+}
+```
 
 ⸻
 
@@ -351,6 +428,9 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `d46d7b7` | Merge remote changes (dash system) with level intro |
+| `ac6e992` | Add level intro system with entry animation |
+| `123f142` | Add dash mask system |
 | `a2b09b8` | Add level triggers to levels and fix player collision layers |
 | `c8dd39f` | Add level trigger system and level references |
 | `7d9b09d` | Update documentation with 1-2 level details |
