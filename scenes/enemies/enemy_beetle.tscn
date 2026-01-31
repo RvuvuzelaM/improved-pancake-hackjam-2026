@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://djibrf3jcg52p"]
+
+[ext_resource type="Texture2D" uid="uid://pe8lw0ky531u" path="res://assets/tilemap/forest/tilemap-characters_packed.png" id="1_ljr8k"]
+[ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="2_8c63u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8c63u"]
+atlas = ExtResource("1_ljr8k")
+region = Rect2(72, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq7qu"]
+atlas = ExtResource("1_ljr8k")
+region = Rect2(96, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvwcp"]
+atlas = ExtResource("1_ljr8k")
+region = Rect2(120, 48, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cigik"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c63u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq7qu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvwcp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cigik")
+autoplay = "default"
+frame_progress = 0.021422755
+
+[node name="DeathZone" parent="AnimatedSprite2D" instance=ExtResource("2_8c63u")]
+scale = Vector2(0.31525353, 0.87792754)

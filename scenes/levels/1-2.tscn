@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=4 uid="uid://csw7wfyolqo4g"]
+[gd_scene load_steps=56 format=4 uid="uid://csw7wfyolqo4g"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="2_220im"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://3ofh8hpvq613" path="res://scenes/enemies/enemy_batman.tscn" id="8_10r0f"]
 [ext_resource type="PackedScene" uid="uid://bapdr41il1dti" path="res://scenes/forest/trees/medium_tree_2.tscn" id="9_10r0f"]
 [ext_resource type="PackedScene" uid="uid://h166lf4bblcn" path="res://scenes/enemies/enemy_fish.tscn" id="9_oqd17"]
+[ext_resource type="PackedScene" uid="uid://djibrf3jcg52p" path="res://scenes/enemies/enemy_beetle.tscn" id="10_oqd17"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5roy0"]
 texture = ExtResource("2_220im")
@@ -1237,12 +1238,74 @@ sources/0 = SubResource("TileSetAtlasSource_10r0f")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_72nda"]
 size = Vector2(62, 14)
 
+[sub_resource type="Animation" id="Animation_tcxak"]
+resource_name = "new_animation"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(252, 799), Vector2(154, 799), Vector2(252, 799)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.96666664, 1, 2),
+"transitions": PackedFloat32Array(1, 1e-05, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(-1, 1), Vector2(-1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3d66v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(252, 799)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6vmc5"]
+_data = {
+&"RESET": SubResource("Animation_3d66v"),
+&"new_animation": SubResource("Animation_tcxak")
+}
+
 [node name="1-2" instance=ExtResource("1_base")]
 spawn_position = Vector2(39, 835)
 next_level = "1-3"
 
 [node name="LevelTrigger" parent="." index="1"]
-position = Vector2(1085, 832)
+position = Vector2(2276, 421)
 
 [node name="PauseModal" parent="." index="2"]
 visible = false
@@ -1540,3 +1603,13 @@ scale = Vector2(0.26732582, 0.54776084)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D12" index="2"]
 position = Vector2(2208, 504)
 shape = SubResource("RectangleShape2D_72nda")
+
+[node name="enemy" parent="." index="39" instance=ExtResource("10_oqd17")]
+z_index = 2
+position = Vector2(252, 799)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="enemy" index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_6vmc5")
+}
+autoplay = "new_animation"

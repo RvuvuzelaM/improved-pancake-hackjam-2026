@@ -31,7 +31,7 @@ animations = [{
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_1f6tu")
 autoplay = "default"
-frame_progress = 0.45864326
+frame_progress = 0.80036324
 
 [node name="DeathZone" parent="AnimatedSprite2D" instance=ExtResource("2_y5tw7")]
 position = Vector2(-1, 0)
