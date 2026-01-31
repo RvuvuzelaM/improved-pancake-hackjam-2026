@@ -2,8 +2,8 @@ extends Node2D
 class_name BaseLevel
 
 @export var spawn_position: Vector2 = Vector2.ZERO
-@export var trigger_position: Vector2 = Vector2.ZERO
 @export var next_level: String = ""
+# trigger_position usunięte - designer ustawia pozycję LevelTrigger ręcznie w edytorze
 
 @onready var player: CharacterBody2D = $player
 @onready var level_trigger: Area2D = $LevelTrigger
@@ -49,9 +49,6 @@ func _setup_level() -> void:
 	if spawn_position != Vector2.ZERO:
 		player.global_position = spawn_position
 
-	# Pozycjonuj i skonfiguruj trigger
-	if trigger_position != Vector2.ZERO:
-		level_trigger.global_position = trigger_position
-
+	# Ustaw target level (pozycja triggera ustawiana ręcznie w edytorze)
 	if next_level != "":
 		level_trigger.target_level = next_level
