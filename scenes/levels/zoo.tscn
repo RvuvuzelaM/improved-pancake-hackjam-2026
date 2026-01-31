@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://doaeehc0ioeve"]
+[gd_scene load_steps=25 format=4 uid="uid://doaeehc0ioeve"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_1ov0v"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_okm03"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="8_gnkm6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="9_5vtol"]
 [ext_resource type="PackedScene" uid="uid://x6e2ae3f8hma" path="res://scenes/objects/ability_pickup.tscn" id="10_5c2i4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/controls_legend.tscn" id="11_0m280"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ability_widget.tscn" id="12_muqte"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_meqg6"]
 texture = ExtResource("3_1k4lq")
@@ -403,3 +405,7 @@ ability_id = "ledge-grab"
 [node name="dash" parent="." instance=ExtResource("10_5c2i4")]
 position = Vector2(-56, 442)
 ability_id = "dash"
+
+[node name="ControlsLegend" parent="." instance=ExtResource("11_0m280")]
+
+[node name="AbilityWidget" parent="." instance=ExtResource("12_muqte")]
