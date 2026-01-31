@@ -246,6 +246,48 @@ func handle_horizontal_movement() -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+	_check_destructable_wall_collisions()
+	_check_fading_platform_collisions()
+
+
+func _check_destructable_wall_collisions() -> void:
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+
+		# Check if we hit a StaticBody2D that's a child of DestructableWall
+		if collider is StaticBody2D:
+			var parent = collider.get_parent()
+			if parent is DestructableWall:
+				_try_break_wall(parent)
+
+
+func _try_break_wall(wall: DestructableWall) -> void:
+	# Check dash ability
+	if is_dashing:
+		wall.try_break(DestructableWall.BreakAbility.DASH)
+		return
+
+	# Check touch ability (always active on contact)
+	if wall.can_break_with(DestructableWall.BreakAbility.TOUCH):
+		wall.try_break(DestructableWall.BreakAbility.TOUCH)
+		return
+
+	# Check jump through (when moving upward through the wall)
+	if velocity.y < 0 and wall.can_break_with(DestructableWall.BreakAbility.JUMP_THROUGH):
+		wall.try_break(DestructableWall.BreakAbility.JUMP_THROUGH)
+
+
+func _check_fading_platform_collisions() -> void:
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+
+		# Check if we hit a StaticBody2D that's a child of FadingPlatform
+		if collider is StaticBody2D:
+			var parent = collider.get_parent()
+			if parent is FadingPlatform:
+				parent.trigger_fade()
 
 func _start_timer() -> void:
 	_timer_running = true

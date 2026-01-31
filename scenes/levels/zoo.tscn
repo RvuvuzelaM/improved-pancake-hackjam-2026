@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://u2exjd130qrr"]
+[gd_scene load_steps=27 format=4 uid="uid://u2exjd130qrr"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_1ov0v"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_okm03"]
@@ -6,12 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://d20wdndqbb71o" path="res://scenes/forest/trees/small_tree.tscn" id="4_cqhvq"]
 [ext_resource type="PackedScene" uid="uid://cd75hqm2lelnp" path="res://scenes/forest/trees/medium_tree_1.tscn" id="5_ujib0"]
 [ext_resource type="PackedScene" uid="uid://bapdr41il1dti" path="res://scenes/forest/trees/medium_tree_2.tscn" id="6_gnkm6"]
-[ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/small_platform.tscn" id="7_ujib0"]
+[ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/platforms/small_platform.tscn" id="7_ujib0"]
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="8_gnkm6"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="9_5vtol"]
-[ext_resource type="PackedScene" path="res://scenes/objects/ability_pickup.tscn" id="10_5c2i4"]
+[ext_resource type="PackedScene" uid="uid://x6e2ae3f8hma" path="res://scenes/objects/ability_pickup.tscn" id="10_5c2i4"]
 [ext_resource type="PackedScene" path="res://scenes/ui/controls_legend.tscn" id="11_0m280"]
 [ext_resource type="PackedScene" uid="uid://dj6ggoot3xvyn" path="res://scenes/ui/ability_widget.tscn" id="12_muqte"]
+[ext_resource type="PackedScene" uid="uid://bhrtagcfhxpmj" path="res://scenes/forest/destructable_wall.tscn" id="13_muqte"]
+[ext_resource type="PackedScene" uid="uid://dvxuy07des1fp" path="res://scenes/forest/platforms/fading_platform_small.tscn" id="14_oalg7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_meqg6"]
 texture = ExtResource("3_1k4lq")
@@ -242,10 +244,10 @@ tile_size = Vector2i(18, 18)
 sources/0 = SubResource("TileSetAtlasSource_meqg6")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cqhvq"]
-size = Vector2(90, 378)
+size = Vector2(90, 377)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ujib0"]
-size = Vector2(467, 375)
+size = Vector2(467, 373)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnkm6"]
 size = Vector2(52, 376)
@@ -300,7 +302,7 @@ _data = {
 }
 
 [node name="zoo" type="Node2D"]
-position = Vector2(-9, 1)
+position = Vector2(143, -181)
 
 [node name="player" parent="." instance=ExtResource("1_okm03")]
 z_index = 5
@@ -318,13 +320,13 @@ tile_set = SubResource("TileSet_j5ylm")
 [node name="ledge1" type="StaticBody2D" parent="TileMapLayer"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/ledge1"]
-position = Vector2(-99, 675)
+position = Vector2(-99, 675.5)
 shape = SubResource("RectangleShape2D_cqhvq")
 
 [node name="ledge2" type="StaticBody2D" parent="TileMapLayer"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/ledge2"]
-position = Vector2(287.5, 673.5)
+position = Vector2(287.5, 674.5)
 shape = SubResource("RectangleShape2D_ujib0")
 
 [node name="ledg3" type="StaticBody2D" parent="TileMapLayer"]
@@ -362,7 +364,7 @@ position = Vector2(10.5, 110)
 shape = SubResource("RectangleShape2D_5vtol")
 
 [node name="SmallTree" parent="." instance=ExtResource("4_cqhvq")]
-position = Vector2(239, 486)
+position = Vector2(240, 488)
 
 [node name="medium_tree_1" parent="." instance=ExtResource("5_ujib0")]
 position = Vector2(414, 450)
@@ -406,3 +408,11 @@ ability_id = "dash"
 [node name="ControlsLegend" parent="." instance=ExtResource("11_0m280")]
 
 [node name="AbilityWidget" parent="." instance=ExtResource("12_muqte")]
+
+[node name="DestructableWall" parent="." instance=ExtResource("13_muqte")]
+position = Vector2(95, 453)
+break_abilities = 1
+respawn_time = 1.0
+
+[node name="FadingPlatformSmall" parent="." instance=ExtResource("14_oalg7")]
+position = Vector2(-33, 445)
