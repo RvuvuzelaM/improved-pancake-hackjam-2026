@@ -430,4 +430,5 @@ enum PlatformSize {
 6. **System śmierci** - `_is_dead` blokuje physics, `die()` dodaje animację (obrót 90°) i czerwony overlay
 7. **Ledge Grab** - maska zdefiniowana, wall slide + wall jump zaimplementowane
 8. **Keyboard shortcuts** - wszystkie menu mają skróty klawiszowe w formacie `[X]`
-9. **Level Timer** - czas mierzony od lądowania do śmierci/ukończenia, wyświetlany na ekranach końcowych
+9. **Level Timer** - czas mierzony od lądowania do śmierci/ukończenia, wyświetlany real-time w lewym górnym rogu
+10. **Centered overlays** - komunikaty śmierci/sukcesu używają CenterContainer dla prawidłowego centrowania

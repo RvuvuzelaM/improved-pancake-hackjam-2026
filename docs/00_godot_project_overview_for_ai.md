@@ -453,20 +453,25 @@ Timer zaimplementowany w `player.gd` dla niezawodności:
 ```gdscript
 var elapsed_time: float = 0.0
 var _timer_running: bool = false
+var _timer_ui: CanvasLayer = null
+var _timer_label: Label = null
 
 func _start_timer() -> void:
     _timer_running = true
+    _create_timer_ui()
 
 func stop_timer() -> void:
     _timer_running = false
+    _hide_timer_ui()
 
 func get_elapsed_time() -> float:
     return elapsed_time
 ```
 
 ### Wyświetlanie czasu
-1. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA"
-2. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy
+1. **Real-time UI** - timer w lewym górnym rogu (32px, biały z cieniem), aktualizowany co klatkę
+2. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA" (wycentrowany)
+3. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy (wycentrowany)
 
 ### Ekran ukończenia poziomu
 - Zielone przezroczyste tło (30% opacity)
@@ -620,6 +625,8 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `46ee746` | Add real-time timer UI and center overlay messages |
+| `1f59181` | Add coyote time documentation |
 | `6f5271c` | Update documentation with shortcuts, timer and wall jump |
 | `c6894b0` | Add coyote jumping |
 | `c2cf4e4` | Add keyboard shortcuts to all menu buttons |
