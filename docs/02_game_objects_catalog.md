@@ -195,7 +195,11 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 | **Maska kolizji** | 2 (wykrywa gracza) |
 | **Debug color** | Czerwony (1, 0, 0, 0.4) |
 
-**Zachowanie:** Gdy gracz wejdzie w obszar, następuje natychmiastowy restart poziomu.
+**Zachowanie:** Gdy gracz wejdzie w obszar:
+1. Wywołuje `body.die()` na graczu
+2. Gracz obraca się o 90° (położony na bok)
+3. Pojawia się czerwony przezroczysty overlay (30% opacity)
+4. Gracz musi przytrzymać R (0.8s) żeby zrestartować
 
 **Użycie:** Umieść pod kolcami, przepaściami, lub jako niewidzialną barierę śmierci.
 
@@ -334,3 +338,4 @@ enum PlatformSize {
 3. **Prosty model kolizji** - prostokąty, brak skomplikowanych kształtów
 4. **One-way platforms** - gracz może przeskakiwać od dołu
 5. **Modułowa architektura** - łatwe do instancjonowania prefaby
+6. **System śmierci** - `_is_dead` blokuje physics, `die()` dodaje animację (obrót 90°) i czerwony overlay

@@ -90,13 +90,36 @@ Gdy gracz wchodzi na poziom:
 
 ## Mechanika Śmierci
 
-**Jedyny sposób śmierci:** Spadnięcie poza dolną granicę świata (`WorldBoundaryShape2D`)
+### Sposoby śmierci:
+1. **Death Zone** - wejście w strefę śmierci (`Area2D`)
+2. **Spadnięcie** - poza dolną granicę świata (`WorldBoundaryShape2D`)
 
-**Proces restartu:**
-1. Pojawia się `RestartOverlay`
-2. Gracz musi przytrzymać `R` przez 0.8 sekundy
-3. Wyświetlany jest okrągły wskaźnik postępu
-4. Po 0.8s poziom się restartuje
+### Animacja śmierci (Death Zone):
+Gdy gracz wejdzie w `DeathZone`:
+1. Wywoływana jest funkcja `die()` na graczu
+2. `_is_dead = true` - blokuje `_physics_process`
+3. `velocity = Vector2.ZERO` - zatrzymanie ruchu
+4. `rotation_degrees = 90` - obrót postaci (położona na bok)
+5. Pojawia się czerwony przezroczysty overlay (30% opacity)
+6. Gracz musi przytrzymać `R` przez 0.8s żeby zrestartować
+
+### Stan śmierci gracza:
+```gdscript
+var _is_dead: bool = false
+
+func die() -> void:
+    if _is_dead:
+        return
+    _is_dead = true
+    velocity = Vector2.ZERO
+    rotation_degrees = 90
+    _show_death_overlay()  # Czerwony ekran
+```
+
+### Proces restartu:
+1. Gracz przytrzymuje `R`
+2. Wyświetlany jest okrągły wskaźnik postępu (`RestartOverlay`)
+3. Po 0.8s poziom się restartuje
 
 ---
 
