@@ -470,6 +470,7 @@ Uznajemy, że "core Godot project runtime" jest gotowy, gdy:
 - [x] Wybór poziomu (level select).
 - [x] Modal pauzy (Escape).
 - [x] Szybki restart (Hold R).
+- [x] Legenda klawiszy (tymczasowy overlay podczas gry pokazujący sterowanie).
 - [ ] Dotknięcie przeszkody powoduje śmierć i restart poziomu.
 - [ ] Zapis/odczyt postępu gracza do pliku.
 

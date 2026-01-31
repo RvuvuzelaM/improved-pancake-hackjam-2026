@@ -1,0 +1,135 @@
+[gd_scene load_steps=2 format=3 uid="uid://controls_legend_scene"]
+
+[ext_resource type="Script" path="res://scenes/ui/controls_legend.gd" id="1_script"]
+
+[node name="ControlsLegend" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_script")
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -220.0
+offset_right = 200.0
+offset_bottom = -20.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "STEROWANIE"
+horizontal_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Row1" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key1" type="Label" parent="Panel/MarginContainer/VBox/Row1"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "< >"
+
+[node name="Desc1" type="Label" parent="Panel/MarginContainer/VBox/Row1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Ruch"
+
+[node name="Row2" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key2" type="Label" parent="Panel/MarginContainer/VBox/Row2"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "SPACE"
+
+[node name="Desc2" type="Label" parent="Panel/MarginContainer/VBox/Row2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Skok"
+
+[node name="Row3" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key3" type="Label" parent="Panel/MarginContainer/VBox/Row3"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "W"
+
+[node name="Desc3" type="Label" parent="Panel/MarginContainer/VBox/Row3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Podwojny skok"
+
+[node name="Row4" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key4" type="Label" parent="Panel/MarginContainer/VBox/Row4"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Q + D"
+
+[node name="Desc4" type="Label" parent="Panel/MarginContainer/VBox/Row4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Dash"
+
+[node name="Row5" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key5" type="Label" parent="Panel/MarginContainer/VBox/Row5"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "R"
+
+[node name="Desc5" type="Label" parent="Panel/MarginContainer/VBox/Row5"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Restart (hold)"
+
+[node name="Row6" type="HBoxContainer" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="Key6" type="Label" parent="Panel/MarginContainer/VBox/Row6"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "ESC"
+
+[node name="Desc6" type="Label" parent="Panel/MarginContainer/VBox/Row6"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Pauza"
+
+[node name="HideHint" type="Label" parent="Panel/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "[H] ukryj"
+horizontal_alignment = 1
