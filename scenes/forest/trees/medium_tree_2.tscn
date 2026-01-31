@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bapdr41il1dti"]
+[gd_scene load_steps=7 format=4 uid="uid://bapdr41il1dti"]
 
 [ext_resource type="Texture2D" uid="uid://i23gfa1urp1s" path="res://assets/tilemap/forest/tilemap_packed.png" id="1_8jy5e"]
 
@@ -239,9 +239,6 @@ size = Vector2(49, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjhdb"]
 size = Vector2(30, 5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y1b1t"]
-size = Vector2(50, 68)
-
 [node name="medium_tree_2" type="TileMapLayer"]
 tile_map_data = PackedByteArray("AAAAAPv/AAARAAQAAAD///v/AAARAAIAAAD///r/AAARAAEAAAAAAPr/AAASAAEAAAABAPr/AAATAAEAAAABAPv/AAATAAIAAAD///n/AAARAAEAAAAAAPn/AAASAAEAAAABAPn/AAATAAEAAAD///j/AAARAAAAAAAAAPj/AAASAAAAAAABAPj/AAATAAAAAAAAAAUAAAARAAYAAAAAAAMAAAAQAAQAAAAAAAQAAAASAAYAAAAAAAIAAAAQAAUAAAAAAAEAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAP//AAAQAAUAAAAAAP7/AAAQAAUAAAAAAP3/AAASAAYAAAAAAPz/AAAQAAUAAAD//wAAAAATAAQAAAD+/wAAAAATAAUAAAD9/wAAAAASAAQAAAABAP3/AAATAAQAAAACAP3/AAATAAUAAAADAP3/AAATAAYAAAABAAQAAAATAAUAAAACAAQAAAATAAYAAAA=")
 tile_set = SubResource("TileSet_5fopf")
@@ -265,9 +262,3 @@ position = Vector2(38, -66)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="branch3"]
 position = Vector2(-11, 142.5)
 shape = SubResource("RectangleShape2D_fjhdb")
-
-[node name="crown" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="crown"]
-position = Vector2(9, -108)
-shape = SubResource("RectangleShape2D_y1b1t")

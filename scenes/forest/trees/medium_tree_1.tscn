@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://cd75hqm2lelnp"]
+[gd_scene load_steps=5 format=4 uid="uid://cd75hqm2lelnp"]
 
 [ext_resource type="Texture2D" uid="uid://i23gfa1urp1s" path="res://assets/tilemap/forest/tilemap_packed.png" id="1_la6dw"]
 
@@ -233,9 +233,6 @@ sources/0 = SubResource("TileSetAtlasSource_munfk")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70iuw"]
 size = Vector2(30, 7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnp1c"]
-size = Vector2(51, 69)
-
 [node name="medium_tree_1" type="TileMapLayer"]
 tile_map_data = PackedByteArray("AAAAAP//AAAQAAUAAAAAAP7/AAARAAUAAAD///7/AAATAAUAAAD+//7/AAASAAUAAAABAP7/AAATAAYAAAAAAP3/AAASAAYAAAAAAPz/AAARAAYAAAAAAPv/AAARAAQAAAD///v/AAARAAIAAAD///r/AAARAAEAAAAAAPr/AAASAAEAAAABAPr/AAATAAEAAAABAPv/AAATAAIAAAD///n/AAARAAEAAAAAAPn/AAASAAEAAAABAPn/AAATAAEAAAD///j/AAARAAAAAAAAAPj/AAASAAAAAAABAPj/AAATAAAAAAAAAAAAAAAQAAUAAAAAAAEAAAARAAYAAAA=")
 tile_set = SubResource("TileSet_5fopf")
@@ -246,9 +243,3 @@ tile_set = SubResource("TileSet_5fopf")
 position = Vector2(-9, -31.5)
 shape = SubResource("RectangleShape2D_70iuw")
 one_way_collision = true
-
-[node name="crown" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="crown"]
-position = Vector2(8.5, -108.5)
-shape = SubResource("RectangleShape2D_mnp1c")

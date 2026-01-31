@@ -231,14 +231,14 @@ tile_size = Vector2i(18, 18)
 sources/0 = SubResource("TileSetAtlasSource_lcsu0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eat6q"]
-size = Vector2(49, 49)
+size = Vector2(48, 7)
 
 [node name="SmallTree" type="TileMapLayer"]
-tile_map_data = PackedByteArray("AAAAAP//AAARAAYAAAAAAP7/AAARAAQAAAD///7/AAARAAIAAAD///3/AAARAAEAAAD///z/AAARAAAAAAAAAPz/AAASAAAAAAABAPz/AAATAAAAAAABAP3/AAATAAEAAAABAP7/AAATAAIAAAAAAP3/AAASAAEAAAA=")
+tile_map_data = PackedByteArray("AAAAAP//AAASAAYAAAAAAP7/AAARAAQAAAD///7/AAARAAIAAAD///3/AAARAAEAAAD///z/AAARAAAAAAAAAPz/AAASAAAAAAABAPz/AAATAAAAAAABAP3/AAATAAEAAAABAP7/AAATAAIAAAAAAP3/AAASAAEAAAABAP//AAATAAUAAAACAP//AAATAAUAAAADAP//AAATAAYAAAA=")
 tile_set = SubResource("TileSet_ql36j")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(8.5, -45.5)
+position = Vector2(36, -13)
 shape = SubResource("RectangleShape2D_eat6q")
