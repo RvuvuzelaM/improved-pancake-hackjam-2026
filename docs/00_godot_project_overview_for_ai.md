@@ -238,6 +238,8 @@ Parametry ruchu gracza
 | `DASH_SPEED` | 400.0 | Prędkość dasza |
 | `DASH_DURATION` | 0.15s | Czas trwania dasza |
 | `DASH_COOLDOWN` | 0.5s | Cooldown między dashami |
+| `COYOTE_TIME_DURATION` | 0.15s | Czas na skok po opuszczeniu platformy |
+| `COYOTE_X_TOLERANCE` | 32.0px | Tolerancja pozioma dla coyote time |
 
 ### System masek (umiejętności)
 Gracz może przełączać maski, które dają różne zdolności:
@@ -618,6 +620,8 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `6f5271c` | Update documentation with shortcuts, timer and wall jump |
+| `c6894b0` | Add coyote jumping |
 | `c2cf4e4` | Add keyboard shortcuts to all menu buttons |
 | `bccccf1` | Fix timer tracking by moving it to player |
 | `ef154fc` | Add level timer with completion and death overlays |

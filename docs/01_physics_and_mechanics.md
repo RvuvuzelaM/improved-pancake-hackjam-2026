@@ -17,6 +17,8 @@ Ten dokument opisuje wszystkie parametry fizyczne i mechaniki ruchu gracza. Stan
 | `wall_slide_speed` | 20.0 | px/s | Prędkość ślizgania się po ścianie |
 | `wall_x_force` | 320.0 | jednostki | Siła odbicia od ściany (pozioma) |
 | `wall_y_force` | -400.0 | jednostki | Siła odbicia od ściany (pionowa) |
+| `COYOTE_TIME_DURATION` | 0.15 | sekundy | Czas na skok po opuszczeniu platformy |
+| `COYOTE_X_TOLERANCE` | 32.0 | px | Maksymalna odległość pozioma dla coyote time |
 
 **Plik źródłowy:** `scenes/player.gd`
 
@@ -32,6 +34,34 @@ Gracz może wyposażyć różne maski, które modyfikują jego zdolności:
 | Podwójny Skok | `Mask.DOUBLE_JUMP` | Pozwala na 2 skoki w powietrzu | Klawisz `W` |
 | Dash | `Mask.DASH` | Szybki ruch poziomy (400 px/s) | Klawisze `Q + D` |
 | Ledge Grab | `Mask.LEDGE_GRAB` | Chwytanie ścian + wall jump | Klawisz `E` |
+
+---
+
+## Coyote Time (Tolerancja Skoku)
+
+Mechanika pozwalająca graczowi skoczyć przez krótki czas po opuszczeniu platformy.
+
+### Parametry
+- `COYOTE_TIME_DURATION`: 0.15s - czas na wykonanie skoku
+- `COYOTE_X_TOLERANCE`: 32px - maksymalna odległość pozioma
+
+### Działanie
+1. Gracz opuszcza platformę (nie skacze, tylko schodzi/spada)
+2. Timer coyote time startuje (0.15s)
+3. Gracz może wykonać skok w powietrzu jakby był na ziemi
+4. Timer resetuje się jeśli gracz oddali się ponad 32px od krawędzi
+
+### Warunki aktywacji
+```gdscript
+if Input.is_action_just_pressed("character_jump"):
+    if is_on_floor() or coyote_time_timer > 0.0:
+        perform_jump()  # Skok dozwolony
+```
+
+### Korzyści
+- Bardziej intuicyjne sterowanie
+- Wybacza opóźnione reakcje gracza
+- Standard w nowoczesnych platformówkach
 
 ---
 
