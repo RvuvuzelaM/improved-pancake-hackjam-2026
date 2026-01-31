@@ -192,3 +192,22 @@ func _show_death_overlay() -> void:
 	overlay.color = Color(1, 0, 0, 0.3)
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(overlay)
+
+	var container = VBoxContainer.new()
+	container.set_anchors_preset(Control.PRESET_CENTER)
+	container.alignment = BoxContainer.ALIGNMENT_CENTER
+	canvas.add_child(container)
+
+	var title = Label.new()
+	title.text = "PORAZKA"
+	title.add_theme_font_size_override("font_size", 128)
+	title.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container.add_child(title)
+
+	var hint = Label.new()
+	hint.text = "[R] Restart    [ESC] Menu"
+	hint.add_theme_font_size_override("font_size", 32)
+	hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.8))
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container.add_child(hint)
