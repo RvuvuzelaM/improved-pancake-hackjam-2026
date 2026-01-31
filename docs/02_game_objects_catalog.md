@@ -198,7 +198,10 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 **Zachowanie:** Gdy gracz wejdzie w obszar:
 1. Wywołuje `body.die()` na graczu
 2. Gracz obraca się o 90° (położony na bok)
-3. Pojawia się czerwony przezroczysty overlay (30% opacity)
+3. Pojawia się ekran śmierci:
+   - Czerwone tło (30% opacity)
+   - Napis "PORAZKA" (128px)
+   - "[R] Restart    [ESC] Menu"
 4. Gracz musi przytrzymać R (0.8s) żeby zrestartować
 
 **Użycie:** Umieść pod kolcami, przepaściami, lub jako niewidzialną barierę śmierci.

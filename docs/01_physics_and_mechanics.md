@@ -100,7 +100,10 @@ Gdy gracz wejdzie w `DeathZone`:
 2. `_is_dead = true` - blokuje `_physics_process`
 3. `velocity = Vector2.ZERO` - zatrzymanie ruchu
 4. `rotation_degrees = 90` - obrót postaci (położona na bok)
-5. Pojawia się czerwony przezroczysty overlay (30% opacity)
+5. Pojawia się ekran śmierci:
+   - Czerwone przezroczyste tło (30% opacity)
+   - Napis "PORAZKA" (128px, czerwony)
+   - Instrukcje "[R] Restart    [ESC] Menu"
 6. Gracz musi przytrzymać `R` przez 0.8s żeby zrestartować
 
 ### Stan śmierci gracza:

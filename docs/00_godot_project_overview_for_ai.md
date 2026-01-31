@@ -415,8 +415,13 @@ func die() -> void:
     _is_dead = true
     velocity = Vector2.ZERO
     rotation_degrees = 90
-    _show_death_overlay()  # Czerwony przezroczysty ekran (30% opacity)
+    _show_death_overlay()  # Czerwony ekran + "PORAZKA" + instrukcje
 ```
+
+### Ekran śmierci
+- Czerwone przezroczyste tło (30% opacity)
+- Napis "PORAZKA" (128px, czerwony)
+- Instrukcje "[R] Restart    [ESC] Menu" (32px, biały)
 
 ⸻
 
@@ -504,7 +509,10 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
-| `e5caed4` | Add death system with DeathZone and player death mechanics |
+| `536f405` | Add death screen with PORAZKA title and restart hints |
+| `f5cb3c5` | Update documentation with death system details |
+| `d86e8a2` | Add death system with DeathZone and player death mechanics |
+| `8d6dbde` | Adds collectible items |
 | `a40d085` | Add controls_legend script UID file |
 | `12c0697` | Double controls legend size |
 | `21862fb` | Add controls legend overlay in bottom-left corner |
