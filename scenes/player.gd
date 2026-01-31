@@ -9,6 +9,11 @@ var max_jump_count := 2
 enum Mask {NONE, DOUBLE_JUMP}
 var equipped_mask := Mask.NONE
 
+
+func _ready():
+	add_to_group("player")
+
+
 func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
 	handle_jump_input()
@@ -45,5 +50,5 @@ func handle_horizontal_movement() -> void:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-	
+
 	move_and_slide()
