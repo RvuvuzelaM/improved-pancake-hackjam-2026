@@ -1,43 +1,39 @@
 extends CharacterBody2D
 
-const SPEED := 400.0
+@export var SPEED := 300.0
+@export var BASE_JUMP_VELOCITY := -500.0
 
-const BASE_JUMP_VELOCITY := -550.0
-const EXTRA_JUMP_FORCE := -700.0   # total additional upward force
-const MAX_JUMP_HOLD_TIME := 0.6    # seconds
-
-var jump_hold_time := 0.0
-var is_jumping := false
+var jump_count := 0
+var max_jump_count := 2
 
 func _physics_process(delta: float) -> void:
-	# Gravity
+	apply_gravity(delta)
+	handle_jump_input()
+	handle_horizontal_movement()
+
+
+func apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	else:
-		# Reset jump state when grounded
-		is_jumping = false
-		jump_hold_time = 0.0
+		jump_count = 0
 
-	# Jump start
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = BASE_JUMP_VELOCITY
-		is_jumping = true
-		jump_hold_time = 0.0
+func handle_jump_input() -> void:
+	if Input.is_action_just_pressed("character_jump"):
+		if is_on_floor():
+			perform_jump()
+		elif jump_count < max_jump_count:
+			perform_jump()
 
-	# Variable jump height
-	if is_jumping and Input.is_action_pressed("ui_accept"):
-		if jump_hold_time < MAX_JUMP_HOLD_TIME:
-			var t := jump_hold_time / MAX_JUMP_HOLD_TIME
-			velocity.y += EXTRA_JUMP_FORCE * delta * (1.0 - t)
-			jump_hold_time += delta
-	else:
-		is_jumping = false
+func perform_jump() -> void:
+	velocity.y = BASE_JUMP_VELOCITY
+	jump_count += 1
 
-	# Horizontal movement
-	var direction := Input.get_axis("ui_left", "ui_right")
+func handle_horizontal_movement() -> void:
+	var direction := Input.get_axis("character_left", "character_right")
 	if direction != 0.0:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	
 	move_and_slide()
