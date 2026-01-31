@@ -39,7 +39,7 @@ improved-pancake-hackjam-2026/
 │   ├── player.gd           # Skrypt ruchu gracza
 │   └── floor.tscn          # Podłoże (WorldBoundaryShape2D)
 ├── docs/                   # Dokumentacja projektu
-├── claude/commands/        # Komendy Claude Code
+├── .claude/commands/       # Komendy Claude Code
 ├── project.godot           # Konfiguracja projektu
 └── icon.svg                # Ikona projektu
 ```
@@ -344,7 +344,7 @@ SceneManager.change_scene() → scene_loaded signal
         ↓                           │
    player_landed signal ────────────┘
         ↓                           ↓
-   Restore opacity             LevelIntro: fade out (lub po 5s)
+   Restore opacity             LevelIntro: fade out (lub po 2.5s)
 ```
 
 ### Struktura level_intro.tscn
@@ -354,8 +354,8 @@ LevelIntro (CanvasLayer) [layer = 15]
     ├── Background (ColorRect) [alpha 0.3]
     └── ContentBox (VBoxContainer) [bottom-center]
         ├── AccentBar (ColorRect) [6px, level color]
-        ├── LevelName (Label) [font_size=48]
-        └── LevelID (Label) [font_size=24, gray]
+        ├── LevelName (Label) [font_size=144]
+        └── LevelID (Label) [font_size=72, gray]
 ```
 
 ### Parametry entry mode (player.gd)
@@ -478,8 +478,12 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `ed3281e` | Update documentation with BaseLevel inheritance and font system |
 | `73ac923` | Add Kenney Pixel font and increase UI text sizes |
 | `0bd4613` | Refactor levels to use BaseLevel inheritance |
+| `3111703` | Merge branch 'main' |
+| `794aaf1` | Update documentation with forest prefabs and latest changes |
+| `9d55d98` | 1-2 lvl |
 | `4557323` | 1-2 lvl |
 | `12cd4a1` | Reusable trees and platforms |
 | `8ddc81d` | Update documentation with level intro and dash systems |
