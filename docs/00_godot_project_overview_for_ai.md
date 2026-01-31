@@ -32,9 +32,10 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn)
-│   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn)
-│   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, procedural_level.tscn, zoo.tscn)
+│   ├── chunks/             # Chunki do generatora poziomów (w trakcie rozwoju)
+│   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn, ability_pickup.tscn)
+│   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro, ability_widget, controls_legend)
 │   ├── player.tscn         # Scena gracza
 │   ├── player.gd           # Skrypt ruchu gracza
 │   └── floor.tscn          # Podłoże (WorldBoundaryShape2D)
@@ -59,7 +60,11 @@ Główne sceny i ich rola
 | `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" (extends base_level) |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
+| `scenes/levels/procedural_level.tscn` | Node2D | Poziom proceduralny (generator) |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
+| `scenes/objects/ability_pickup.tscn` | Area2D | Pickup zbieralnej zdolności |
+| `scenes/ui/ability_widget.tscn` | CanvasLayer | Widget pokazujący aktywną zdolność |
+| `scenes/ui/controls_legend.tscn` | CanvasLayer | Legenda sterowania (toggle: H) |
 | `scenes/forest/*.tscn` | Node2D/StaticBody2D | Prefaby środowiska (platformy, drzewa, tło) |
 | `scenes/player.tscn` | CharacterBody2D | Scena gracza z AnimatedSprite2D i CollisionShape2D |
 | `scenes/floor.tscn` | StaticBody2D | Nieskończone podłoże (WorldBoundaryShape2D) |
@@ -415,8 +420,72 @@ func die() -> void:
     _is_dead = true
     velocity = Vector2.ZERO
     rotation_degrees = 90
-    _show_death_overlay()  # Czerwony przezroczysty ekran (30% opacity)
+    _show_death_overlay()  # Czerwony ekran + "PORAZKA" + instrukcje
 ```
+
+### Ekran śmierci
+- Czerwone przezroczyste tło (30% opacity)
+- Napis "PORAZKA" (128px, czerwony)
+- Instrukcje "[R] Restart    [ESC] Menu" (32px, biały)
+
+⸻
+
+Ability Pickup (zbieralne zdolności)
+
+- **Scena:** `scenes/objects/ability_pickup.tscn`
+- **Typ:** Area2D z CollisionShape2D
+- **Działanie:** Gracz dotyka pickup → odblokowanie zdolności w GameData
+
+### Struktura ability_pickup.tscn
+```
+AbilityPickup (Area2D) [collision_layer=0, collision_mask=2]
+├── Sprite2D          # Ikona zdolności
+└── CollisionShape2D
+```
+
+### Parametry eksportowane
+```gdscript
+@export var ability_id: String = "d-jump"  # "d-jump", "dash", "ledge-grab"
+```
+
+### Mechanizm
+1. Przy wejściu sprawdza czy gracz ma już zdolność (`GameData.has_ability()`)
+2. Jeśli nie → pokazuje pickup
+3. Po dotknięciu → `GameData.unlock_ability(ability_id)`
+4. Pickup znika (ukryty, collision disabled)
+
+⸻
+
+Ability Widget (tracker aktywnej zdolności)
+
+- **Scena:** `scenes/ui/ability_widget.tscn`
+- **Typ:** CanvasLayer z ikonami zdolności
+- **Działanie:** Pokazuje którą zdolność gracz ma aktywną (podświetlenie)
+
+### Mechanizm
+- Nasłuchuje sygnału `player.mask_changed`
+- Aktywna zdolność: opacity 1.0, brightness 1.0
+- Nieaktywne: opacity 0.3, brightness 0.5
+
+⸻
+
+Controls Legend (legenda sterowania)
+
+- **Scena:** `scenes/ui/controls_legend.tscn`
+- **Typ:** CanvasLayer (warstwa 5)
+- **Pozycja:** Lewy dolny róg
+- **Toggle:** Klawisz `H`
+
+### Aktualne klawisze
+| Klawisz | Akcja |
+|---------|-------|
+| `< >` | Ruch |
+| `SPACE` | Skok |
+| `W` | Podwójny skok (maska) |
+| `Q + D` | Dash (maska + akcja) |
+| `E` | Ledge grab (maska) |
+| `R` | Restart (hold) |
+| `ESC` | Pauza |
 
 ⸻
 
@@ -504,7 +573,16 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
-| `e5caed4` | Add death system with DeathZone and player death mechanics |
+| `1307d44` | Add ledge grab to controls legend |
+| `0941bb9` | Update documentation with death screen details |
+| `5288aed` | Add death screen with PORAZKA title and restart hints |
+| `14e68b5` | Merge remote-tracking branch 'origin/main' |
+| `04eb902` | Active ability tracker |
+| `7716aa9` | Merge branch 'main' |
+| `6398f33` | 1-2 level |
+| `f5cb3c5` | Update documentation with death system details |
+| `d86e8a2` | Add death system with DeathZone and player death mechanics |
+| `8d6dbde` | Adds collectible items |
 | `a40d085` | Add controls_legend script UID file |
 | `12c0697` | Double controls legend size |
 | `21862fb` | Add controls legend overlay in bottom-left corner |

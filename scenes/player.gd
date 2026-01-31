@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal player_landed
+signal mask_changed(new_mask: int)
 
 @export var SPEED := 120.0
 @export var BASE_JUMP_VELOCITY := -370.0
@@ -17,7 +18,7 @@ var dash_cooldown_timer := 0.0
 var dash_direction := 0.0
 var last_facing_direction := 1.0
 
-enum Mask {NONE, DOUBLE_JUMP, DASH}
+enum Mask {NONE, DOUBLE_JUMP, DASH, LEDGE_GRAB}
 var equipped_mask := Mask.NONE
 
 # Entry mode state
@@ -72,15 +73,23 @@ func _input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("switch_mask_none"):
 		print("Picked mask: NONE")
-		equipped_mask = Mask.NONE
+		_set_mask(Mask.NONE)
 	if event.is_action_pressed("switch_mask_double_jump"):
 		print("Picked mask: DOUBLE_JUMP")
-		equipped_mask = Mask.DOUBLE_JUMP
+		_set_mask(Mask.DOUBLE_JUMP)
 	if event.is_action_pressed("switch_mask_dash"):
 		print("Picked mask: DASH")
-		equipped_mask = Mask.DASH
+		_set_mask(Mask.DASH)
+	if event.is_action_pressed("switch_mask_ledge_grab"):
+		print("Picked mask: LEDGE_GRAB")
+		_set_mask(Mask.LEDGE_GRAB)
 	if event.is_action_pressed("dash"):
 		handle_dash_input()
+
+
+func _set_mask(new_mask: Mask) -> void:
+	equipped_mask = new_mask
+	emit_signal("mask_changed", new_mask)
 
 
 func handle_dash_input() -> void:
@@ -183,3 +192,22 @@ func _show_death_overlay() -> void:
 	overlay.color = Color(1, 0, 0, 0.3)
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(overlay)
+
+	var container = VBoxContainer.new()
+	container.set_anchors_preset(Control.PRESET_CENTER)
+	container.alignment = BoxContainer.ALIGNMENT_CENTER
+	canvas.add_child(container)
+
+	var title = Label.new()
+	title.text = "PORAZKA"
+	title.add_theme_font_size_override("font_size", 128)
+	title.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container.add_child(title)
+
+	var hint = Label.new()
+	hint.text = "[R] Restart    [ESC] Menu"
+	hint.add_theme_font_size_override("font_size", 32)
+	hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.8))
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container.add_child(hint)
