@@ -11,8 +11,12 @@ z_index = 5
 position = Vector2(175, 401)
 scale = Vector2(4.28, 4.28)
 
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2(0.70093536, -0.46728516)
+scale = Vector2(0.23364486, 0.23364486)
+
 [node name="background" type="Sprite2D" parent="."]
-position = Vector2(584.8333, 329.99997)
+position = Vector2(585.8334, 330)
 scale = Vector2(0.17786458, 0.17666665)
 texture = ExtResource("1_bdac8")
 
