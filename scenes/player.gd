@@ -208,6 +208,11 @@ func handle_horizontal_movement() -> void:
 
 	move_and_slide()
 
+func _get_level() -> Node:
+	var levels = get_tree().get_nodes_in_group("level")
+	if levels.size() > 0:
+		return levels[0]
+	return null
 
 func wall_logic():
 	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0:
@@ -233,10 +238,20 @@ func die() -> void:
 	_is_dead = true
 	velocity = Vector2.ZERO
 	rotation_degrees = 90
-	_show_death_overlay()
+
+	# Get elapsed time from level and stop timer
+	var elapsed_time := 0.0
+	var level = _get_level()
+	if level:
+		level.stop_timer()
+		elapsed_time = level.get_elapsed_time()
+
+	_show_death_overlay(elapsed_time)
 
 
-func _show_death_overlay() -> void:
+
+
+func _show_death_overlay(elapsed_time: float = 0.0) -> void:
 	var canvas = CanvasLayer.new()
 	canvas.layer = 100
 	add_child(canvas)
@@ -258,9 +273,24 @@ func _show_death_overlay() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	container.add_child(title)
 
+	# Show elapsed time
+	var time_label = Label.new()
+	time_label.text = _format_time(elapsed_time)
+	time_label.add_theme_font_size_override("font_size", 64)
+	time_label.add_theme_color_override("font_color", Color(1, 1, 1))
+	time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container.add_child(time_label)
+
 	var hint = Label.new()
 	hint.text = "[R] Restart    [ESC] Menu"
 	hint.add_theme_font_size_override("font_size", 32)
 	hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.8))
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	container.add_child(hint)
+
+
+func _format_time(time: float) -> String:
+	var minutes := int(time) / 60
+	var seconds := int(time) % 60
+	var milliseconds := int((time - int(time)) * 100)
+	return "%02d:%02d.%02d" % [minutes, seconds, milliseconds]
