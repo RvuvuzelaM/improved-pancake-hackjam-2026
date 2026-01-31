@@ -161,8 +161,10 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 **Parametry eksportowane:**
 ```gdscript
-@export var target_level: String  # np. "1-2"
+@export var target_level: String  # np. "1-2" - ustawiane przez base_level.gd
 ```
+
+**Pozycjonowanie:** Designer ustawia pozycję LevelTrigger ręcznie w edytorze Godot (przeciągając node w scenie).
 
 **Zachowanie:** Gdy gracz wejdzie w obszar, następuje przejście do `target_level`.
 
