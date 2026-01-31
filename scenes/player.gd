@@ -3,6 +3,8 @@ extends CharacterBody2D
 signal player_landed
 signal mask_changed(new_mask: int)
 
+@onready var animated_sprite = $AnimatedSprite2D2
+
 @export var SPEED := 120.0
 @export var BASE_JUMP_VELOCITY := -370.0
 @export var DASH_SPEED := 400.0
@@ -62,6 +64,8 @@ func _physics_process(delta: float) -> void:
 	apply_gravity(delta)
 	handle_jump_input()
 	handle_horizontal_movement()
+
+	update_animation()
 
 	if _entry_mode and is_on_floor():
 		_complete_entry()
@@ -153,6 +157,23 @@ func start_dash() -> void:
 	velocity.y = 0.0
 	is_dashing = true
 	dash_timer = DASH_DURATION
+
+func update_animation() -> void:
+	# 1) Face left/right (flip the sprite)
+	if velocity.x != 0.0:
+		animated_sprite.flip_h = (velocity.x < 0.0) # left => flipped, right => normal [web:4]
+
+	# 2) Pick animation from movement state
+	if not is_on_floor():
+		if velocity.y < 0.0:
+			animated_sprite.play("jump") # plays animation by name [web:7]
+		else:
+			animated_sprite.play("fall") # plays animation by name [web:7]
+	else:
+		if abs(velocity.x) > 1.0:
+			animated_sprite.play("run") # plays animation by name [web:7]
+		else:
+			animated_sprite.play("idle") # plays animation by name [web:7]
 
 
 func handle_horizontal_movement() -> void:
