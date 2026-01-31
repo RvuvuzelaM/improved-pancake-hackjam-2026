@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ability_widget_scene"]
+[gd_scene load_steps=2 format=3 uid="uid://dj6ggoot3xvyn"]
 
-[ext_resource type="Script" path="res://scenes/ui/ability_widget.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dnrp3h4dy558" path="res://scenes/ui/ability_widget.gd" id="1_script"]
 
 [node name="AbilityWidget" type="CanvasLayer"]
 layer = 5
@@ -22,29 +22,6 @@ layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="DoubleJumpIcon" type="ColorRect" parent="Panel/HBox"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-color = Color(0.2, 0.6, 1, 1)
-
-[node name="DoubleJumpLabel" type="Label" parent="Panel/HBox/DoubleJumpIcon"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -12.0
-offset_right = 10.0
-offset_bottom = 12.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 18
-text = "W"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="DashIcon" type="ColorRect" parent="Panel/HBox"]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -65,6 +42,29 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 18
 text = "Q"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DoubleJumpIcon" type="ColorRect" parent="Panel/HBox"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.2, 0.6, 1, 1)
+
+[node name="DoubleJumpLabel" type="Label" parent="Panel/HBox/DoubleJumpIcon"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -12.0
+offset_right = 10.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "W"
 horizontal_alignment = 1
 vertical_alignment = 1
 

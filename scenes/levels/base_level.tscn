@@ -1,12 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://base_level_scene"]
+[gd_scene load_steps=8 format=3 uid="uid://dhoiulmgktiax"]
 
-[ext_resource type="Script" path="res://scenes/levels/base_level.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://b3fgjor17xe2x" path="res://scenes/levels/base_level.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/objects/level_trigger.tscn" id="3_trigger"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="4_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="5_restart"]
-[ext_resource type="PackedScene" uid="uid://controls_legend_scene" path="res://scenes/ui/controls_legend.tscn" id="6_legend"]
-[ext_resource type="PackedScene" uid="uid://ability_widget_scene" path="res://scenes/ui/ability_widget.tscn" id="7_ability_widget"]
+[ext_resource type="PackedScene" path="res://scenes/ui/controls_legend.tscn" id="6_legend"]
+[ext_resource type="PackedScene" uid="uid://dj6ggoot3xvyn" path="res://scenes/ui/ability_widget.tscn" id="7_ability_widget"]
 
 [node name="BaseLevel" type="Node2D"]
 script = ExtResource("1_script")

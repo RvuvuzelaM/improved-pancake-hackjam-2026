@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@onready var double_jump_icon: ColorRect = $Panel/HBox/DoubleJumpIcon
 @onready var dash_icon: ColorRect = $Panel/HBox/DashIcon
+@onready var double_jump_icon: ColorRect = $Panel/HBox/DoubleJumpIcon
 @onready var ledge_grab_icon: ColorRect = $Panel/HBox/LedgeGrabIcon
 
 const ACTIVE_OPACITY: float = 1.0
@@ -36,16 +36,16 @@ func _update_display() -> void:
 	var current_mask = player.equipped_mask
 
 	# Reset all to inactive state
-	_set_icon_state(double_jump_icon, false)
 	_set_icon_state(dash_icon, false)
+	_set_icon_state(double_jump_icon, false)
 	_set_icon_state(ledge_grab_icon, false)
 
 	# Highlight the active ability
 	match current_mask:
-		1:  # DOUBLE_JUMP
-			_set_icon_state(double_jump_icon, true)
-		2:  # DASH
+		1:  # DASH
 			_set_icon_state(dash_icon, true)
+		2:  # DOUBLE_JUMP
+			_set_icon_state(double_jump_icon, true)
 		3:  # LEDGE_GRAB
 			_set_icon_state(ledge_grab_icon, true)
 
