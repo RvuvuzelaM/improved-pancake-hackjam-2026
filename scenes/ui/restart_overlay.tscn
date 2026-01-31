@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://restart_overlay_scene"]
+
+[ext_resource type="Script" path="res://scenes/ui/restart_overlay.gd" id="1_script"]
+[ext_resource type="Script" path="res://scenes/ui/restart_circle.gd" id="2_circle"]
+
+[node name="RestartOverlay" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_script")
+
+[node name="CircleContainer" type="Control" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_circle")
