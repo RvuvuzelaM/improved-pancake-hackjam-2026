@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://0tduli1bfntm"]
+[gd_scene load_steps=5 format=3 uid="uid://0tduli1bfntm"]
 
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_lutau"]
 [ext_resource type="Texture2D" uid="uid://mvnru02yan6o" path="res://assets/ORS97Z0.jpg" id="2_irp0s"]
 [ext_resource type="PackedScene" uid="uid://camh4r5nmtgjd" path="res://scenes/floor.tscn" id="3_by813"]
+[ext_resource type="PackedScene" uid="uid://pause_modal_scene" path="res://scenes/ui/pause_modal.tscn" id="4_pause"]
 
 [node name="1-1" type="Node2D"]
 
@@ -22,3 +23,5 @@ texture = ExtResource("2_irp0s")
 
 [node name="floor" parent="." instance=ExtResource("3_by813")]
 position = Vector2(104, 813)
+
+[node name="PauseModal" parent="." instance=ExtResource("4_pause")]
