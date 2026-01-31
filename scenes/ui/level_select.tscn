@@ -48,27 +48,27 @@ theme_override_constants/v_separation = 20
 columns = 4
 
 [node name="Level1Button" type="Button" parent="VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "1-1"
 
 [node name="Level2Button" type="Button" parent="VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 disabled = true
 theme_override_font_sizes/font_size = 24
 text = "1-2"
 
 [node name="Level3Button" type="Button" parent="VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 disabled = true
 theme_override_font_sizes/font_size = 24
 text = "1-3"
 
 [node name="Level4Button" type="Button" parent="VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 disabled = true
 theme_override_font_sizes/font_size = 24

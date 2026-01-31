@@ -7,6 +7,9 @@ func _ready():
 	$Control/Panel/VBoxContainer/ResumeButton.pressed.connect(_on_resume)
 	$Control/Panel/VBoxContainer/RestartButton.pressed.connect(_on_restart)
 	$Control/Panel/VBoxContainer/MenuButton.pressed.connect(_on_menu)
+	$Control/Panel/VBoxContainer/ResumeButton.text = "[C] RESUME"
+	$Control/Panel/VBoxContainer/RestartButton.text = "[R] RESTART"
+	$Control/Panel/VBoxContainer/MenuButton.text = "[M] MENU"
 
 
 func _unhandled_input(event):
@@ -15,6 +18,15 @@ func _unhandled_input(event):
 			_on_resume()
 		else:
 			_show_pause()
+
+	if visible and event is InputEventKey and event.pressed and not event.echo:
+		match event.keycode:
+			KEY_C:
+				_on_resume()
+			KEY_R:
+				_on_restart()
+			KEY_M:
+				_on_menu()
 
 
 func _show_pause():
