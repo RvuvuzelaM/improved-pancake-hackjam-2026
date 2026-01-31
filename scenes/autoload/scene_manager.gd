@@ -18,7 +18,7 @@ func _ready():
 	color_rect.modulate.a = 0
 	transition_layer.add_child(color_rect)
 
-func change_scene(path: String, duration: float = 0.5):
+func change_scene(path: String, duration: float = 0.25):
 	var tween = create_tween()
 	tween.tween_property(color_rect, "modulate:a", 1.0, duration)
 	await tween.finished

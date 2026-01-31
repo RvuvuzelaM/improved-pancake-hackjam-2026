@@ -237,7 +237,7 @@ func get_elapsed_time() -> float:
 ### Real-time Timer UI
 - **Pozycja:** lewy górny róg (20, 20)
 - **Rozmiar czcionki:** 32px
-- **Kolor:** biały z czarnym cieniem
+- **Kolor:** czarny
 - **Warstwa:** CanvasLayer 50
 - **Aktualizacja:** co klatkę w `_physics_process()`
 

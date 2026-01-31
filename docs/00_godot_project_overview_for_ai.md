@@ -83,7 +83,9 @@ BaseLevel (Node2D) [script: base_level.gd]
 │   └── Camera2D       # Kamera (zoom 3x)
 ├── LevelTrigger       # Instancja level_trigger.tscn (pozycja ustawiana w edytorze)
 ├── PauseModal         # Instancja pause_modal.tscn
-└── RestartOverlay     # Instancja restart_overlay.tscn
+├── RestartOverlay     # Instancja restart_overlay.tscn
+├── ControlsLegend     # Instancja controls_legend.tscn
+└── AbilityWidget      # Instancja ability_widget.tscn
 
 @export var spawn_position: Vector2    # Pozycja spawn gracza
 @export var next_level: String         # ID następnego poziomu
@@ -150,6 +152,7 @@ Autoload (Singletons)
 ### SceneManager
 ```gdscript
 SceneManager.change_scene("res://scenes/levels/1-1.tscn")  # Fade out → zmiana → fade in
+# Domyślny czas tranzycji: 0.25s (fade in + fade out = 0.5s)
 
 # Sygnały
 signal transition_finished    # Emitowany po zakończeniu przejścia
@@ -468,16 +471,16 @@ func get_elapsed_time() -> float:
 ```
 
 ### Wyświetlanie czasu
-1. **Real-time UI** - timer w lewym górnym rogu (32px, biały z cieniem), aktualizowany co klatkę
+1. **Real-time UI** - timer w lewym górnym rogu (32px, czarny), aktualizowany co klatkę
 2. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA" (wycentrowany)
-3. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy (wycentrowany)
+3. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 1 sekundę (wycentrowany)
 
 ### Ekran ukończenia poziomu
 - Zielone przezroczyste tło (30% opacity)
 - Napis "UKONCZONO" (96px, zielony)
-- Nazwa poziomu "1-1 - First Steps" (48px, biały)
+- Nazwa poziomu "1-1 - First Steps" (48px, czarny)
 - Czas ukończenia (64px, biały)
-- Automatyczne przejście do następnego poziomu po 2s
+- Automatyczne przejście do następnego poziomu po 1s
 
 ⸻
 
@@ -624,6 +627,8 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `167522c` | Fix TileSet errors: remove out-of-bounds tile definitions |
+| `96f663e` | Improve UI readability: black text for timer and level name |
 | `3a9b861` | Fix LevelTrigger positioning - let designer set position in editor |
 | `7bfd46a` | Update documentation with real-time timer UI details |
 | `46ee746` | Add real-time timer UI and center overlay messages |
