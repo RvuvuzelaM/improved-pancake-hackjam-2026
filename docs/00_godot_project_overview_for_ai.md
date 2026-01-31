@@ -20,6 +20,8 @@ Struktura repo
 improved-pancake-hackjam-2026/
 ├── assets/
 │   ├── characters/         # Sprite'y postaci (creature-sheet.png)
+│   ├── fonts/              # Fonty (Kenney Pixel.ttf)
+│   ├── themes/             # Motywy UI (default_theme.tres)
 │   ├── tilemap/forest/     # Tilemapy (tilemap.png, tilemap-characters.png)
 │   └── tiles/forest/       # Pojedyncze kafelki
 ├── scenes/
@@ -30,7 +32,7 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (1-1.tscn, 1-2.tscn, zoo.tscn)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-2.tscn, zoo.tscn)
 │   ├── objects/            # Obiekty gry (level_trigger.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro)
 │   ├── player.tscn         # Scena gracza
@@ -53,8 +55,8 @@ Główne sceny i ich rola
 | `scenes/ui/pause_modal.tscn` | CanvasLayer | Modal pauzy (Escape) |
 | `scenes/ui/restart_overlay.tscn` | CanvasLayer | Hold-to-restart z wizualnym kołem |
 | `scenes/ui/level_intro.tscn` | CanvasLayer | Intro poziomu (nazwa + ID + kolor) |
-| `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" |
-| `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" |
+| `scenes/levels/base_level.tscn` | Node2D | Bazowa scena poziomu (dziedziczenie) |
+| `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
 | `scenes/forest/*.tscn` | Node2D/StaticBody2D | Prefaby środowiska (platformy, drzewa, tło) |
@@ -68,16 +70,31 @@ player (CharacterBody2D) [collision_layer=2]
 └── CollisionShape2D    # Kapsuła (radius: 9, height: 20)
 ```
 
-### Struktura poziomu 1-1.tscn
+### Struktura base_level.tscn (bazowa scena)
 ```
-1-1 (Node2D)
-├── player             # Instancja player.tscn (skala 4.28x)
-│   └── Camera2D       # Kamera podążająca za graczem
-├── background         # Tło (Sprite2D)
-├── floor              # Instancja floor.tscn
+BaseLevel (Node2D) [script: base_level.gd]
+├── player             # Instancja player.tscn (skala 1.2x)
+│   └── Camera2D       # Kamera (zoom 3x)
+├── LevelTrigger       # Instancja level_trigger.tscn
 ├── PauseModal         # Instancja pause_modal.tscn
-├── RestartOverlay     # Instancja restart_overlay.tscn
-└── LevelTrigger       # Trigger przejścia do 1-2
+└── RestartOverlay     # Instancja restart_overlay.tscn
+
+@export var spawn_position: Vector2    # Pozycja spawn gracza
+@export var trigger_position: Vector2  # Pozycja triggera
+@export var next_level: String         # ID następnego poziomu
+```
+
+### Struktura poziomu 1-2.tscn (dziedziczenie)
+```
+1-2 (Node2D) [extends base_level.tscn]
+│   spawn_position = (39, 835)
+│   trigger_position = (1085, 832)
+│   next_level = "1-3"
+├── [inherited: player, LevelTrigger, PauseModal, RestartOverlay]
+├── Background (TileMapLayer)   # Tło poziomu
+├── TileMapLayer               # Platformy
+├── StaticBody2D*              # Kolizje platform
+└── medium_tree_1              # Dekoracje
 ```
 
 ### Struktura main_menu.tscn
@@ -241,6 +258,14 @@ Fizyka
 | `2d/snap/snap_2d_transforms_to_pixel` | true |
 | `2d/snap/snap_2d_vertices_to_pixel` | true |
 
+### Globalny motyw UI
+| Ustawienie | Wartość |
+|------------|---------|
+| Font | Kenney Pixel.ttf |
+| Domyślny rozmiar | 24px |
+| Konfiguracja | `assets/themes/default_theme.tres` |
+| project.godot | `gui/theme/custom` |
+
 ⸻
 
 Warstwy kolizji
@@ -382,18 +407,27 @@ Lokalizacja logiki: `scenes/levels/1-1.tscn` → `player/Camera2D`
 
 Dodawanie nowych poziomów
 
-1. Skopiuj `scenes/levels/1-1.tscn` jako szablon
-2. Zmień nazwę na `X-Y.tscn` (np. `1-2.tscn`, `2-1.tscn`)
-3. Dostosuj:
-   - Pozycję spawn gracza
-   - Tło i podłoże/platformy
-   - Przeszkody i wrogów
-4. Zarejestruj poziom w `GameData`:
-   - Dodaj do słownika `levels`: `"1-3": "res://scenes/levels/1-3.tscn"`
+1. **Utwórz scenę dziedziczącą z `base_level.tscn`**
+   - Scene → New Inherited Scene → base_level.tscn
+   - Zapisz jako `X-Y.tscn` (np. `1-3.tscn`)
+
+2. **Ustaw @export wartości w inspektorze root node:**
+   - `spawn_position` - pozycja spawn gracza (np. Vector2(100, 500))
+   - `trigger_position` - pozycja triggera końca poziomu
+   - `next_level` - ID następnego poziomu (np. "1-4")
+
+3. **Dodaj level-specific content:**
+   - Background (TileMapLayer) - tło poziomu
+   - TileMapLayer - platformy
+   - StaticBody2D - kolizje platform
+   - Dekoracje (drzewa, etc.)
+
+4. **Zarejestruj poziom w `GameData`:**
+   - Dodaj do `levels`: `"1-3": "res://scenes/levels/1-3.tscn"`
    - Dodaj do `level_order`: `["1-1", "1-2", "1-3", ...]`
-5. Dodaj przycisk w `level_select.tscn`
-6. Upewnij się że `PauseModal` i `RestartOverlay` są w scenie
-7. Dodaj `LevelTrigger` na końcu poprzedniego poziomu z `target_level` ustawionym na nowy poziom
+   - Dodaj do `level_metadata`: `"1-3": {"name": "Level Name", "color": "#HEX"}`
+
+5. **Dodaj przycisk w `level_select.tscn`**
 
 ⸻
 
@@ -444,6 +478,8 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `73ac923` | Add Kenney Pixel font and increase UI text sizes |
+| `0bd4613` | Refactor levels to use BaseLevel inheritance |
 | `4557323` | 1-2 lvl |
 | `12cd4a1` | Reusable trees and platforms |
 | `8ddc81d` | Update documentation with level intro and dash systems |
