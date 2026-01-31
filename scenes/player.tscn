@@ -461,3 +461,10 @@ target_position = Vector2(-18, 0)
 
 [node name="RightRay" type="RayCast2D" parent="Raycasts"]
 target_position = Vector2(18, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+limit_left = 0
+limit_bottom = 1100
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
