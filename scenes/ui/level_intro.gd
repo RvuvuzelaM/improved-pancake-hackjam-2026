@@ -10,7 +10,7 @@ extends CanvasLayer
 const FADE_IN_DURATION: float = 0.4
 const FADE_OUT_DURATION: float = 0.5
 const BACKGROUND_ALPHA: float = 0.3
-const AUTO_HIDE_DELAY: float = 5.0
+const AUTO_HIDE_DELAY: float = 2.5
 
 var _player_ref: CharacterBody2D = null
 var _is_fading_out: bool = false
