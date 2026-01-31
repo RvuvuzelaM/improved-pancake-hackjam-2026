@@ -18,10 +18,6 @@ texture_region_size = Vector2i(24, 24)
 5:0/0 = 0
 6:0/0 = 0
 7:0/0 = 0
-8:0/0 = 0
-9:0/0 = 0
-10:0/0 = 0
-11:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -30,10 +26,6 @@ texture_region_size = Vector2i(24, 24)
 5:1/0 = 0
 6:1/0 = 0
 7:1/0 = 0
-8:1/0 = 0
-9:1/0 = 0
-10:1/0 = 0
-11:1/0 = 0
 0:2/0 = 0
 1:2/0 = 0
 2:2/0 = 0
@@ -42,22 +34,6 @@ texture_region_size = Vector2i(24, 24)
 5:2/0 = 0
 6:2/0 = 0
 7:2/0 = 0
-8:2/0 = 0
-9:2/0 = 0
-10:2/0 = 0
-11:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
-4:3/0 = 0
-5:3/0 = 0
-6:3/0 = 0
-7:3/0 = 0
-8:3/0 = 0
-9:3/0 = 0
-10:3/0 = 0
-11:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nnhaa"]
 texture = ExtResource("3_xl2p1")
@@ -115,8 +91,6 @@ texture_region_size = Vector2i(18, 18)
 17:0/0 = 0
 18:0/0 = 0
 19:0/0 = 0
-20:0/0 = 0
-21:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -137,8 +111,6 @@ texture_region_size = Vector2i(18, 18)
 17:1/0 = 0
 18:1/0 = 0
 19:1/0 = 0
-20:1/0 = 0
-21:1/0 = 0
 0:2/0 = 0
 1:2/0 = 0
 2:2/0 = 0
@@ -159,8 +131,6 @@ texture_region_size = Vector2i(18, 18)
 17:2/0 = 0
 18:2/0 = 0
 19:2/0 = 0
-20:2/0 = 0
-21:2/0 = 0
 0:3/0 = 0
 1:3/0 = 0
 2:3/0 = 0
@@ -181,8 +151,6 @@ texture_region_size = Vector2i(18, 18)
 17:3/0 = 0
 18:3/0 = 0
 19:3/0 = 0
-20:3/0 = 0
-21:3/0 = 0
 0:4/0 = 0
 1:4/0 = 0
 2:4/0 = 0
@@ -203,8 +171,6 @@ texture_region_size = Vector2i(18, 18)
 17:4/0 = 0
 18:4/0 = 0
 19:4/0 = 0
-20:4/0 = 0
-21:4/0 = 0
 0:5/0 = 0
 1:5/0 = 0
 2:5/0 = 0
@@ -225,8 +191,6 @@ texture_region_size = Vector2i(18, 18)
 17:5/0 = 0
 18:5/0 = 0
 19:5/0 = 0
-20:5/0 = 0
-21:5/0 = 0
 0:6/0 = 0
 1:6/0 = 0
 2:6/0 = 0
@@ -247,8 +211,6 @@ texture_region_size = Vector2i(18, 18)
 17:6/0 = 0
 18:6/0 = 0
 19:6/0 = 0
-20:6/0 = 0
-21:6/0 = 0
 0:7/0 = 0
 1:7/0 = 0
 2:7/0 = 0
@@ -269,8 +231,6 @@ texture_region_size = Vector2i(18, 18)
 17:7/0 = 0
 18:7/0 = 0
 19:7/0 = 0
-20:7/0 = 0
-21:7/0 = 0
 0:8/0 = 0
 1:8/0 = 0
 2:8/0 = 0
@@ -291,30 +251,6 @@ texture_region_size = Vector2i(18, 18)
 17:8/0 = 0
 18:8/0 = 0
 19:8/0 = 0
-20:8/0 = 0
-21:8/0 = 0
-0:9/0 = 0
-1:9/0 = 0
-2:9/0 = 0
-3:9/0 = 0
-4:9/0 = 0
-5:9/0 = 0
-6:9/0 = 0
-7:9/0 = 0
-8:9/0 = 0
-9:9/0 = 0
-10:9/0 = 0
-11:9/0 = 0
-12:9/0 = 0
-13:9/0 = 0
-14:9/0 = 0
-15:9/0 = 0
-16:9/0 = 0
-17:9/0 = 0
-18:9/0 = 0
-19:9/0 = 0
-20:9/0 = 0
-21:9/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_tsrir"]
 tile_size = Vector2i(18, 18)
@@ -327,6 +263,492 @@ size = Vector2(699, 4)
 size = Vector2(160, 3)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_by813"]
+[sub_resource type="Animation" id="Animation_o1maq"]
+resource_name = "up"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 218)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oqd17"]
+_data = {
+&"RESET": SubResource("Animation_10r0f"),
+&"up": SubResource("Animation_o1maq")
+}
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xds4x"]
+texture = ExtResource("4_td00t")
+texture_region_size = Vector2i(18, 18)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+16:0/0 = 0
+17:0/0 = 0
+18:0/0 = 0
+19:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+19:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+15:2/0 = 0
+16:2/0 = 0
+17:2/0 = 0
+18:2/0 = 0
+19:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+14:3/0 = 0
+15:3/0 = 0
+16:3/0 = 0
+17:3/0 = 0
+18:3/0 = 0
+19:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+16:4/0 = 0
+17:4/0 = 0
+18:4/0 = 0
+19:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+16:5/0 = 0
+17:5/0 = 0
+18:5/0 = 0
+19:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+16:7/0 = 0
+17:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+16:8/0 = 0
+17:8/0 = 0
+18:8/0 = 0
+19:8/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_cc4b1"]
+tile_size = Vector2i(18, 18)
+sources/0 = SubResource("TileSetAtlasSource_xds4x")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5roy0"]
+size = Vector2(141, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oqd17"]
+size = Vector2(53, 17)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_5roy0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_td00t"]
+size = Vector2(160, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1maq"]
+size = Vector2(177, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10r0f"]
+size = Vector2(123, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pig6i"]
+size = Vector2(13, 282.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0rdyb"]
+size = Vector2(70, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aeenu"]
+size = Vector2(52, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcfmt"]
+size = Vector2(184, 4)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_220im"]
+texture = ExtResource("4_td00t")
+texture_region_size = Vector2i(18, 18)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+16:0/0 = 0
+17:0/0 = 0
+18:0/0 = 0
+19:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+19:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+15:2/0 = 0
+16:2/0 = 0
+17:2/0 = 0
+18:2/0 = 0
+19:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+14:3/0 = 0
+15:3/0 = 0
+16:3/0 = 0
+17:3/0 = 0
+18:3/0 = 0
+19:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+16:4/0 = 0
+17:4/0 = 0
+18:4/0 = 0
+19:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+16:5/0 = 0
+17:5/0 = 0
+18:5/0 = 0
+19:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+16:7/0 = 0
+17:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+16:8/0 = 0
+17:8/0 = 0
+18:8/0 = 0
+19:8/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_xl2p1"]
+tile_size = Vector2i(18, 18)
+sources/0 = SubResource("TileSetAtlasSource_220im")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tcxak"]
+size = Vector2(15.5, 15.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_220im"]
+size = Vector2(51, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xl2p1"]
+size = Vector2(34, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3d66v"]
+size = Vector2(69, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vmc5"]
+size = Vector2(51, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_snhg0"]
+size = Vector2(86, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aa1pw"]
+size = Vector2(177, 5)
+
+[sub_resource type="Animation" id="Animation_pig6i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(855, 695)]
+}
+
+[sub_resource type="Animation" id="Animation_oqd17"]
+resource_name = "updown"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(855, 695), Vector2(855, 874)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0rdyb"]
+_data = {
+&"RESET": SubResource("Animation_pig6i"),
+&"updown": SubResource("Animation_oqd17")
+}
 
 [node name="1-1" instance=ExtResource("1_base")]
 spawn_position = Vector2(39, 835)
