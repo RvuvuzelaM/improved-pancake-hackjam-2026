@@ -25,6 +25,12 @@ var level_metadata: Dictionary = {
 # Odblokowane poziomy
 var unlocked_levels: Array[String] = ["1-1"]
 
+# Unlocked abilities - starts empty, player collects them during gameplay
+# Valid abilities: "d-jump", "dash", "ledge-grab"
+var unlocked_abilities: Array[String] = []
+
+signal ability_unlocked(ability_id: String)
+
 
 func get_current_level_path() -> String:
 	return get_level_path(current_level)
@@ -71,3 +77,18 @@ func get_level_name(level_id: String) -> String:
 func get_level_color(level_id: String) -> Color:
 	var hex = get_level_metadata(level_id).get("color", "#FFFFFF")
 	return Color.html(hex)
+
+
+# Ability management functions
+func has_ability(ability_id: String) -> bool:
+	return ability_id in unlocked_abilities
+
+
+func unlock_ability(ability_id: String) -> void:
+	if ability_id not in unlocked_abilities:
+		unlocked_abilities.append(ability_id)
+		ability_unlocked.emit(ability_id)
+
+
+func get_unlocked_abilities() -> Array[String]:
+	return unlocked_abilities

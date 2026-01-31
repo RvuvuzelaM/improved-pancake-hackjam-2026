@@ -33,7 +33,7 @@ improved-pancake-hackjam-2026/
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
 │   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn)
-│   ├── objects/            # Obiekty gry (level_trigger.tscn)
+│   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro)
 │   ├── player.tscn         # Scena gracza
 │   ├── player.gd           # Skrypt ruchu gracza
@@ -396,6 +396,30 @@ LevelTrigger (Area2D) [collision_layer=0, collision_mask=2]
 
 ⸻
 
+Death Zone (strefa śmierci)
+
+- **Scena:** `scenes/objects/death_zone.tscn`
+- **Typ:** Area2D z CollisionShape2D (64x16)
+- **Działanie:** Gracz wchodzi w strefę → `die()` → obrót 90° + czerwony overlay
+- **Restart:** Gracz musi przytrzymać R (0.8s) żeby zrestartować
+
+### Struktura death_zone.tscn
+```
+DeathZone (Area2D) [collision_layer=0, collision_mask=2]
+└── CollisionShape2D    # RectangleShape2D (64x16), debug_color czerwony
+```
+
+### Mechanizm śmierci gracza (player.gd)
+```gdscript
+func die() -> void:
+    _is_dead = true
+    velocity = Vector2.ZERO
+    rotation_degrees = 90
+    _show_death_overlay()  # Czerwony przezroczysty ekran (30% opacity)
+```
+
+⸻
+
 Kamera
 
 **Model: Follow (podążająca)**
@@ -471,7 +495,7 @@ Uznajemy, że "core Godot project runtime" jest gotowy, gdy:
 - [x] Modal pauzy (Escape).
 - [x] Szybki restart (Hold R).
 - [x] Legenda klawiszy (tymczasowy overlay podczas gry pokazujący sterowanie).
-- [ ] Dotknięcie przeszkody powoduje śmierć i restart poziomu.
+- [x] Dotknięcie przeszkody powoduje śmierć i restart poziomu (DeathZone + die()).
 - [ ] Zapis/odczyt postępu gracza do pliku.
 
 ⸻
@@ -480,6 +504,11 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `e5caed4` | Add death system with DeathZone and player death mechanics |
+| `a40d085` | Add controls_legend script UID file |
+| `12c0697` | Double controls legend size |
+| `21862fb` | Add controls legend overlay in bottom-left corner |
+| `e313197` | Update documentation with new input bindings |
 | `32efd1a` | Merge remote-tracking branch 'origin/main' |
 | `16e89b9` | Improved collisions for trees |
 | `8a0528e` | Add dash in flight handling |
