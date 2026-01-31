@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://0tduli1bfntm"]
+[gd_scene load_steps=7 format=3 uid="uid://0tduli1bfntm"]
 
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_lutau"]
 [ext_resource type="Texture2D" uid="uid://mvnru02yan6o" path="res://assets/ORS97Z0.jpg" id="2_irp0s"]
 [ext_resource type="PackedScene" uid="uid://camh4r5nmtgjd" path="res://scenes/floor.tscn" id="3_by813"]
-[ext_resource type="PackedScene" uid="uid://pause_modal_scene" path="res://scenes/ui/pause_modal.tscn" id="4_pause"]
-[ext_resource type="PackedScene" uid="uid://restart_overlay_scene" path="res://scenes/ui/restart_overlay.tscn" id="5_restart"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="4_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="5_restart"]
+[ext_resource type="PackedScene" path="res://scenes/objects/level_trigger.tscn" id="6_trigger"]
 
 [node name="1-1" type="Node2D"]
 
@@ -28,3 +29,7 @@ position = Vector2(104, 813)
 [node name="PauseModal" parent="." instance=ExtResource("4_pause")]
 
 [node name="RestartOverlay" parent="." instance=ExtResource("5_restart")]
+
+[node name="LevelTrigger" parent="." instance=ExtResource("6_trigger")]
+position = Vector2(1884, 804)
+target_level = "1-2"
