@@ -31,6 +31,10 @@ const ENTRY_DROP_HEIGHT: float = 200.0
 # Death state
 var _is_dead: bool = false
 
+# Timer tracking (in player for reliability)
+var elapsed_time: float = 0.0
+var _timer_running: bool = false
+
 @export_category("Wall jump variable")
 @onready var left_ray: RayCast2D = $Raycasts/LeftRay
 @onready var right_ray: RayCast2D = $Raycasts/RightRay
@@ -61,11 +65,17 @@ func _complete_entry() -> void:
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 1.0, 0.3)
 	emit_signal("player_landed")
+	# Start timer when player lands
+	_start_timer()
 
 
 func _physics_process(delta: float) -> void:
 	if _is_dead:
 		return
+
+	# Update timer
+	if _timer_running:
+		elapsed_time += delta
 
 	update_dash_timers(delta)
 	apply_gravity(delta)
@@ -77,6 +87,9 @@ func _physics_process(delta: float) -> void:
 
 	if _entry_mode and is_on_floor():
 		_complete_entry()
+	elif not _entry_mode and not _timer_running and not _is_dead:
+		# Fallback: start timer if no entry mode (e.g., direct scene load)
+		_start_timer()
 
 
 func _input(event: InputEvent) -> void:
@@ -208,11 +221,16 @@ func handle_horizontal_movement() -> void:
 
 	move_and_slide()
 
-func _get_level() -> Node:
-	var levels = get_tree().get_nodes_in_group("level")
-	if levels.size() > 0:
-		return levels[0]
-	return null
+func _start_timer() -> void:
+	_timer_running = true
+
+
+func stop_timer() -> void:
+	_timer_running = false
+
+
+func get_elapsed_time() -> float:
+	return elapsed_time
 
 func wall_logic():
 	if equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0:
@@ -239,13 +257,8 @@ func die() -> void:
 	velocity = Vector2.ZERO
 	rotation_degrees = 90
 
-	# Get elapsed time from level and stop timer
-	var elapsed_time := 0.0
-	var level = _get_level()
-	if level:
-		level.stop_timer()
-		elapsed_time = level.get_elapsed_time()
-
+	# Stop timer and get elapsed time
+	stop_timer()
 	_show_death_overlay(elapsed_time)
 
 

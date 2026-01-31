@@ -23,12 +23,9 @@ func _show_completion_overlay(player: Node) -> void:
 	player.velocity = Vector2.ZERO
 	player.set_physics_process(false)
 
-	# Get elapsed time from level
-	var elapsed_time := 0.0
-	var level = _get_level()
-	if level:
-		level.stop_timer()
-		elapsed_time = level.get_elapsed_time()
+	# Get elapsed time from player
+	player.stop_timer()
+	var elapsed_time: float = player.get_elapsed_time()
 
 	# Get current level info (the one we're completing)
 	var current_level_id = GameData.current_level
@@ -76,13 +73,6 @@ func _show_completion_overlay(player: Node) -> void:
 	GameData.set_current_level(target_level)
 	GameData.unlock_level(target_level)
 	SceneManager.change_scene(GameData.get_level_path(target_level))
-
-
-func _get_level() -> Node:
-	var levels = get_tree().get_nodes_in_group("level")
-	if levels.size() > 0:
-		return levels[0]
-	return null
 
 
 func _format_time(time: float) -> String:
