@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://csw7wfyolqo4g"]
+[gd_scene load_steps=45 format=4 uid="uid://csw7wfyolqo4g"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/base_level.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="2_220im"]
@@ -907,6 +907,43 @@ _data = {
 &"updown": SubResource("Animation_oqd17")
 }
 
+[sub_resource type="Animation" id="Animation_0rdyb"]
+resource_name = "new_animation"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1029, 660), Vector2(1029, 691)]
+}
+
+[sub_resource type="Animation" id="Animation_aeenu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1029, 660)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0yyuo"]
+_data = {
+&"RESET": SubResource("Animation_aeenu"),
+&"new_animation": SubResource("Animation_0rdyb")
+}
+
 [node name="1-2" instance=ExtResource("1_base")]
 spawn_position = Vector2(39, 835)
 trigger_position = Vector2(1085, 832)
@@ -1144,3 +1181,16 @@ scale = Vector2(0.50655335, 0.76)
 
 [node name="medium_tree_2" parent="." index="32" instance=ExtResource("8_o1maq")]
 position = Vector2(1567, 636)
+
+[node name="enemy_batman2" parent="." index="34" instance=ExtResource("8_10r0f")]
+position = Vector2(1029, 660)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="enemy_batman2" index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_0yyuo")
+}
+autoplay = "new_animation"
+
+[node name="DeathZone3" parent="." index="35" instance=ExtResource("6_xl2p1")]
+position = Vector2(1462, 665.00006)
+scale = Vector2(0.28064114, 0.599961)
