@@ -26,6 +26,9 @@ var _entry_mode: bool = false
 const ENTRY_OPACITY: float = 0.6
 const ENTRY_DROP_HEIGHT: float = 200.0
 
+# Death state
+var _is_dead: bool = false
+
 
 func _ready():
 	add_to_group("player")
@@ -52,6 +55,9 @@ func _complete_entry() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _is_dead:
+		return
+
 	update_dash_timers(delta)
 	apply_gravity(delta)
 	handle_jump_input()
@@ -166,3 +172,23 @@ func handle_horizontal_movement() -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+
+func die() -> void:
+	if _is_dead:
+		return
+	_is_dead = true
+	velocity = Vector2.ZERO
+	rotation_degrees = 90
+	_show_death_overlay()
+
+
+func _show_death_overlay() -> void:
+	var canvas = CanvasLayer.new()
+	canvas.layer = 100
+	add_child(canvas)
+
+	var overlay = ColorRect.new()
+	overlay.color = Color(1, 0, 0, 0.3)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(overlay)
