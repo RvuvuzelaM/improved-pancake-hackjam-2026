@@ -15,6 +15,7 @@ var is_dashing := false
 var dash_timer := 0.0
 var dash_cooldown_timer := 0.0
 var dash_direction := 0.0
+var last_facing_direction := 1.0
 
 enum Mask {NONE, DOUBLE_JUMP, DASH}
 var equipped_mask := Mask.NONE
@@ -118,12 +119,22 @@ func update_dash_timers(delta: float) -> void:
 			dash_cooldown_timer = DASH_COOLDOWN
 
 
+func get_dash_direction(input_direction: float) -> float:
+	if input_direction != 0.0:
+		return input_direction
+	
+	if velocity.x != 0.0:
+		return sign(velocity.x)
+	
+	return last_facing_direction
+
+
 func start_dash() -> void:
 	var direction := Input.get_axis("character_left", "character_right")
-	if direction == 0.0:
+	if velocity.y == 0 && direction == 0.0:
 		return
 
-	dash_direction = 1.0 if velocity.x >= 0 else -1.0
+	dash_direction = get_dash_direction(direction)
 	velocity.y = 0.0
 	is_dashing = true
 	dash_timer = DASH_DURATION
@@ -140,6 +151,7 @@ func handle_horizontal_movement() -> void:
 	else:
 		var direction := Input.get_axis("character_left", "character_right")
 		if direction != 0.0:
+			last_facing_direction = direction
 			velocity.x = direction * SPEED
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
