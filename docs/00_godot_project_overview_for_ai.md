@@ -25,6 +25,7 @@ improved-pancake-hackjam-2026/
 ├── scenes/
 │   ├── autoload/           # Singletony (SceneManager, GameData)
 │   ├── levels/             # Sceny poziomów (1-1.tscn, ...)
+│   ├── objects/            # Obiekty gry (level_trigger.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay)
 │   ├── player.tscn         # Scena gracza
 │   ├── player.gd           # Skrypt ruchu gracza
@@ -47,12 +48,13 @@ Główne sceny i ich rola
 | `scenes/ui/restart_overlay.tscn` | CanvasLayer | Hold-to-restart z wizualnym kołem |
 | `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 |
+| `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
 | `scenes/player.tscn` | CharacterBody2D | Scena gracza z AnimatedSprite2D i CollisionShape2D |
 | `scenes/floor.tscn` | StaticBody2D | Nieskończone podłoże (WorldBoundaryShape2D) |
 
 ### Struktura player.tscn
 ```
-player (CharacterBody2D)
+player (CharacterBody2D) [collision_layer=2, collision_mask=1]
 ├── AnimatedSprite2D    # Animacja postaci (6 klatek, 6 FPS)
 └── CollisionShape2D    # Kapsuła (radius: 6, height: 18)
 ```
@@ -65,7 +67,8 @@ player (CharacterBody2D)
 ├── background         # Tło (Sprite2D)
 ├── floor              # Instancja floor.tscn
 ├── PauseModal         # Instancja pause_modal.tscn
-└── RestartOverlay     # Instancja restart_overlay.tscn
+├── RestartOverlay     # Instancja restart_overlay.tscn
+└── LevelTrigger       # Trigger przejścia do 1-2
 ```
 
 ### Struktura main_menu.tscn
@@ -115,11 +118,20 @@ SceneManager.change_scene("res://scenes/levels/1-1.tscn")  # Fade out → zmiana
 
 ### GameData
 ```gdscript
+# Właściwości
 GameData.current_level          # "1-1" - aktualny poziom
+GameData.levels                 # Dictionary {"1-1": "res://scenes/levels/1-1.tscn", ...}
+GameData.level_order            # ["1-1", "1-2", "1-3", "1-4"]
 GameData.unlocked_levels        # ["1-1"] - odblokowane poziomy
-GameData.is_level_unlocked("1-2")  # false
-GameData.unlock_next_level()    # Odblokowuje następny poziom
+
+# Metody
 GameData.get_current_level_path()  # "res://scenes/levels/1-1.tscn"
+GameData.get_level_path("1-2")     # "res://scenes/levels/1-2.tscn"
+GameData.level_exists("1-2")       # true
+GameData.is_level_unlocked("1-2")  # false
+GameData.unlock_level("1-2")       # Odblokowuje konkretny poziom
+GameData.unlock_next_level()       # Odblokowuje następny w kolejności
+GameData.set_current_level("1-2")  # Ustawia aktualny poziom
 ```
 
 ⸻
@@ -189,15 +201,19 @@ Fizyka
 
 Warstwy kolizji
 
-Obecnie używane domyślne warstwy. Do zdefiniowania:
+Zaimplementowane warstwy kolizji:
 
-| Warstwa | Przeznaczenie |
-|---------|---------------|
-| 1 | World (podłoże, platformy) |
-| 2 | Player |
-| 3 | Hazards (przeszkody) |
-| 4 | Enemies |
-| 5 | Triggers |
+| Warstwa | Przeznaczenie | Użycie |
+|---------|---------------|--------|
+| 1 | World | Podłoże, platformy, StaticBody2D |
+| 2 | Player | CharacterBody2D gracza |
+| 3 | Hazards | Przeszkody (do implementacji) |
+| 4 | Enemies | Wrogowie (do implementacji) |
+| 5 | Triggers | LevelTrigger i inne Area2D |
+
+### Konfiguracja obiektów
+- **Player:** `collision_layer = 2`, `collision_mask = 1`
+- **LevelTrigger:** `collision_layer = 0`, `collision_mask = 2` (wykrywa gracza)
 
 ⸻
 
@@ -240,6 +256,27 @@ System restartu poziomu (Hold-to-Restart)
 
 ⸻
 
+Level Trigger (przejście między poziomami)
+
+- **Scena:** `scenes/objects/level_trigger.tscn`
+- **Typ:** Area2D z CollisionShape2D
+- **Parametr:** `@export var target_level: String` - ID docelowego poziomu (np. "1-2")
+- **Działanie:** Gracz wchodzi w trigger → automatyczne przejście do `target_level` z fade
+- **Gracz:** Musi być w grupie "player" (dodawane automatycznie w `player.gd`)
+
+### Struktura level_trigger.tscn
+```
+LevelTrigger (Area2D) [collision_layer=0, collision_mask=2]
+└── CollisionShape2D    # RectangleShape2D (64x128)
+```
+
+### Użycie
+1. Dodaj instancję `level_trigger.tscn` na końcu poziomu
+2. W Inspektorze ustaw `target_level` np. `"1-2"`
+3. Gracz wchodzi → zmiana sceny z fade
+
+⸻
+
 Kamera
 
 **Model: Follow (podążająca)**
@@ -258,9 +295,12 @@ Dodawanie nowych poziomów
    - Pozycję spawn gracza
    - Tło i podłoże/platformy
    - Przeszkody i wrogów
-4. Dodaj poziom do `GameData.levels` array
+4. Zarejestruj poziom w `GameData`:
+   - Dodaj do słownika `levels`: `"1-3": "res://scenes/levels/1-3.tscn"`
+   - Dodaj do `level_order`: `["1-1", "1-2", "1-3", ...]`
 5. Dodaj przycisk w `level_select.tscn`
 6. Upewnij się że `PauseModal` i `RestartOverlay` są w scenie
+7. Dodaj `LevelTrigger` na końcu poprzedniego poziomu z `target_level` ustawionym na nowy poziom
 
 ⸻
 
@@ -311,6 +351,9 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `a2b09b8` | Add level triggers to levels and fix player collision layers |
+| `c8dd39f` | Add level trigger system and level references |
+| `7d9b09d` | Update documentation with 1-2 level details |
 | `a96e6f4` | 1-2 lvl |
 | `559535a` | Update documentation with restart overlay details |
 | `23cda59` | Add restart overlay functionality |
