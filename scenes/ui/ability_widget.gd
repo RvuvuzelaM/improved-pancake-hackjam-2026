@@ -42,10 +42,11 @@ func _update_display() -> void:
 
 	# Highlight the active ability
 	match current_mask:
-		1:  # DASH
-			_set_icon_state(dash_icon, true)
-		2:  # DOUBLE_JUMP
+
+		1:  # DOUBLE_JUMP
 			_set_icon_state(double_jump_icon, true)
+		2:  # DASH
+			_set_icon_state(dash_icon, true)
 		3:  # LEDGE_GRAB
 			_set_icon_state(ledge_grab_icon, true)
 
