@@ -81,22 +81,21 @@ player (CharacterBody2D) [collision_layer=2]
 BaseLevel (Node2D) [script: base_level.gd]
 ├── player             # Instancja player.tscn (skala 1.2x)
 │   └── Camera2D       # Kamera (zoom 3x)
-├── LevelTrigger       # Instancja level_trigger.tscn
+├── LevelTrigger       # Instancja level_trigger.tscn (pozycja ustawiana w edytorze)
 ├── PauseModal         # Instancja pause_modal.tscn
 └── RestartOverlay     # Instancja restart_overlay.tscn
 
 @export var spawn_position: Vector2    # Pozycja spawn gracza
-@export var trigger_position: Vector2  # Pozycja triggera
 @export var next_level: String         # ID następnego poziomu
+# LevelTrigger pozycjonowany ręcznie przez designera w edytorze Godot
 ```
 
 ### Struktura poziomu 1-2.tscn (dziedziczenie)
 ```
 1-2 (Node2D) [extends base_level.tscn]
 │   spawn_position = (39, 835)
-│   trigger_position = (1085, 832)
 │   next_level = "1-3"
-├── [inherited: player, LevelTrigger, PauseModal, RestartOverlay]
+├── [inherited: player, LevelTrigger (position=1085,832), PauseModal, RestartOverlay]
 ├── Background (TileMapLayer)   # Tło poziomu
 ├── TileMapLayer               # Platformy
 ├── StaticBody2D*              # Kolizje platform
@@ -453,20 +452,25 @@ Timer zaimplementowany w `player.gd` dla niezawodności:
 ```gdscript
 var elapsed_time: float = 0.0
 var _timer_running: bool = false
+var _timer_ui: CanvasLayer = null
+var _timer_label: Label = null
 
 func _start_timer() -> void:
     _timer_running = true
+    _create_timer_ui()
 
 func stop_timer() -> void:
     _timer_running = false
+    _hide_timer_ui()
 
 func get_elapsed_time() -> float:
     return elapsed_time
 ```
 
 ### Wyświetlanie czasu
-1. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA"
-2. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy
+1. **Real-time UI** - timer w lewym górnym rogu (32px, biały z cieniem), aktualizowany co klatkę
+2. **Ekran śmierci** - czas wyświetlany pod napisem "PORAZKA" (wycentrowany)
+3. **Ekran ukończenia** - czas wyświetlany z nazwą poziomu przez 2 sekundy (wycentrowany)
 
 ### Ekran ukończenia poziomu
 - Zielone przezroczyste tło (30% opacity)
@@ -620,6 +624,10 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `3a9b861` | Fix LevelTrigger positioning - let designer set position in editor |
+| `7bfd46a` | Update documentation with real-time timer UI details |
+| `46ee746` | Add real-time timer UI and center overlay messages |
+| `1f59181` | Add coyote time documentation |
 | `6f5271c` | Update documentation with shortcuts, timer and wall jump |
 | `c6894b0` | Add coyote jumping |
 | `c2cf4e4` | Add keyboard shortcuts to all menu buttons |

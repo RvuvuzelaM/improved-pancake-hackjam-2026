@@ -161,8 +161,10 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 **Parametry eksportowane:**
 ```gdscript
-@export var target_level: String  # np. "1-2"
+@export var target_level: String  # np. "1-2" - ustawiane przez base_level.gd
 ```
+
+**Pozycjonowanie:** Designer ustawia pozycję LevelTrigger ręcznie w edytorze Godot (przeciągając node w scenie).
 
 **Zachowanie:** Gdy gracz wejdzie w obszar, następuje przejście do `target_level`.
 
@@ -430,4 +432,5 @@ enum PlatformSize {
 6. **System śmierci** - `_is_dead` blokuje physics, `die()` dodaje animację (obrót 90°) i czerwony overlay
 7. **Ledge Grab** - maska zdefiniowana, wall slide + wall jump zaimplementowane
 8. **Keyboard shortcuts** - wszystkie menu mają skróty klawiszowe w formacie `[X]`
-9. **Level Timer** - czas mierzony od lądowania do śmierci/ukończenia, wyświetlany na ekranach końcowych
+9. **Level Timer** - czas mierzony od lądowania do śmierci/ukończenia, wyświetlany real-time w lewym górnym rogu
+10. **Centered overlays** - komunikaty śmierci/sukcesu używają CenterContainer dla prawidłowego centrowania

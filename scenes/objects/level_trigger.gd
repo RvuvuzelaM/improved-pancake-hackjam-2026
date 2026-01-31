@@ -41,10 +41,14 @@ func _show_completion_overlay(player: Node) -> void:
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(overlay)
 
+	# Center container using CenterContainer
+	var center = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	canvas.add_child(center)
+
 	var container = VBoxContainer.new()
-	container.set_anchors_preset(Control.PRESET_CENTER)
 	container.alignment = BoxContainer.ALIGNMENT_CENTER
-	canvas.add_child(container)
+	center.add_child(container)
 
 	var title = Label.new()
 	title.text = "UKONCZONO"

@@ -910,11 +910,10 @@ _data = {
 
 [node name="1-1" instance=ExtResource("1_base")]
 spawn_position = Vector2(39, 835)
-trigger_position = Vector2(1085, 832)
 next_level = "1-2"
 
 [node name="LevelTrigger" parent="." index="1"]
-position = Vector2(177, 412)
+position = Vector2(1085, 832)
 
 [node name="PauseModal" parent="." index="2"]
 visible = false

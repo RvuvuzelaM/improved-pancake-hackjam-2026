@@ -214,26 +214,38 @@ Timer mierzy czas od lądowania gracza do śmierci lub ukończenia poziomu.
 ```gdscript
 var elapsed_time: float = 0.0
 var _timer_running: bool = false
+var _timer_ui: CanvasLayer = null
+var _timer_label: Label = null
 
 func _physics_process(delta: float) -> void:
     if _timer_running:
         elapsed_time += delta
+        _update_timer_ui()
 
 func _start_timer() -> void:
     _timer_running = true
+    _create_timer_ui()
 
 func stop_timer() -> void:
     _timer_running = false
+    _hide_timer_ui()
 
 func get_elapsed_time() -> float:
     return elapsed_time
 ```
 
+### Real-time Timer UI
+- **Pozycja:** lewy górny róg (20, 20)
+- **Rozmiar czcionki:** 32px
+- **Kolor:** biały z czarnym cieniem
+- **Warstwa:** CanvasLayer 50
+- **Aktualizacja:** co klatkę w `_physics_process()`
+
 ### Przepływ
 1. Gracz spada (entry mode) → timer nie działa
-2. Gracz ląduje (`_complete_entry()`) → `_start_timer()`
-3. Gracz umiera (`die()`) lub kończy poziom → `stop_timer()`
-4. Czas wyświetlany na ekranie końcowym
+2. Gracz ląduje (`_complete_entry()`) → `_start_timer()` + pokazuje UI
+3. Gracz umiera (`die()`) lub kończy poziom → `stop_timer()` + ukrywa UI
+4. Czas wyświetlany na ekranach końcowych (wycentrowanych)
 
 ### Format wyświetlania
 ```gdscript
