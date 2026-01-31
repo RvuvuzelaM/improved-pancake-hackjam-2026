@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dax3ljbt43tc0"]
+
+[ext_resource type="Texture2D" uid="uid://mrsd1a27erhp" path="res://assets/tiles/forest/tile_0068.png" id="1_uphh7"]
+[ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="2_wsapf"]
+
+[node name="trap" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_uphh7")
+
+[node name="DeathZone" parent="." instance=ExtResource("2_wsapf")]
+position = Vector2(2.3841858e-07, 5)
+scale = Vector2(0.23124947, 0.5209742)
