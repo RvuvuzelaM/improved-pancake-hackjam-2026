@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://0tduli1bfntm"]
+
+[ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="1_lutau"]
+[ext_resource type="Texture2D" uid="uid://mvnru02yan6o" path="res://assets/ORS97Z0.jpg" id="2_irp0s"]
+[ext_resource type="PackedScene" uid="uid://camh4r5nmtgjd" path="res://scenes/floor.tscn" id="3_by813"]
+
+[node name="1-1" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource("1_lutau")]
+z_index = 5
+position = Vector2(175, 401)
+scale = Vector2(4.28, 4.28)
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2(0.23362732, -2.3364525)
+scale = Vector2(0.23364486, 0.23364486)
+
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(958, 542)
+scale = Vector2(0.29786578, 0.29585963)
+texture = ExtResource("2_irp0s")
+
+[node name="floor" parent="." instance=ExtResource("3_by813")]
+position = Vector2(104, 813)
