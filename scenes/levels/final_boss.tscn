@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c4s8jrgrsyq5k" path="res://assets/tilemap/constructor/tilemap.png" id="2_s3s2r"]
 [ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="3_0vyao"]
 [ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
-[ext_resource type="PackedScene" uid="uid://dax3ljbt43tc0" path="res://scenes/enemies/enemy_trap.tscn" id="6_5fj8p"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_trap.tscn" id="6_5fj8p"]
 [ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/platforms/small_platform.tscn" id="7_small"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="8_5k82b"]
 [ext_resource type="PackedScene" uid="uid://cajvp5xymxrj2" path="res://scenes/forest/platforms/medium_platform.tscn" id="8_medium"]
@@ -662,6 +662,7 @@ position = Vector2(0, 58)
 scale = Vector2(3.9880188, -8.413669)
 
 [node name="ShootingTimer" type="Timer" parent="Boss"]
+wait_time = 2.5
 autostart = true
 
 [node name="Timer" type="Timer" parent="."]
