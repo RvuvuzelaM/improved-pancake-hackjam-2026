@@ -17,8 +17,8 @@ func _process(_delta: float) -> void:
 
 
 func _on_timer_timeout() -> void:
-	camera_2d.position.y -= 1
-	boss.global_position.y -= 1
+	camera_2d.position.y -= 2
+	boss.global_position.y -= 2
 	print(boss.global_position.y)
 
 
