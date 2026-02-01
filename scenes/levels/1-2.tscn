@@ -1,7 +1,6 @@
 [gd_scene load_steps=35 format=4 uid="uid://cxpaiahg1ov83"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_td00t"]
-[ext_resource type="PackedScene" path="res://scenes/objects/ability_pickup.tscn" id="2_bogsv"]
 [ext_resource type="PackedScene" uid="uid://bhrtagcfhxpmj" path="res://scenes/forest/destructable_wall.tscn" id="3_220im"]
 [ext_resource type="Texture2D" uid="uid://i23gfa1urp1s" path="res://assets/tilemap/forest/tilemap_packed.png" id="4_td00t"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="4_xl2p1"]
@@ -10,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_modal.tscn" id="8_10r0f"]
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="9_oqd17"]
 [ext_resource type="Texture2D" uid="uid://beiympyujc14k" path="res://assets/tilemap/forest/water.png" id="10_oqd17"]
+[ext_resource type="PackedScene" uid="uid://4pl6mtvsbogb" path="res://scenes/objects/dash/ability_pickup.tscn" id="10_pig6i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kqkvu"]
 texture = ExtResource("4_td00t")
@@ -843,10 +843,6 @@ shape = SubResource("RectangleShape2D_3d66v")
 position = Vector2(1052, -171)
 shape = SubResource("RectangleShape2D_6vmc5")
 
-[node name="AbilityPickup" parent="." instance=ExtResource("2_bogsv")]
-position = Vector2(123, -17)
-ability_id = "dash"
-
 [node name="player" parent="." instance=ExtResource("4_xl2p1")]
 position = Vector2(35, -8)
 
@@ -890,11 +886,13 @@ position = Vector2(-59, 224)
 scale = Vector2(39.11043, 0.96038145)
 
 [node name="PauseModal" parent="." instance=ExtResource("8_10r0f")]
-visible = false
 
 [node name="RestartOverlay" parent="." instance=ExtResource("9_oqd17")]
-visible = false
 
 [node name="water-surface" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAMAAAAAgAAAAAAAAANAAAAAgAAAAAAAAAOAAAAAgAAAAAAAAAPAAAAAgAAAAAAAAAQAAAAAgAAAAAAAAARAAAAAgAAAAAAAAASAAAAAgAAAAAAAAATAAAAAgAAAAAAAAAYAAMAAgAAAAAAAAAZAAMAAgAAAAAAAAAaAAMAAgAAAAAAAAAbAAMAAgAAAAAAAAAcAAMAAgAAAAAAAAAdAAMAAgAAAAAAAAAeAAMAAgAAAAAAAAAfAAMAAgAAAAAAAAAgAAMAAgAAAAAAAAAlAAMAAgAAAAAAAAAmAAMAAgAAAAAAAAAnAAMAAgAAAAAAAAAoAAMAAgAAAAAAAAApAAMAAgAAAAAAAAAqAAMAAgAAAAAAAAArAAMAAgAAAAAAAAAsAAMAAgAAAAAAAAAtAAMAAgAAAAAAAAAuAAMAAgAAAAAAAAAvAAMAAgAAAAAAAAAwAAMAAgAAAAAAAAAxAAMAAgAAAAAAAAAyAAMAAgAAAAAAAAAzAAMAAgAAAAAAAAA0AAMAAgAAAAAAAAA1AAMAAgAAAAAAAAA2AAMAAgAAAAAAAAA3AAMAAgAAAAAAAAA4AAMAAgAAAAAAAAA5AAMAAgAAAAAAAAA6AAMAAgAAAAAAAAA7AAMAAgAAAAAAAAA8AAMAAgAAAAAAAAA9AAMAAgAAAAAAAAA+AAMAAgAAAAAAAAA/AAMAAgAAAAAAAABAAAMAAgAAAAAAAABBAAMAAgAAAAAAAABCAAMAAgAAAAAAAABDAAMAAgAAAAAAAABEAAMAAgAAAAAAAABFAAMAAgAAAAAAAABGAAMAAgAAAAAAAABHAAMAAgAAAAAAAABIAAMAAgAAAAAAAABJAAMAAgAAAAAAAABKAAMAAgAAAAAAAABLAAMAAgAAAAAAAABMAAMAAgAAAAAAAAA=")
 tile_set = SubResource("TileSet_oqd17")
+
+[node name="AbilityPickup" parent="." instance=ExtResource("10_pig6i")]
+position = Vector2(94, -21)
+ability_id = "dash"

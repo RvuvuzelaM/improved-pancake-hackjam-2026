@@ -139,14 +139,23 @@ func _input(event: InputEvent) -> void:
 		print("Picked mask: NONE")
 		_set_mask(Mask.NONE)
 	if event.is_action_pressed("switch_mask_double_jump"):
-		print("Picked mask: DOUBLE_JUMP")
-		_set_mask(Mask.DOUBLE_JUMP)
+		if GameData.has_ability("d-jump"):
+			print("Picked mask: DOUBLE_JUMP")
+			_set_mask(Mask.DOUBLE_JUMP)
+		else:
+			print("Double jump not unlocked yet!")
 	if event.is_action_pressed("switch_mask_dash"):
-		print("Picked mask: DASH")
-		_set_mask(Mask.DASH)
+		if GameData.has_ability("dash"):
+			print("Picked mask: DASH")
+			_set_mask(Mask.DASH)
+		else:
+			print("Dash not unlocked yet!")
 	if event.is_action_pressed("switch_mask_ledge_grab"):
-		print("Picked mask: LEDGE_GRAB")
-		_set_mask(Mask.LEDGE_GRAB)
+		if GameData.has_ability("ledge"):
+			print("Picked mask: LEDGE_GRAB")
+			_set_mask(Mask.LEDGE_GRAB)
+		else:
+			print("Ledge grab not unlocked yet!")
 	if event.is_action_pressed("dash"):
 		handle_dash_input()
 
@@ -158,7 +167,7 @@ func _set_mask(new_mask: Mask) -> void:
 
 
 func handle_dash_input() -> void:
-	if equipped_mask == Mask.DASH and dash_cooldown_timer <= 0.0 and not is_dashing:
+	if equipped_mask == Mask.DASH and dash_cooldown_timer <= 0.0 and not is_dashing and GameData.has_ability("dash"):
 		start_dash()
 
 
@@ -197,7 +206,7 @@ func handle_jump_input() -> void:
 	if Input.is_action_just_pressed("character_jump"):
 		if is_on_floor() or coyote_time_timer > 0.0:
 			perform_jump()
-		elif jump_count < max_jump_count and equipped_mask == Mask.DOUBLE_JUMP:
+		elif jump_count < max_jump_count and equipped_mask == Mask.DOUBLE_JUMP and GameData.has_ability("d-jump"):
 			perform_jump()
 
 
@@ -388,7 +397,7 @@ func get_elapsed_time() -> float:
 	return elapsed_time
 
 func wall_logic(delta: float):
-	var can_hold_wall = equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor() and velocity.y >= 0
+	var can_hold_wall = equipped_mask == Mask.LEDGE_GRAB and GameData.has_ability("ledge") and is_on_wall_only() and not is_on_floor() and velocity.y >= 0
 	var is_wall_sliding = can_hold_wall and wall_hold_timer < WALL_HOLD_DURATION
 
 	# Handle wall slide sound
