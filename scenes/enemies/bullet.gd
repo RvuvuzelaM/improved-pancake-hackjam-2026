@@ -2,10 +2,18 @@ extends Node2D
 
 @export var speed: float = 100.0
 
+var direction: Vector2 = Vector2.UP
+
 @onready var area_2d: Area2D = $Area2D
+@onready var sprite: Sprite2D = $Area2D/Sprite2D
 
 func _ready() -> void:
 	area_2d.body_entered.connect(_on_body_entered)
+
+func set_direction(new_direction: Vector2) -> void:
+	direction = new_direction.normalized()
+	if sprite and direction.x != 0:
+		sprite.rotation = direction.angle() + PI / 2
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -13,7 +21,7 @@ func _on_body_entered(body: Node2D) -> void:
 		queue_free()
 
 func _physics_process(delta: float) -> void:
-	global_position.y -= speed * delta
+	global_position += direction * speed * delta
 	
 	var camera = get_viewport().get_camera_2d()
 	if camera:
