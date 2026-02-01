@@ -19,6 +19,7 @@ Ten dokument opisuje wszystkie parametry fizyczne i mechaniki ruchu gracza. Stan
 | `wall_y_force` | -400.0 | jednostki | Siła odbicia od ściany (pionowa) |
 | `COYOTE_TIME_DURATION` | 0.15 | sekundy | Czas na skok po opuszczeniu platformy |
 | `COYOTE_X_TOLERANCE` | 32.0 | px | Maksymalna odległość pozioma dla coyote time |
+| `WALL_HOLD_DURATION` | 1.5 | sekundy | Czas trzymania się ściany przed spadnięciem |
 
 **Plik źródłowy:** `scenes/player.gd`
 
@@ -72,6 +73,7 @@ Gdy gracz ma aktywną maskę `LEDGE_GRAB`:
 1. **Ślizganie się po ścianie** - gdy gracz dotyka ściany i spada:
    - Prędkość spadania ograniczona do `wall_slide_speed` (20 px/s)
    - Wykrywane przez `RayCast2D` (LeftRay, RightRay)
+   - **Limit czasu:** max `WALL_HOLD_DURATION` (1.5s), potem gracz spada normalnie
 
 2. **Wall Jump** - skok od ściany:
    - Naciśnięcie Space przy ścianie
@@ -259,6 +261,22 @@ func _format_time(time: float) -> String:
 
 ---
 
+## Efekty Dźwiękowe Gracza
+
+Dźwięki odtwarzane przez `AudioStreamPlayer` w `player.gd`:
+
+| Akcja | Plik | Funkcja wyzwalająca |
+|-------|------|---------------------|
+| Skok | `assets/audio/jump.mp3` | `perform_jump()` (jump_count == 1) |
+| Podwójny skok | `assets/audio/double_jump.mp3` | `perform_jump()` (jump_count > 1) |
+| Dash | `assets/audio/dash.mp3` | `start_dash()` |
+| Lądowanie | `assets/audio/landing.mp3` | `apply_gravity()` (was_on_floor→is_on_floor) |
+| Wall jump | `assets/audio/wall_jump.mp3` | `wall_jumping()` |
+| Wall slide | `assets/audio/wall_slide.mp3` | `wall_logic()` (looped) |
+| Śmierć | `assets/audio/death.mp3` | `die()` |
+
+---
+
 ## Notatki Techniczne
 
 - Gracz używa `move_and_slide()` do ruchu
@@ -266,3 +284,4 @@ func _format_time(time: float) -> String:
 - Podczas dashu grawitacja zredukowana do 10%
 - Platformy mają `one_way_collision = true` (można przeskakiwać od dołu)
 - Kamera podąża za graczem (zoom 3x)
+- SFX ładowane dynamicznie przez `_create_audio_player()` w `_setup_audio()`

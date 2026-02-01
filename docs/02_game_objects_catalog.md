@@ -428,6 +428,33 @@ const CIRCLE_WIDTH = 6.0     # Grubość linii
 
 ---
 
+## System Audio
+
+### Efekty Dźwiękowe (SFX)
+Lokalizacja: `assets/audio/`
+
+| Plik | Dźwięk | Wyzwalacz |
+|------|--------|-----------|
+| `jump.mp3` | Skok | Pierwszy skok |
+| `double_jump.mp3` | Podwójny skok | Drugi skok (maska DOUBLE_JUMP) |
+| `dash.mp3` | Dash | Rozpoczęcie dasha |
+| `landing.mp3` | Lądowanie | Dotknięcie podłogi po skoku |
+| `wall_jump.mp3` | Wall jump | Odbicie od ściany |
+| `wall_slide.mp3` | Wall slide | Ślizganie się po ścianie |
+| `death.mp3` | Śmierć | Gracz umiera |
+
+### Muzyka Tła
+Lokalizacja: `assets/music/`
+
+| Plik | Poziom | Styl |
+|------|--------|------|
+| `forest_calm.mp3` | 1-1 | Spokojny ambient chiptune |
+| `adventure.mp3` | 1-2 | Energiczny retro |
+
+**Konfiguracja:** `scenes/autoload/scene_manager.gd` → `_level_music` dictionary
+
+---
+
 ## Warstwy Kolizji
 
 ### Definicja Warstw
@@ -509,3 +536,5 @@ enum PlatformSize {
 13. **Fading Platforms** - platformy zanikające po wejściu gracza, opcjonalny respawn
 14. **Wall Hold Timer** - gracz może trzymać się ściany przez max 1.5s przed spadnięciem (maska LEDGE_GRAB)
 15. **Level Intro** - fade-in 0.4s, natychmiast fade-out 1.5s, ID poziomu czarny tekst (LabelSettings)
+16. **System SFX** - 7 efektów dźwiękowych w `assets/audio/` (jump, double_jump, dash, landing, wall_jump, wall_slide, death)
+17. **Muzyka w tle** - 2 utwory w `assets/music/`, odtwarzane przez SceneManager, zapętlone, -10dB
