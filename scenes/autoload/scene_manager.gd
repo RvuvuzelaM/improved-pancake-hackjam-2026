@@ -16,6 +16,7 @@ const MUSIC_VOLUME_DB: float = -10.0
 var _level_music: Dictionary = {
 	"1-1": "res://assets/music/forest_calm.mp3",
 	"1-2": "res://assets/music/adventure.mp3",
+	"final_boss": "res://assets/music/boss.mp3",
 }
 
 func _ready():
@@ -30,10 +31,32 @@ func _ready():
 	color_rect.modulate.a = 0
 	transition_layer.add_child(color_rect)
 
-	# Setup music player
 	_music_player = AudioStreamPlayer.new()
 	_music_player.volume_db = MUSIC_VOLUME_DB
 	add_child(_music_player)
+	
+	if get_tree().has_signal("current_scene_changed"):
+		get_tree().current_scene_changed.connect(_on_scene_changed)
+	
+	call_deferred("_check_current_scene_music")
+
+func _on_scene_changed():
+	call_deferred("_check_current_scene_music")
+
+func _check_current_scene_music():
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var current_scene = get_tree().current_scene
+	if current_scene == null:
+		return
+	
+	var scene_path = current_scene.scene_file_path
+	if scene_path == "":
+		return
+	
+	var level_id = _extract_level_id(scene_path)
+	if level_id != "":
+		_play_level_music(level_id)
 
 func change_scene(path: String, duration: float = 0.25):
 	var tween = create_tween()
@@ -42,12 +65,10 @@ func change_scene(path: String, duration: float = 0.25):
 
 	get_tree().change_scene_to_file(path)
 
-	# Wait for scene to initialize, then emit scene_loaded
 	await get_tree().process_frame
 	var level_id = _extract_level_id(path)
 	emit_signal("scene_loaded", level_id)
 
-	# Play level music
 	_play_level_music(level_id)
 
 	tween = create_tween()
@@ -57,22 +78,31 @@ func change_scene(path: String, duration: float = 0.25):
 
 
 func _play_level_music(level_id: String) -> void:
+	if level_id == "":
+		_stop_music()
+		return
+	
 	var music_path = _level_music.get(level_id, "")
 
-	# If no music for this level, stop current music
 	if music_path == "":
 		_stop_music()
 		return
 
-	# If same music already playing, don't restart
 	if music_path == _current_music and _music_player.playing:
 		return
 
-	# Play new music
+	if _music_player.playing:
+		_music_player.stop()
+
 	_current_music = music_path
 	var stream = load(music_path)
+	if stream == null:
+		push_error("Failed to load music: " + music_path)
+		return
+	
 	if stream is AudioStreamMP3:
 		stream.loop = true
+	
 	_music_player.stream = stream
 	_music_player.play()
 
