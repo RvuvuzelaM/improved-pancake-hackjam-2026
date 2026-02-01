@@ -1,13 +1,14 @@
-[gd_scene load_steps=21 format=4 uid="uid://dshewouwrwdb5"]
+[gd_scene load_steps=22 format=4 uid="uid://cthsl8eyw3ql5"]
 
 [ext_resource type="Script" uid="uid://0jm8hxf8dm5g" path="res://scenes/levels/final_boss.gd" id="1_b4vwu"]
 [ext_resource type="Texture2D" uid="uid://c4s8jrgrsyq5k" path="res://assets/tilemap/constructor/tilemap.png" id="2_s3s2r"]
 [ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="3_0vyao"]
-[ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
+[ext_resource type="PackedScene" uid="uid://dhoiulmgktiax" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy_trap.tscn" id="6_5fj8p"]
 [ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/platforms/small_platform.tscn" id="7_small"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="8_5k82b"]
 [ext_resource type="PackedScene" uid="uid://cajvp5xymxrj2" path="res://scenes/forest/platforms/medium_platform.tscn" id="8_medium"]
+[ext_resource type="PackedScene" path="res://scenes/objects/level_trigger.tscn" id="9_edmtk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cseyu"]
 texture = ExtResource("8_5k82b")
@@ -796,6 +797,9 @@ rotation = 4.712389
 [node name="Trap8" parent="." instance=ExtResource("6_5fj8p")]
 position = Vector2(119, -1358)
 rotation = 4.712389
+
+[node name="LevelTrigger" parent="." instance=ExtResource("9_edmtk")]
+position = Vector2(174, -1985)
 
 [connection signal="timeout" from="Boss/ShootingTimer" to="." method="_on_shooting_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
