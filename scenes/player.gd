@@ -23,7 +23,7 @@ var _sfx_death: AudioStreamPlayer
 @export var COYOTE_X_TOLERANCE := 32.0
 
 var jump_count := 0
-var max_jump_count := 2
+var max_jump_count := 999
 var coyote_time_timer := 0.0
 var coyote_x_position := 0.0
 var was_on_floor := false

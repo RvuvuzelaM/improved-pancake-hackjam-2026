@@ -1,7 +1,7 @@
 [gd_scene load_steps=34 format=4 uid="uid://cxpaiahg1ov83"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_td00t"]
-[ext_resource type="PackedScene" path="res://scenes/objects/ability_pickup.tscn" id="2_bogsv"]
+[ext_resource type="PackedScene" uid="uid://x6e2ae3f8hma" path="res://scenes/objects/ability_pickup.tscn" id="2_bogsv"]
 [ext_resource type="PackedScene" uid="uid://bhrtagcfhxpmj" path="res://scenes/forest/destructable_wall.tscn" id="3_220im"]
 [ext_resource type="Texture2D" uid="uid://i23gfa1urp1s" path="res://assets/tilemap/forest/tilemap_packed.png" id="4_td00t"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="4_xl2p1"]

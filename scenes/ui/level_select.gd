@@ -5,12 +5,12 @@ func _ready():
 	$VBoxContainer/GridContainer/Level1Button.pressed.connect(_on_level_pressed.bind("1-1"))
 	$VBoxContainer/GridContainer/Level2Button.pressed.connect(_on_level_pressed.bind("1-2"))
 	$VBoxContainer/GridContainer/Level3Button.pressed.connect(_on_level_pressed.bind("1-3"))
-	$VBoxContainer/GridContainer/Level4Button.pressed.connect(_on_level_pressed.bind("1-4"))
+	$VBoxContainer/GridContainer/Level4Button.pressed.connect(_on_level_pressed.bind("final_boss"))
 	$VBoxContainer/BackButton.pressed.connect(_on_back_pressed)
 	$VBoxContainer/GridContainer/Level1Button.text = "[1] 1-1"
 	$VBoxContainer/GridContainer/Level2Button.text = "[2] 1-2"
 	$VBoxContainer/GridContainer/Level3Button.text = "[3] 1-3"
-	$VBoxContainer/GridContainer/Level4Button.text = "[4] 1-4"
+	$VBoxContainer/GridContainer/Level4Button.text = "BOSS"
 	$VBoxContainer/BackButton.text = "[B] BACK"
 	_update_buttons()
 
@@ -28,8 +28,8 @@ func _input(event: InputEvent) -> void:
 				if GameData.is_level_unlocked("1-3"):
 					_on_level_pressed("1-3")
 			KEY_4:
-				if GameData.is_level_unlocked("1-4"):
-					_on_level_pressed("1-4")
+				if GameData.is_level_unlocked("final_boss"):
+					_on_level_pressed("final_boss")
 			KEY_B:
 				_on_back_pressed()
 
@@ -38,7 +38,7 @@ func _update_buttons():
 	$VBoxContainer/GridContainer/Level1Button.disabled = not GameData.is_level_unlocked("1-1")
 	$VBoxContainer/GridContainer/Level2Button.disabled = not GameData.is_level_unlocked("1-2")
 	$VBoxContainer/GridContainer/Level3Button.disabled = not GameData.is_level_unlocked("1-3")
-	$VBoxContainer/GridContainer/Level4Button.disabled = not GameData.is_level_unlocked("1-4")
+	$VBoxContainer/GridContainer/Level4Button.disabled = not GameData.is_level_unlocked("final_boss")
 
 
 func _on_level_pressed(level_name: String):
