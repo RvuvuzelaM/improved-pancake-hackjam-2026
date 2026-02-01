@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://csw7wfyolqo4g"]
+[gd_scene load_steps=62 format=4 uid="uid://csw7wfyolqo4g"]
 
 [ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="2_220im"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://h166lf4bblcn" path="res://scenes/enemies/enemy_fish.tscn" id="9_oqd17"]
 [ext_resource type="PackedScene" uid="uid://djibrf3jcg52p" path="res://scenes/enemies/enemy_beetle.tscn" id="10_oqd17"]
 [ext_resource type="PackedScene" uid="uid://swpgpppcwty6" path="res://scenes/objects/ledge/ability_pickup.tscn" id="12_7fucu"]
+[ext_resource type="PackedScene" path="res://scenes/objects/level_trigger.tscn" id="13_dv4xc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5roy0"]
 texture = ExtResource("2_220im")
@@ -1543,13 +1544,13 @@ sources/0 = SubResource("TileSetAtlasSource_dv4xc")
 spawn_position = Vector2(39, 835)
 next_level = "final_boss"
 
-[node name="LevelTrigger" parent="." index="1"]
-position = Vector2(2276, 421)
-
-[node name="PauseModal" parent="." index="2"]
+[node name="PauseModal" parent="." index="1"]
 visible = false
 
-[node name="RestartOverlay" parent="." index="3"]
+[node name="RestartOverlay" parent="." index="2"]
+visible = false
+
+[node name="ControlsLegend" parent="." index="3"]
 visible = false
 
 [node name="Background" type="TileMapLayer" parent="." index="4"]
@@ -1779,9 +1780,6 @@ position = Vector2(45, 24)
 shape = SubResource("RectangleShape2D_snhg0")
 one_way_collision = true
 
-[node name="ControlsLegend" parent="." index="28"]
-visible = false
-
 [node name="SmallTree" parent="." index="29" instance=ExtResource("6_td00t")]
 position = Vector2(1350, 678)
 
@@ -1802,7 +1800,7 @@ autoplay = "updown"
 position = Vector2(941, 514)
 scale = Vector2(0.50655335, 0.76)
 
-[node name="enemy_batman2" parent="." index="34" instance=ExtResource("8_10r0f")]
+[node name="enemy_batman2" parent="." index="33" instance=ExtResource("8_10r0f")]
 position = Vector2(1029, 660)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="enemy_batman2" index="1"]
@@ -1811,14 +1809,14 @@ libraries = {
 }
 autoplay = "new_animation"
 
-[node name="DeathZone3" parent="." index="35" instance=ExtResource("6_xl2p1")]
+[node name="DeathZone3" parent="." index="34" instance=ExtResource("6_xl2p1")]
 position = Vector2(1462, 665.00006)
 scale = Vector2(0.28064114, 0.599961)
 
-[node name="medium_tree_2" parent="." index="36" instance=ExtResource("9_10r0f")]
+[node name="medium_tree_2" parent="." index="35" instance=ExtResource("9_10r0f")]
 position = Vector2(1910, 517)
 
-[node name="Node2D" parent="." index="37" instance=ExtResource("9_oqd17")]
+[node name="Node2D" parent="." index="36" instance=ExtResource("9_oqd17")]
 z_index = -1
 position = Vector2(447, 941)
 
@@ -1828,7 +1826,7 @@ libraries = {
 }
 autoplay = "new_animation"
 
-[node name="StaticBody2D12" type="StaticBody2D" parent="." index="38"]
+[node name="StaticBody2D12" type="StaticBody2D" parent="." index="37"]
 position = Vector2(-41, -2)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="StaticBody2D12" index="0"]
@@ -1858,7 +1856,7 @@ scale = Vector2(0.26732582, 0.54776084)
 position = Vector2(2208, 504)
 shape = SubResource("RectangleShape2D_72nda")
 
-[node name="enemy" parent="." index="39" instance=ExtResource("10_oqd17")]
+[node name="enemy" parent="." index="38" instance=ExtResource("10_oqd17")]
 z_index = 2
 position = Vector2(252, 799)
 
@@ -1868,10 +1866,13 @@ libraries = {
 }
 autoplay = "new_animation"
 
-[node name="AbilityPickup" parent="." index="40" instance=ExtResource("12_7fucu")]
+[node name="AbilityPickup" parent="." index="39" instance=ExtResource("12_7fucu")]
 position = Vector2(2145, 464)
 ability_id = "ledge-grab"
 
-[node name="TileMapLayer3" type="TileMapLayer" parent="." index="41"]
+[node name="TileMapLayer3" type="TileMapLayer" parent="." index="40"]
 tile_map_data = PackedByteArray("AAB9ABsAAAALAAYAAAB9ABoAAAALAAYAAAB9ABkAAAALAAYAAAB9ABgAAAALAAYAAAB9ABcAAAALAAUAAAA=")
 tile_set = SubResource("TileSet_vw5bb")
+
+[node name="LevelTrigger" parent="." index="41" instance=ExtResource("13_dv4xc")]
+position = Vector2(2274, 434)
