@@ -154,6 +154,7 @@ func _input(event: InputEvent) -> void:
 func _set_mask(new_mask: Mask) -> void:
 	equipped_mask = new_mask
 	emit_signal("mask_changed", new_mask)
+	update_animation()
 
 
 func handle_dash_input() -> void:
@@ -243,28 +244,46 @@ func start_dash() -> void:
 	dash_timer = DASH_DURATION
 	_sfx_dash.play()
 
+func _get_mask_color_suffix() -> String:
+	match equipped_mask:
+		Mask.DOUBLE_JUMP:
+			return "_blue"
+		Mask.DASH:
+			return "_red"
+		Mask.LEDGE_GRAB:
+			return "_green"
+		_:
+			return ""
+
+
+func _get_animation_name(base_name: String) -> String:
+	var color_suffix = _get_mask_color_suffix()
+	if color_suffix == "":
+		return base_name
+	return base_name + color_suffix
+
+
 func update_animation() -> void:
-	# 2) Pick animation from movement state
 	if is_dashing:
 		animated_sprite.flip_h = (dash_direction < 0.0)
-		animated_sprite.play("dash")
+		animated_sprite.play(_get_animation_name("dash"))
 	elif equipped_mask == Mask.LEDGE_GRAB and is_on_wall_only() and not is_on_floor():
 		animated_sprite.flip_h = right_ray.is_colliding()
-		animated_sprite.play("wall")
+		animated_sprite.play(_get_animation_name("wall"))
 	elif not is_on_floor():
 		if velocity.x != 0.0:
 			animated_sprite.flip_h = (velocity.x < 0.0)
 		if velocity.y < 0.0:
-			animated_sprite.play("jump")
+			animated_sprite.play(_get_animation_name("jump"))
 		else:
-			animated_sprite.play("fall")
+			animated_sprite.play(_get_animation_name("fall"))
 	else:
 		if velocity.x != 0.0:
 			animated_sprite.flip_h = (velocity.x < 0.0)
 		if abs(velocity.x) > 1.0:
-			animated_sprite.play("run")
+			animated_sprite.play(_get_animation_name("run"))
 		else:
-			animated_sprite.play("idle")
+			animated_sprite.play(_get_animation_name("idle"))
 
 
 func handle_horizontal_movement() -> void:
