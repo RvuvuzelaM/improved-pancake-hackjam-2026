@@ -20,7 +20,7 @@ Struktura repo
 improved-pancake-hackjam-2026/
 ├── assets/
 │   ├── audio/              # Efekty dźwiękowe (jump, dash, landing, death, wall_slide, wall_jump, double_jump)
-│   ├── music/              # Muzyka tła (forest_calm.mp3, adventure.mp3)
+│   ├── music/              # Muzyka tła (forest_calm.mp3, adventure.mp3, boss.mp3)
 │   ├── characters/         # Sprite'y postaci (creature-sheet.png)
 │   ├── fonts/              # Fonty (Kenney Pixel.ttf)
 │   ├── themes/             # Motywy UI (default_theme.tres)
@@ -34,7 +34,8 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn, final_boss.tscn, platform.tscn)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, 1-3.tscn, zoo.tscn, final_boss.tscn, platform.tscn)
+│   ├── enemies/            # Wrogowie (enemy_batman, enemy_fish, enemy_beetle, enemy_trap, bullet)
 │   ├── chunks/             # Chunki do generatora poziomów (w trakcie rozwoju)
 │   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn, ability_pickup.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro, ability_widget, controls_legend)
@@ -61,7 +62,13 @@ Główne sceny i ich rola
 | `scenes/levels/base_level.tscn` | Node2D | Bazowa scena poziomu (dziedziczenie) |
 | `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" (extends base_level) |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
+| `scenes/levels/1-3.tscn` | Node2D | Poziom 1-3 "Shadow Dance" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
+| `scenes/enemies/enemy_batman.tscn` | Node2D | Wróg-nietoperz z animacją (3 klatki, 9 FPS) |
+| `scenes/enemies/enemy_fish.tscn` | Node2D | Wróg-ryba z animacją (2 klatki, 7 FPS) |
+| `scenes/enemies/enemy_beetle.tscn` | Node2D | Wróg-żuk z animacją (3 klatki, 7 FPS) |
+| `scenes/enemies/enemy_trap.tscn` | Node2D | Pułapka statyczna (kolce) |
+| `scenes/enemies/bullet.tscn` | Node2D | Pocisk wroga z animacją (3 klatki, 7 FPS) |
 | `scenes/levels/final_boss.tscn` | Node2D | Poziom finałowego bossa |
 | `scenes/levels/platform.tscn` | AnimatableBody2D | Ruchoma platforma (57x20 px) |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
@@ -167,7 +174,7 @@ signal scene_loaded(level_id) # Emitowany po załadowaniu sceny z ID poziomu (lu
 # Właściwości
 GameData.current_level          # "1-1" - aktualny poziom
 GameData.levels                 # Dictionary {"1-1": "res://scenes/levels/1-1.tscn", ...}
-GameData.level_order            # ["1-1", "1-2", "1-3", "1-4"]
+GameData.level_order            # ["1-1", "1-2", "1-3", "final_boss"]
 GameData.unlocked_levels        # ["1-1"] - odblokowane poziomy
 GameData.level_metadata         # Dictionary {"1-1": {"name": "First Steps", "color": "#4CAF50"}, ...}
 
@@ -404,7 +411,7 @@ level_metadata = {
     "1-1": {"name": "First Steps", "color": "#4CAF50"},
     "1-2": {"name": "Rising Tide", "color": "#2196F3"},
     "1-3": {"name": "Shadow Dance", "color": "#9C27B0"},
-    "1-4": {"name": "Final Leap", "color": "#FF5722"},
+    "final_boss": {"name": "Final Leap", "color": "#FF5722"},
 }
 ```
 
@@ -432,12 +439,14 @@ Pliki w `assets/music/`, odtwarzane przez `SceneManager`:
 |--------|------|------|
 | 1-1 | `forest_calm.mp3` | Spokojny, ambient chiptune |
 | 1-2 | `adventure.mp3` | Energiczny, retro |
+| final_boss | `boss.mp3` | Epicka, dramatyczna |
 
 **Konfiguracja muzyki** w `scene_manager.gd`:
 ```gdscript
 var _level_music: Dictionary = {
     "1-1": "res://assets/music/forest_calm.mp3",
     "1-2": "res://assets/music/adventure.mp3",
+    "final_boss": "res://assets/music/boss.mp3",
 }
 ```
 
@@ -686,6 +695,21 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `8d1bc3a` | Adds masks |
+| `1e66bb3` | Fix max jump |
+| `8ea526a` | Fix music |
+| `0c60579` | Adds water animation |
+| `3a3e30c` | Fixed level order |
+| `e5b039d` | Fixed dash color |
+| `ecd4c54` | Adds flag to 1-2 |
+| `674b369` | Add animation script |
+| `8770e3b` | Revert level 1-1 music to forest_calm.mp3 |
+| `5dfbcc2` | Added masks colors |
+| `3cfbc43` | Boss level design |
+| `c013592` | Add boss.mp3 import file |
+| `93b5aff` | Add boss music and set it as level 1-1 soundtrack temporarily |
+| `bc04ae5` | Replace jump and landing sounds with softer, quirky versions |
+| `c33a7ef` | Update documentation with gamepad support and platform component |
 | `40d5280` | Final boss update, and adding platform as comp |
 | `117a4d6` | Add gamepad/controller support for all input actions |
 | `97d9146` | Update documentation with audio system details |

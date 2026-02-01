@@ -9,9 +9,10 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 1. [Platformy](#platformy)
 2. [Dekoracje](#dekoracje)
 3. [Obiekty Interaktywne](#obiekty-interaktywne)
-4. [Zagrożenia](#zagrożenia)
-5. [Elementy UI](#elementy-ui)
-6. [Warstwy Kolizji](#warstwy-kolizji)
+4. [Wrogowie](#wrogowie)
+5. [Zagrożenia](#zagrożenia)
+6. [Elementy UI](#elementy-ui)
+7. [Warstwy Kolizji](#warstwy-kolizji)
 
 ---
 
@@ -279,6 +280,91 @@ Platform (AnimatableBody2D)
 
 ---
 
+## Wrogowie
+
+### Enemy Batman (Wróg-Nietoperz)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/enemies/enemy_batman.tscn` |
+| **Typ węzła** | `Node2D` |
+| **Animacja** | 3 klatki, 9 FPS, loop |
+| **Tekstura** | `tilemap-characters_packed.png` (24x24) |
+| **DeathZone** | Tak (scale: 0.17 x 0.60) |
+
+**Zachowanie:** Statyczny wróg z animacją. Dotknięcie = śmierć gracza.
+
+---
+
+### Enemy Fish (Wróg-Ryba)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/enemies/enemy_fish.tscn` |
+| **Typ węzła** | `Node2D` |
+| **Animacja** | 2 klatki, 7 FPS, loop |
+| **Tekstura** | `tilemap-characters_packed.png` (24x24) |
+| **DeathZone** | Tak (scale: 0.11 x 0.71) |
+
+**Zachowanie:** Statyczny wróg z animacją. Dotknięcie = śmierć gracza.
+
+---
+
+### Enemy Beetle (Wróg-Żuk)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/enemies/enemy_beetle.tscn` |
+| **Typ węzła** | `Node2D` |
+| **Animacja** | 3 klatki, 7 FPS, loop |
+| **Tekstura** | `tilemap-characters_packed.png` (24x24) |
+| **DeathZone** | Tak (scale: 0.32 x 0.88) |
+
+**Zachowanie:** Statyczny wróg z animacją. Dotknięcie = śmierć gracza.
+
+---
+
+### Enemy Trap (Pułapka/Kolce)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/enemies/enemy_trap.tscn` |
+| **Typ węzła** | `Node2D` |
+| **Tekstura** | `tile_0068.png` (statyczny sprite) |
+| **DeathZone** | Tak (scale: 0.23 x 0.52) |
+
+**Zachowanie:** Statyczna pułapka bez animacji. Dotknięcie = śmierć gracza.
+
+---
+
+### Bullet (Pocisk)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Plik** | `scenes/enemies/bullet.tscn` |
+| **Skrypt** | `scenes/enemies/bullet.gd` |
+| **Typ węzła** | `Node2D` + `Area2D` |
+| **Animacja** | 3 klatki, 7 FPS, loop |
+| **Rozmiar kolizji** | ~6.5 x 6 px |
+| **Warstwa kolizji** | 0 |
+| **Maska kolizji** | 2 (wykrywa gracza) |
+
+**Zachowanie:** Poruszający się pocisk z animacją. Kontakt z graczem wywołuje śmierć.
+
+---
+
+### Podsumowanie Wrogów
+
+| Wróg | Animacja | DeathZone | Plik |
+|------|----------|-----------|------|
+| Batman | 3 klatki, 9 FPS | Tak | `enemy_batman.tscn` |
+| Fish | 2 klatki, 7 FPS | Tak | `enemy_fish.tscn` |
+| Beetle | 3 klatki, 7 FPS | Tak | `enemy_beetle.tscn` |
+| Trap | Statyczny | Tak | `enemy_trap.tscn` |
+| Bullet | 3 klatki, 7 FPS | Area2D | `bullet.tscn` |
+
+---
+
 ## Zagrożenia
 
 ### Death Zone (Strefa Śmierci)
@@ -458,6 +544,7 @@ Lokalizacja: `assets/music/`
 |------|--------|------|
 | `forest_calm.mp3` | 1-1 | Spokojny ambient chiptune |
 | `adventure.mp3` | 1-2 | Energiczny retro |
+| `boss.mp3` | final_boss | Epicka, dramatyczna |
 
 **Konfiguracja:** `scenes/autoload/scene_manager.gd` → `_level_music` dictionary
 
@@ -514,6 +601,8 @@ const DEATH_ZONE = preload("res://scenes/objects/death_zone.tscn")
 const ENEMY_BATMAN = preload("res://scenes/enemies/enemy_batman.tscn")
 const ENEMY_FISH = preload("res://scenes/enemies/enemy_fish.tscn")
 const ENEMY_BEETLE = preload("res://scenes/enemies/enemy_beetle.tscn")
+const ENEMY_TRAP = preload("res://scenes/enemies/enemy_trap.tscn")
+const BULLET = preload("res://scenes/enemies/bullet.tscn")
 ```
 
 ### Rozmiary Platform (szybki dostęp)
@@ -546,6 +635,9 @@ enum PlatformSize {
 14. **Wall Hold Timer** - gracz może trzymać się ściany przez max 1.5s przed spadnięciem (maska LEDGE_GRAB)
 15. **Level Intro** - fade-in 0.4s, natychmiast fade-out 1.5s, ID poziomu czarny tekst (LabelSettings)
 16. **System SFX** - 7 efektów dźwiękowych w `assets/audio/` (jump, double_jump, dash, landing, wall_jump, wall_slide, death)
-17. **Muzyka w tle** - 2 utwory w `assets/music/`, odtwarzane przez SceneManager, zapętlone, -10dB
+17. **Muzyka w tle** - 3 utwory w `assets/music/` (forest_calm, adventure, boss), odtwarzane przez SceneManager, zapętlone, -10dB
 18. **Obsługa gamepada** - wszystkie akcje mają bindingi dla kontrolera Xbox/PlayStation, device=-1
 19. **Ruchome platformy** - `AnimatableBody2D` w `scenes/levels/platform.tscn` (57x20 px)
+20. **Kolory masek** - animacje gracza mają warianty kolorystyczne: `_blue` (DOUBLE_JUMP), `_red` (DASH), `_green` (LEDGE_GRAB)
+21. **System wrogów** - wrogowie używają DeathZone jako child node do wykrywania kolizji z graczem
+22. **Poziom 1-3** - trzeci poziom "Shadow Dance" dodany do gry
