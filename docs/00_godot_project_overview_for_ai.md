@@ -19,6 +19,8 @@ Struktura repo
 ```
 improved-pancake-hackjam-2026/
 ├── assets/
+│   ├── audio/              # Efekty dźwiękowe (jump, dash, landing, death, wall_slide, wall_jump, double_jump)
+│   ├── music/              # Muzyka tła (forest_calm.mp3, adventure.mp3)
 │   ├── characters/         # Sprite'y postaci (creature-sheet.png)
 │   ├── fonts/              # Fonty (Kenney Pixel.ttf)
 │   ├── themes/             # Motywy UI (default_theme.tres)
@@ -32,7 +34,7 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, procedural_level.tscn, zoo.tscn)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn)
 │   ├── chunks/             # Chunki do generatora poziomów (w trakcie rozwoju)
 │   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn, ability_pickup.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro, ability_widget, controls_legend)
@@ -60,7 +62,6 @@ Główne sceny i ich rola
 | `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" (extends base_level) |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
-| `scenes/levels/procedural_level.tscn` | Node2D | Poziom proceduralny (generator) |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
 | `scenes/objects/ability_pickup.tscn` | Area2D | Pickup zbieralnej zdolności |
 | `scenes/ui/ability_widget.tscn` | CanvasLayer | Widget pokazujący aktywną zdolność |
@@ -402,6 +403,45 @@ level_metadata = {
 
 ⸻
 
+System Audio
+
+### Efekty dźwiękowe (SFX)
+Pliki w `assets/audio/`, odtwarzane przez `AudioStreamPlayer` w `player.gd`:
+
+| Dźwięk | Plik | Wyzwalany przez |
+|--------|------|-----------------|
+| Skok | `jump.mp3` | `perform_jump()` (pierwszy skok) |
+| Podwójny skok | `double_jump.mp3` | `perform_jump()` (drugi skok, maska DOUBLE_JUMP) |
+| Dash | `dash.mp3` | `start_dash()` |
+| Lądowanie | `landing.mp3` | `apply_gravity()` (was_on_floor → is_on_floor) |
+| Wall jump | `wall_jump.mp3` | `wall_jumping()` |
+| Wall slide | `wall_slide.mp3` | `wall_logic()` (looped podczas ślizgania) |
+| Śmierć | `death.mp3` | `die()` |
+
+### Muzyka w tle
+Pliki w `assets/music/`, odtwarzane przez `SceneManager`:
+
+| Poziom | Plik | Styl |
+|--------|------|------|
+| 1-1 | `forest_calm.mp3` | Spokojny, ambient chiptune |
+| 1-2 | `adventure.mp3` | Energiczny, retro |
+
+**Konfiguracja muzyki** w `scene_manager.gd`:
+```gdscript
+var _level_music: Dictionary = {
+    "1-1": "res://assets/music/forest_calm.mp3",
+    "1-2": "res://assets/music/adventure.mp3",
+}
+```
+
+**Parametry:**
+- `MUSIC_VOLUME_DB`: -10.0 (nie zagłusza SFX)
+- `MUSIC_FADE_DURATION`: 0.5s (fade-out przy zmianie)
+- Muzyka zapętlona (`stream.loop = true`)
+- Ta sama muzyka nie restartuje się przy restarcie poziomu
+
+⸻
+
 Level Trigger (przejście między poziomami)
 
 - **Scena:** `scenes/objects/level_trigger.tscn`
@@ -639,6 +679,11 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `61f5e88` | Remove procedural_level.tscn references from docs |
+| `863b29e` | Add music import files for Godot |
+| `a78f3a2` | Add background music system for levels |
+| `2a94bb3` | Add audio system with sound effects for player actions |
+| `8ff8117` | Update documentation with new objects and mechanics |
 | `498bea2` | Clean up unnecessary TileSet data in 1-1.tscn |
 | `52765ed` | Fix missing Animation_10r0f in 1-1.tscn |
 | `cd2450d` | Fix level intro: black ID text, smooth fade timing |
