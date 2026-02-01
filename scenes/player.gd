@@ -151,7 +151,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			print("Dash not unlocked yet!")
 	if event.is_action_pressed("switch_mask_ledge_grab"):
-		if GameData.has_ability("ledge"):
+		if GameData.has_ability("ledge-grab"):
 			print("Picked mask: LEDGE_GRAB")
 			_set_mask(Mask.LEDGE_GRAB)
 		else:
@@ -397,7 +397,7 @@ func get_elapsed_time() -> float:
 	return elapsed_time
 
 func wall_logic(delta: float):
-	var can_hold_wall = equipped_mask == Mask.LEDGE_GRAB and GameData.has_ability("ledge") and is_on_wall_only() and not is_on_floor() and velocity.y >= 0
+	var can_hold_wall = equipped_mask == Mask.LEDGE_GRAB and GameData.has_ability("ledge-grab") and is_on_wall_only() and not is_on_floor() and velocity.y >= 0
 	var is_wall_sliding = can_hold_wall and wall_hold_timer < WALL_HOLD_DURATION
 
 	# Handle wall slide sound

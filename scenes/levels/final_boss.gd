@@ -16,10 +16,17 @@ const MIN_MOVEMENT_SPEED: float = 2.0
 const MAX_MOVEMENT_SPEED: float = 4.0
 
 func _ready() -> void:
+	_unlock_all_abilities()
 	camera_2d.enabled = true
 	camera_2d.make_current()
 	_find_player()
 	shooting_timer.stop()
+
+func _unlock_all_abilities() -> void:
+	var all_abilities = ["d-jump", "dash", "ledge-grab"]
+	for ability_id in all_abilities:
+		if not GameData.has_ability(ability_id):
+			GameData.unlock_ability(ability_id)
 
 func _find_player() -> void:
 	var players = get_tree().get_nodes_in_group("player")
