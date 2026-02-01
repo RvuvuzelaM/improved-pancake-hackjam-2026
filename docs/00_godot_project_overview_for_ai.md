@@ -34,7 +34,7 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn, final_boss.tscn, platform.tscn)
 │   ├── chunks/             # Chunki do generatora poziomów (w trakcie rozwoju)
 │   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn, ability_pickup.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro, ability_widget, controls_legend)
@@ -62,6 +62,8 @@ Główne sceny i ich rola
 | `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" (extends base_level) |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
+| `scenes/levels/final_boss.tscn` | Node2D | Poziom finałowego bossa |
+| `scenes/levels/platform.tscn` | AnimatableBody2D | Ruchoma platforma (57x20 px) |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
 | `scenes/objects/ability_pickup.tscn` | Area2D | Pickup zbieralnej zdolności |
 | `scenes/ui/ability_widget.tscn` | CanvasLayer | Widget pokazujący aktywną zdolność |
@@ -210,18 +212,23 @@ W grze (Level):
 Input
 
 ### Input Map (custom actions)
-| Akcja | Klawisze | Użycie |
-|-------|----------|--------|
-| `character_left` | ← | Ruch w lewo |
-| `character_right` | → | Ruch w prawo |
-| `character_jump` | Space | Skok |
-| `switch_mask_none` | 0 | Przełącz na maskę NONE |
-| `switch_mask_double_jump` | W | Przełącz na maskę DOUBLE_JUMP |
-| `switch_mask_dash` | Q | Przełącz na maskę DASH |
-| `switch_mask_ledge_grab` | E | Przełącz na maskę LEDGE_GRAB |
-| `dash` | D | Wykonaj dash |
-| `restart_level` | R (hold) | Szybki restart poziomu |
-| `ui_cancel` | Escape | Pauza |
+| Akcja | Klawiatura | Gamepad | Użycie |
+|-------|------------|---------|--------|
+| `character_left` | ← | Left Stick ← | Ruch w lewo |
+| `character_right` | → | Left Stick → | Ruch w prawo |
+| `character_jump` | Space | A (Xbox) / X (PS) | Skok |
+| `switch_mask_none` | 0 | RT (axis 5) | Przełącz na maskę NONE |
+| `switch_mask_double_jump` | W | LB (button 9) | Przełącz na maskę DOUBLE_JUMP |
+| `switch_mask_dash` | Q | RB (button 10) | Przełącz na maskę DASH |
+| `switch_mask_ledge_grab` | E | LT (axis 4) | Przełącz na maskę LEDGE_GRAB |
+| `dash` | D | X (Xbox) / Square (PS) | Wykonaj dash |
+| `restart_level` | R (hold) | Start (button 6) | Szybki restart poziomu |
+| `ui_cancel` | Escape | Menu (button 7) | Pauza |
+
+### Obsługa Gamepada
+- Wszystkie akcje mają bindingi dla kontrolera (device=-1 = wszystkie kontrolery)
+- Deadzone: 0.2 dla przycisków, 0.5 dla triggerów (LT/RT)
+- Kod `player.gd` nie wymaga zmian - Godot `Input.is_action_*` obsługuje oba typy inputów automatycznie
 
 ### Domyślne akcje Godot
 | Akcja | Klawisze | Użycie |
@@ -679,6 +686,9 @@ Historia zmian
 
 | Commit | Opis |
 |--------|------|
+| `40d5280` | Final boss update, and adding platform as comp |
+| `117a4d6` | Add gamepad/controller support for all input actions |
+| `97d9146` | Update documentation with audio system details |
 | `61f5e88` | Remove procedural_level.tscn references from docs |
 | `863b29e` | Add music import files for Godot |
 | `a78f3a2` | Add background music system for levels |
