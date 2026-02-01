@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dshewouwrwdb5"]
+[gd_scene load_steps=8 format=3 uid="uid://dshewouwrwdb5"]
 
 [ext_resource type="Script" uid="uid://0jm8hxf8dm5g" path="res://scenes/levels/final_boss.gd" id="1_b4vwu"]
 [ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="3_0vyao"]
-[ext_resource type="PackedScene" path="res://scenes/levels/platform.tscn" id="4_fcyv7"]
 [ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy_trap.tscn" id="6_5fj8p"]
+[ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/platforms/small_platform.tscn" id="7_small"]
+[ext_resource type="PackedScene" uid="uid://cajvp5xymxrj2" path="res://scenes/forest/platforms/medium_platform.tscn" id="8_medium"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0vyao"]
 
@@ -42,9 +43,9 @@ shape = SubResource("WorldBoundaryShape2D_0vyao")
 
 [node name="ColorRect" type="ColorRect" parent="Borders/LeftWall"]
 offset_left = 2.0
-offset_top = -1942.0
-offset_right = 2002.0
-offset_bottom = -1934.0
+offset_top = -2100.0
+offset_right = 2159.8608
+offset_bottom = -2092.0
 rotation = 1.5707964
 color = Color(0, 0, 0, 1)
 
@@ -58,9 +59,9 @@ shape = SubResource("WorldBoundaryShape2D_0vyao")
 
 [node name="ColorRect" type="ColorRect" parent="Borders/RightWall"]
 offset_left = 8.0
-offset_top = -1942.0
-offset_right = 2008.0
-offset_bottom = -1934.0
+offset_top = -2100.0
+offset_right = 2162.4827
+offset_bottom = -2092.0
 rotation = 1.5707964
 color = Color(0, 0, 0, 1)
 
@@ -90,20 +91,127 @@ autostart = true
 wait_time = 0.1
 autostart = true
 
-[node name="Platform" parent="." instance=ExtResource("4_fcyv7")]
-position = Vector2(8, -135)
-
-[node name="Platform2" parent="." instance=ExtResource("4_fcyv7")]
-position = Vector2(58, -220)
-
-[node name="Platform3" parent="." instance=ExtResource("4_fcyv7")]
-position = Vector2(-69, -60)
-
 [node name="BaseLevel" parent="." instance=ExtResource("5_0h4go")]
 
-[node name="trap" parent="." instance=ExtResource("6_5fj8p")]
-position = Vector2(-114, -225)
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="SmallPlatform1" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(-60, -180)
+
+[node name="SmallPlatform2" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(60, -180)
+
+[node name="MediumPlatform1" parent="Platforms" instance=ExtResource("8_medium")]
+position = Vector2(17, -78)
+
+[node name="SmallPlatform3" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(-70, -480)
+
+[node name="SmallPlatform4" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(70, -480)
+
+[node name="SmallPlatform5" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(0, -640)
+
+[node name="MediumPlatform2" parent="Platforms" instance=ExtResource("8_medium")]
+position = Vector2(-104, -853)
+
+[node name="SmallPlatform6" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(50, -800)
+
+[node name="SmallPlatform7" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(-60, -960)
+
+[node name="SmallPlatform8" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(60, -960)
+
+[node name="SmallPlatform9" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(-70, -1280)
+
+[node name="SmallPlatform10" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(70, -1280)
+
+[node name="MediumPlatform3" parent="Platforms" instance=ExtResource("8_medium")]
+position = Vector2(0, -1440)
+
+[node name="SmallPlatform11" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(-60, -1600)
+
+[node name="SmallPlatform12" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(60, -1600)
+
+[node name="SmallPlatform13" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(0, -1760)
+
+[node name="MediumPlatform4" parent="Platforms" instance=ExtResource("8_medium")]
+position = Vector2(-50, -1920)
+
+[node name="SmallPlatform14" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(50, -1920)
+
+[node name="MediumPlatform5" parent="Platforms" instance=ExtResource("8_medium")]
+position = Vector2(-49, -271)
+
+[node name="MediumPlatform6" parent="Platforms" instance=ExtResource("8_medium")]
+position = Vector2(0, -2880)
+
+[node name="WallTraps" type="Node2D" parent="."]
+
+[node name="Trap1" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -250)
 rotation = 1.5707964
+
+[node name="Trap2" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -250)
+rotation = 4.712389
+
+[node name="Trap3" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -410)
+rotation = 1.5707964
+
+[node name="Trap4" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -570)
+rotation = 1.5707964
+
+[node name="Trap5" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -730)
+rotation = 4.712389
+
+[node name="Trap6" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -890)
+rotation = 4.712389
+
+[node name="Trap7" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -1050)
+rotation = 1.5707964
+
+[node name="Trap8" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -1210)
+rotation = 4.712389
+
+[node name="Trap9" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -1370)
+rotation = 1.5707964
+
+[node name="Trap10" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -1530)
+rotation = 1.5707964
+
+[node name="Trap11" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -1530)
+rotation = 4.712389
+
+[node name="Trap12" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(-120, -1690)
+rotation = 1.5707964
+
+[node name="Trap13" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -1850)
+rotation = 4.712389
+
+[node name="Trap14" parent="WallTraps" instance=ExtResource("6_5fj8p")]
+position = Vector2(120, -2010)
+rotation = 4.712389
 
 [connection signal="timeout" from="Boss/ShootingTimer" to="." method="_on_shooting_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
