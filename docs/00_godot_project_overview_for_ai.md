@@ -32,7 +32,7 @@ improved-pancake-hackjam-2026/
 │   │   ├── large_platform.tscn
 │   │   ├── medium_platform.tscn
 │   │   └── small_platform.tscn
-│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, procedural_level.tscn, zoo.tscn)
+│   ├── levels/             # Sceny poziomów (base_level.tscn, 1-1.tscn, 1-2.tscn, zoo.tscn)
 │   ├── chunks/             # Chunki do generatora poziomów (w trakcie rozwoju)
 │   ├── objects/            # Obiekty gry (level_trigger.tscn, death_zone.tscn, ability_pickup.tscn)
 │   ├── ui/                 # UI (main_menu, level_select, pause_modal, restart_overlay, level_intro, ability_widget, controls_legend)
@@ -60,7 +60,6 @@ Główne sceny i ich rola
 | `scenes/levels/1-1.tscn` | Node2D | Poziom 1-1 "First Steps" (extends base_level) |
 | `scenes/levels/1-2.tscn` | Node2D | Poziom 1-2 "Rising Tide" (extends base_level) |
 | `scenes/levels/zoo.tscn` | Node2D | Poziom testowy |
-| `scenes/levels/procedural_level.tscn` | Node2D | Poziom proceduralny (generator) |
 | `scenes/objects/level_trigger.tscn` | Area2D | Trigger przejścia do następnego poziomu |
 | `scenes/objects/ability_pickup.tscn` | Area2D | Pickup zbieralnej zdolności |
 | `scenes/ui/ability_widget.tscn` | CanvasLayer | Widget pokazujący aktywną zdolność |
