@@ -804,7 +804,7 @@ position = Vector2(119, -1358)
 rotation = 4.712389
 
 [node name="LevelTrigger" parent="." instance=ExtResource("9_edmtk")]
-position = Vector2(53, -158)
+position = Vector2(204, -2008)
 
 [connection signal="timeout" from="Boss/ShootingTimer" to="." method="_on_shooting_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

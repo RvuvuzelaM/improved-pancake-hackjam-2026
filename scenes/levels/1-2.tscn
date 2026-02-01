@@ -1,7 +1,7 @@
-[gd_scene load_steps=35 format=4 uid="uid://cxpaiahg1ov83"]
+[gd_scene load_steps=36 format=4 uid="uid://cxpaiahg1ov83"]
 
 [ext_resource type="PackedScene" uid="uid://ce8u2sesbcu2l" path="res://scenes/forest/forest_background.tscn" id="1_td00t"]
-[ext_resource type="PackedScene" uid="uid://bhrtagcfhxpmj" path="res://scenes/forest/destructable_wall.tscn" id="3_220im"]
+[ext_resource type="PackedScene" path="res://scenes/forest/destructable_wall.tscn" id="3_220im"]
 [ext_resource type="Texture2D" uid="uid://i23gfa1urp1s" path="res://assets/tilemap/forest/tilemap_packed.png" id="4_td00t"]
 [ext_resource type="PackedScene" uid="uid://y2oh1oa5dd1o" path="res://scenes/player.tscn" id="4_xl2p1"]
 [ext_resource type="PackedScene" path="res://scenes/objects/level_trigger.tscn" id="5_220im"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/restart_overlay.tscn" id="9_oqd17"]
 [ext_resource type="Texture2D" uid="uid://beiympyujc14k" path="res://assets/tilemap/forest/water.png" id="10_oqd17"]
 [ext_resource type="PackedScene" uid="uid://4pl6mtvsbogb" path="res://scenes/objects/dash/ability_pickup.tscn" id="10_pig6i"]
+[ext_resource type="PackedScene" uid="uid://dj6ggoot3xvyn" path="res://scenes/ui/ability_widget.tscn" id="11_pig6i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kqkvu"]
 texture = ExtResource("4_td00t")
@@ -896,3 +897,5 @@ tile_set = SubResource("TileSet_oqd17")
 [node name="AbilityPickup" parent="." instance=ExtResource("10_pig6i")]
 position = Vector2(94, -21)
 ability_id = "dash"
+
+[node name="AbilityWidget" parent="." instance=ExtResource("11_pig6i")]
