@@ -14,7 +14,7 @@ const MUSIC_VOLUME_DB: float = -10.0
 
 # Level to music mapping
 var _level_music: Dictionary = {
-	"1-1": "res://assets/music/boss.mp3",
+	"1-1": "res://assets/music/forest_calm.mp3",
 	"1-2": "res://assets/music/adventure.mp3",
 }
 
