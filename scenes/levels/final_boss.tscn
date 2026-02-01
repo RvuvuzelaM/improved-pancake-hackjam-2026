@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=4 uid="uid://cthsl8eyw3ql5"]
+[gd_scene load_steps=23 format=4 uid="uid://dshewouwrwdb5"]
 
 [ext_resource type="Script" uid="uid://0jm8hxf8dm5g" path="res://scenes/levels/final_boss.gd" id="1_b4vwu"]
 [ext_resource type="Texture2D" uid="uid://c4s8jrgrsyq5k" path="res://assets/tilemap/constructor/tilemap.png" id="2_s3s2r"]
 [ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="3_0vyao"]
-[ext_resource type="PackedScene" uid="uid://dhoiulmgktiax" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
+[ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy_trap.tscn" id="6_5fj8p"]
 [ext_resource type="PackedScene" uid="uid://c1svqnv44842f" path="res://scenes/forest/platforms/small_platform.tscn" id="7_small"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="8_5k82b"]
@@ -336,6 +336,9 @@ texture_region_size = Vector2i(18, 18)
 tile_size = Vector2i(18, 18)
 sources/0 = SubResource("TileSetAtlasSource_s3s2r")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_edmtk"]
+size = Vector2(2033, 21.750011)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_edmtk"]
 texture = ExtResource("2_s3s2r")
 texture_region_size = Vector2i(18, 18)
@@ -651,9 +654,9 @@ tile_set = SubResource("TileSet_5k82b")
 position = Vector2(125, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/RightWall"]
-position = Vector2(1, 0)
-rotation = 4.712389
-shape = SubResource("WorldBoundaryShape2D_0vyao")
+position = Vector2(11.125, -912)
+rotation = -1.5707964
+shape = SubResource("RectangleShape2D_edmtk")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Borders/RightWall"]
 tile_map_data = PackedByteArray("AAAAAAQAAAAFAAQAAAAAAAUAAAAFAAUAAADx/wUAAAAFAAUAAAAAAIr/AAAFAAIAAAAAAI//AAAFAAMAAAAAAI7/AAAFAAMAAAAAAI3/AAAFAAMAAAAAAIz/AAAFAAMAAAAAAIv/AAAFAAMAAAAAAJb/AAAFAAMAAAAAAJf/AAAFAAMAAAAAAJj/AAAFAAMAAAAAAJn/AAAFAAMAAAAAAJr/AAAFAAMAAAAAAJv/AAAFAAMAAAAAAJz/AAAFAAMAAAAAAJ3/AAAFAAMAAAAAAJ7/AAAFAAMAAAAAAJ//AAAFAAMAAAAAAKD/AAAFAAMAAAAAAKH/AAAFAAMAAAAAAKL/AAAFAAMAAAAAAKP/AAAFAAMAAAAAAKT/AAAFAAMAAAAAAKX/AAAFAAMAAAAAAKb/AAAFAAMAAAAAAKf/AAAFAAMAAAAAAKj/AAAFAAMAAAAAAKn/AAAFAAMAAAAAAKr/AAAFAAMAAAAAAKv/AAAFAAMAAAAAAKz/AAAFAAMAAAAAAK3/AAAFAAMAAAAAAK7/AAAFAAMAAAAAAK//AAAFAAMAAAAAALD/AAAFAAMAAAAAALH/AAAFAAMAAAAAALL/AAAFAAMAAAAAALP/AAAFAAMAAAAAALT/AAAFAAMAAAAAALX/AAAFAAMAAAAAALb/AAAFAAMAAAAAALf/AAAFAAMAAAAAALj/AAAFAAMAAAAAALn/AAAFAAMAAAAAALr/AAAFAAMAAAAAALv/AAAFAAMAAAAAALz/AAAFAAMAAAAAAL3/AAAFAAMAAAAAAL7/AAAFAAMAAAAAAL//AAAFAAMAAAAAAMD/AAAFAAMAAAAAAMH/AAAFAAMAAAAAAML/AAAFAAMAAAAAAMP/AAAFAAMAAAAAAMT/AAAFAAMAAAAAAMX/AAAFAAMAAAAAAMb/AAAFAAMAAAAAAMf/AAAFAAMAAAAAAMj/AAAFAAMAAAAAAMn/AAAFAAMAAAAAAMr/AAAFAAMAAAAAAMv/AAAFAAMAAAAAAMz/AAAFAAMAAAAAAM3/AAAFAAMAAAAAAM7/AAAFAAMAAAAAAM//AAAFAAMAAAAAAND/AAAFAAMAAAAAANH/AAAFAAMAAAAAANL/AAAFAAMAAAAAANP/AAAFAAMAAAAAANT/AAAFAAMAAAAAANX/AAAFAAMAAAAAANb/AAAFAAMAAAAAANf/AAAFAAMAAAAAANj/AAAFAAMAAAAAANn/AAAFAAMAAAAAANr/AAAFAAMAAAAAANv/AAAFAAMAAAAAANz/AAAFAAMAAAAAAN3/AAAFAAMAAAAAAN7/AAAFAAMAAAAAAN//AAAFAAMAAAAAAOD/AAAFAAMAAAAAAOH/AAAFAAMAAAAAAOL/AAAFAAMAAAAAAOP/AAAFAAMAAAAAAOT/AAAFAAMAAAAAAOX/AAAFAAMAAAAAAOb/AAAFAAMAAAAAAOf/AAAFAAMAAAAAAOj/AAAFAAMAAAAAAOn/AAAFAAMAAAAAAOr/AAAFAAMAAAAAAOv/AAAFAAMAAAAAAOz/AAAFAAMAAAAAAO3/AAAFAAMAAAAAAO7/AAAFAAMAAAAAAO//AAAFAAMAAAAAAPD/AAAFAAMAAAAAAPH/AAAFAAMAAAAAAPL/AAAFAAMAAAAAAPP/AAAFAAMAAAAAAPT/AAAFAAMAAAAAAPX/AAAFAAMAAAAAAPb/AAAFAAMAAAAAAPf/AAAFAAMAAAAAAPj/AAAFAAMAAAAAAPn/AAAFAAMAAAAAAPr/AAAFAAMAAAAAAPv/AAAFAAMAAAAAAPz/AAAFAAMAAAAAAP3/AAAFAAMAAAAAAP7/AAAFAAMAAAAAAP//AAAFAAMAAAAAAAAAAAAFAAMAAAAAAAEAAAAFAAMAAAAAAAIAAAAFAAMAAAAAAAMAAAAFAAMAAAAAAJD/AAAFAAMAAAAAAJX/AAAFAAMAAAABAJT/AAAFAAEAAAACAJT/AAAFAAEAAAADAJT/AAAFAAEAAAAEAJT/AAAFAAEAAAAFAJT/AAAFAAEAAAAAAJT/AAAEAAEAAAAGAJT/AAAFAAEAAAAHAJT/AAAGAAEAAAA=")
@@ -687,6 +690,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="BaseLevel" parent="." instance=ExtResource("5_0h4go")]
+position = Vector2(-27, -11)
 
 [node name="Platforms" type="Node2D" parent="."]
 
@@ -712,7 +716,13 @@ position = Vector2(0, -640)
 position = Vector2(-104, -853)
 
 [node name="SmallPlatform7" parent="Platforms" instance=ExtResource("7_small")]
-position = Vector2(-61, -968)
+position = Vector2(-77, -1007)
+
+[node name="SmallPlatform15" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(23, -1072)
+
+[node name="SmallPlatform16" parent="Platforms" instance=ExtResource("7_small")]
+position = Vector2(23, -1072)
 
 [node name="SmallPlatform8" parent="Platforms" instance=ExtResource("7_small")]
 position = Vector2(60, -960)
@@ -790,16 +800,12 @@ rotation = 1.5707964
 position = Vector2(120, -1850)
 rotation = 4.712389
 
-[node name="Trap14" parent="WallTraps" instance=ExtResource("6_5fj8p")]
-position = Vector2(120, -2010)
-rotation = 4.712389
-
 [node name="Trap8" parent="." instance=ExtResource("6_5fj8p")]
 position = Vector2(119, -1358)
 rotation = 4.712389
 
 [node name="LevelTrigger" parent="." instance=ExtResource("9_edmtk")]
-position = Vector2(174, -1985)
+position = Vector2(53, -158)
 
 [connection signal="timeout" from="Boss/ShootingTimer" to="." method="_on_shooting_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

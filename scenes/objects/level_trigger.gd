@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var target_level: String = ""  # np. "1-2"
+@export var target_level: String = "" 
 
 var _triggered: bool = false
 
@@ -14,8 +14,10 @@ func _on_body_entered(body):
 		return
 	if body.is_in_group("player"):
 		_triggered = true
-		# Check if this trigger leads to victory (empty target or "victory")
-		if target_level == "" or target_level == "victory":
+		var current_scene_path = get_tree().current_scene.scene_file_path
+		var is_final_boss = current_scene_path.get_file().get_basename() == "final_boss"
+		
+		if (target_level == "" or target_level == "victory") and is_final_boss:
 			_show_victory_overlay(body)
 		elif GameData.level_exists(target_level):
 			_show_completion_overlay(body)
@@ -94,6 +96,7 @@ func _show_victory_overlay(player: Node) -> void:
 	# Create overlay with completely black background
 	var canvas = CanvasLayer.new()
 	canvas.layer = 100
+	canvas.process_mode = Node.PROCESS_MODE_ALWAYS 
 	get_tree().current_scene.add_child(canvas)
 
 	var overlay = ColorRect.new()
@@ -144,10 +147,24 @@ func _show_victory_overlay(player: Node) -> void:
 	# Fade in the text
 	var text_tween = create_tween()
 	text_tween.tween_property(center, "modulate:a", 1.0, 0.5)
+	await text_tween.finished
+
+	# Wait for ESC key to return to menu
+	await _wait_for_menu_input()
+	
+	# Return to main menu
+	SceneManager.change_scene("res://scenes/ui/main_menu.tscn")
+
+
+func _wait_for_menu_input() -> void:
+	while true:
+		await get_tree().process_frame
+		if Input.is_action_just_pressed("ui_cancel"):
+			return
 
 
 func _format_time(time: float) -> String:
-	var minutes := int(time) / 60
+	var minutes := int(time / 60.0)
 	var seconds := int(time) % 60
 	var milliseconds := int((time - int(time)) * 100)
 	return "%02d:%02d.%02d" % [minutes, seconds, milliseconds]

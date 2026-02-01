@@ -14,6 +14,7 @@ const BULLET_START_DELAY: float = 0
 const ACCELERATION_DURATION: float = 30.0
 const MIN_MOVEMENT_SPEED: float = 2.0
 const MAX_MOVEMENT_SPEED: float = 4.0
+const MIN_BOSS_Y: float = -1670.0  # Stop boss before reaching the end of the level
 
 func _ready() -> void:
 	_unlock_all_abilities()
@@ -41,12 +42,18 @@ func _process(delta: float) -> void:
 		shooting_timer.start()
 
 func _on_timer_timeout() -> void:
+	
 	var speed_progress = min(elapsed_time / ACCELERATION_DURATION, 1.0)
 	var movement_speed = lerp(MIN_MOVEMENT_SPEED, MAX_MOVEMENT_SPEED, speed_progress)
 	
-	camera_2d.position.y -= movement_speed
-	boss.global_position.y -= movement_speed
-	print(boss.global_position.y)
+	var new_boss_y = boss.global_position.y - movement_speed
+	if new_boss_y <= MIN_BOSS_Y:
+		return
+		
+	var actual_movement = boss.global_position.y - new_boss_y
+	camera_2d.position.y -= actual_movement
+	
+	boss.global_position.y = new_boss_y
 
 func _on_shooting_timer_timeout() -> void:
 	if elapsed_time < BULLET_START_DELAY:
