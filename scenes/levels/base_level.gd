@@ -50,5 +50,5 @@ func _setup_level() -> void:
 		player.global_position = spawn_position
 
 	# Ustaw target level (pozycja triggera ustawiana ręcznie w edytorze)
-	if next_level != "":
+	if next_level != "" and level_trigger != null:
 		level_trigger.target_level = next_level
