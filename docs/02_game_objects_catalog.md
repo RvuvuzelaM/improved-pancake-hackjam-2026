@@ -94,12 +94,19 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 
 | Właściwość | Wartość |
 |------------|---------|
-| **Plik** | Wbudowana w poziomy (np. 1-2) |
-| **Typ węzła** | `StaticBody2D` + `AnimationPlayer` |
-| **Animacje** | `up-down`, `left-right` |
-| **Zachowanie** | Platforma porusza się po ścieżce |
+| **Plik** | `scenes/levels/platform.tscn` |
+| **Typ węzła** | `AnimatableBody2D` |
+| **Rozmiar kolizji** | 57 x 20 px |
+| **Tekstura** | Region z `tilemap.png` (152, 38, 56x18) |
 
-**Użycie:** Poziomy z elementami dynamicznymi.
+**Struktura:**
+```
+Platform (AnimatableBody2D)
+├── CollisionShape2D    # RectangleShape2D (57x20)
+└── Sprite2D            # Region z tilemap.png
+```
+
+**Użycie:** Ruchome platformy z animacją - można animować pozycję przez AnimationPlayer w poziomie.
 
 ---
 
@@ -110,6 +117,7 @@ Ten dokument zawiera pełną listę wszystkich obiektów gry wraz z ich właści
 | Mała | 50 px | 15 px | `small_platform.tscn` |
 | Średnia | 104 px | 15 px | `medium_platform.tscn` |
 | Duża | 212 px | 15 px | `large_platform.tscn` |
+| Ruchoma | 57 px | 20 px | `platform.tscn` |
 
 ---
 
@@ -487,6 +495,7 @@ const SMALL_PLATFORM = preload("res://scenes/forest/platforms/small_platform.tsc
 const MEDIUM_PLATFORM = preload("res://scenes/forest/platforms/medium_platform.tscn")
 const LARGE_PLATFORM = preload("res://scenes/forest/platforms/large_platform.tscn")
 const FADING_PLATFORM = preload("res://scenes/forest/platforms/fading_platform_small.tscn")
+const ANIMATED_PLATFORM = preload("res://scenes/levels/platform.tscn")
 
 # Dekoracje
 const SMALL_TREE = preload("res://scenes/forest/trees/small_tree.tscn")
@@ -538,3 +547,5 @@ enum PlatformSize {
 15. **Level Intro** - fade-in 0.4s, natychmiast fade-out 1.5s, ID poziomu czarny tekst (LabelSettings)
 16. **System SFX** - 7 efektów dźwiękowych w `assets/audio/` (jump, double_jump, dash, landing, wall_jump, wall_slide, death)
 17. **Muzyka w tle** - 2 utwory w `assets/music/`, odtwarzane przez SceneManager, zapętlone, -10dB
+18. **Obsługa gamepada** - wszystkie akcje mają bindingi dla kontrolera Xbox/PlayStation, device=-1
+19. **Ruchome platformy** - `AnimatableBody2D` w `scenes/levels/platform.tscn` (57x20 px)
