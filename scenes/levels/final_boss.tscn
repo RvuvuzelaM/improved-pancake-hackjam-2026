@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://0jm8hxf8dm5g" path="res://scenes/levels/final_boss.gd" id="1_b4vwu"]
 [ext_resource type="PackedScene" path="res://scenes/objects/death_zone.tscn" id="3_0vyao"]
-[ext_resource type="PackedScene" uid="uid://dp3ujsd6r38hf" path="res://scenes/levels/platform.tscn" id="4_fcyv7"]
-[ext_resource type="PackedScene" uid="uid://dhoiulmgktiax" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
+[ext_resource type="PackedScene" path="res://scenes/levels/platform.tscn" id="4_fcyv7"]
+[ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="5_0h4go"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/enemy_trap.tscn" id="6_5fj8p"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0vyao"]
@@ -83,6 +83,9 @@ offset_right = 125.0
 offset_bottom = 30.0
 color = Color(0.87719715, 0, 0.012312809, 1)
 
+[node name="ShootingTimer" type="Timer" parent="Boss"]
+autostart = true
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
@@ -102,4 +105,5 @@ position = Vector2(-69, -60)
 position = Vector2(-114, -225)
 rotation = 1.5707964
 
+[connection signal="timeout" from="Boss/ShootingTimer" to="." method="_on_shooting_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

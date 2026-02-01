@@ -1,5 +1,7 @@
 extends Node2D
 
+const BULLET_SCENE = preload("res://scenes/enemies/bullet.tscn")
+
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var boss: Node2D = $Boss
 
@@ -10,7 +12,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
@@ -18,3 +20,13 @@ func _on_timer_timeout() -> void:
 	camera_2d.position.y -= 1
 	boss.global_position.y -= 1
 	print(boss.global_position.y)
+
+
+func _on_shooting_timer_timeout() -> void:
+	var random_x = randf_range(-125.0, 125.0)
+	var random_y = randf_range(-10.0, 30.0)
+	var spawn_position = boss.global_position + Vector2(random_x, random_y)
+	
+	var bullet = BULLET_SCENE.instantiate()
+	bullet.global_position = spawn_position
+	add_child(bullet)
