@@ -103,35 +103,35 @@ atlas = ExtResource("4_qlg0r")
 region = Rect2(1232, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qjsmb"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(0, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mwp2n"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(176, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0yhus"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(352, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jlll7"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(528, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qk6i7"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(704, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6c3st"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(880, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1da1t"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(1056, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p21yu"]
-atlas = ExtResource("4_qlg0r")
+atlas = ExtResource("5_qlg0r")
 region = Rect2(1232, 459, 176, 153)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_md1ol"]
@@ -1729,7 +1729,7 @@ script = ExtResource("1_g2els")
 position = Vector2(0, -2.000001)
 scale = Vector2(0.1278409, 0.13915789)
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"dash"
+animation = &"dash_red"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
