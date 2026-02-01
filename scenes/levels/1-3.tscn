@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://csw7wfyolqo4g"]
+[gd_scene load_steps=56 format=4 uid="uid://b2hxrps31gl0v"]
 
 [ext_resource type="PackedScene" uid="uid://23a5g3bmdacy" path="res://scenes/levels/base_level.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://inv0v2njot08" path="res://assets/tilemap/forest/tilemap-backgrounds_packed.png" id="2_220im"]
